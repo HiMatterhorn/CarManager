@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Calendar</title>
+</head>
+<body>
+      <div class="form-group col-4" id="carListDropDown">
+                    <label>Select Car</label>
+                    @Html.DropDownList("carVIN",
+                    new SelectList(ViewBag.CarList, "VIN", "RegistrationNumber"),
+                    new {@class="form-control select2}"})
+      </div>
+            <div id="calendar"></div>
+
+</body>
+</html>
+
+<script src="~/js/script-custom-calendar.js"></script>

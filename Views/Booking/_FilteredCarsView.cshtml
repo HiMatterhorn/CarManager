@@ -1,0 +1,49 @@
+﻿@model AmiFlota.Models.ViewModels.AvailableCarsVM
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>List of the available cars</title>
+</head>
+<body>
+    <div class="row">
+        @foreach (var car in Model.AvailableCars)
+        {
+            <div class="col-8">
+                <partial name="_CarListItem" model=car />
+            </div>
+            <div class="col-4 align-content-center">
+                @*<button type="button" id="btnBook@car.VIN" data-VIN="@car.RegistrationNumber" class="btn">Book</button>*@
+@*                <button class='btn btn-light' type='button' onclick="javascript:BookClick(@car.VIN);">Book</button>*@
+
+               <a asp-controller="Booking" asp-action="BookingDetails"
+               asp-route-VIN="@car.VIN"
+               asp-route-startDate="@Model.StartDate"
+               asp-route-endDate="@Model.EndDate"
+               class="btn btn-primary mx-1" type="button">Book</a>
+
+            </div>
+        };
+    </div>
+</body>
+</html>
+
+
+@*<script>
+    $(document).ready(function () {
+    $(document).on("click", ".btn", function(event){
+    event.preventDefault();
+
+    var me = $(this);
+    var test = "test"
+    var carVIN = me.data("VIN");
+
+    console.log(test);
+    });
+    })
+    </script>*@
+

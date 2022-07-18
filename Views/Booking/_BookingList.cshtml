@@ -1,0 +1,25 @@
+﻿@model IEnumerable<AmiFlota.Models.BookingModel>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Bookings list</title>
+</head>
+<body>
+    <div class="row">
+        @foreach (var booking in Model)
+        {
+            <div class="col-8">
+                <partial name="_BookingListItem" model=booking />
+            </div>
+
+
+            <div class="col-4 align-content-center">
+
+            </div>
+        };
+    </div>
+</body>
+</html>

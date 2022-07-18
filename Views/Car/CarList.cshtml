@@ -1,0 +1,21 @@
+﻿@model IEnumerable<AmiFlota.Models.CarModel>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>List of the cars</title>
+</head>
+<body>
+    <div class="card-deck">
+
+        <div class="row">
+            @foreach (var car in Model)
+            {
+                <partial name="_CarCard" model=car />
+            }
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+﻿@model AmiFlota.Models.CarModel
+
+@{
+    var photoPath = "/images/cars/" + (Model.PhotoPath ?? "noimage") + ".jpg";
+}
+
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="@photoPath" class="img-fluid rounded-start">
+        </div>
+
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Brand @Model.Model</h5>
+                <p class="card-text">
+                    Registration number: @Model.RegistrationNumber <br>
+                    Number of seats: @Model.SeatsNumber
+                </p>
+@*//TODO Return CarModel.VIN and bookingEndDate to bookingVM *@
+            </div>
+        </div>
+    </div>
+</div>

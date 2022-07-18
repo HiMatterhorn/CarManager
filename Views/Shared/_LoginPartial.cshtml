@@ -1,0 +1,41 @@
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<AmiFlota.Models.ApplicationUserModel> signInManager
+
+@if (signInManager.IsSignedIn(User))
+{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-controller="Car" asp-action="Create">Add new car</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-controller="Car" asp-action="CarList">Car list</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-controller="Booking" asp-action="Search">Search for available car</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-controller="Booking" asp-action="Calendar">Calendar</a>
+        </li>
+     </ul>
+
+
+    <ul class="navbar-nav">
+        <li class="text-white nav-link"> 
+            Hello, @User.Identity.Name! 
+        </li>
+        <form method="post" id="logoutForm" asp-action="Logout" asp-controller="Account">
+        <li> <a class="text-white nav-link" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </form>
+    </ul>
+}
+
+else
+{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link text-light" id="registerLink" asp-controller="Account" asp-action="Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-light" id="loginLink" asp-controller="Account" asp-action="Login">Sign In</a>
+        </li>
+    </ul>
+}

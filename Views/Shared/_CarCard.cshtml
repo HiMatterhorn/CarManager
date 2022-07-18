@@ -1,0 +1,15 @@
+﻿@model AmiFlota.Models.CarModel
+@{var photoPath = "/images/cars/" + (Model.PhotoPath ?? "noimage") + ".jpg";}
+
+<div class="card box-shadow" style="max-width: 30%; height: 300px">
+    <img class="" src="@photoPath">
+
+    <div class="card-body">
+        <h5 class="card-title">@Model.Brand @Model.Model </h5>
+        <p class="card-text">
+            Registration number: @Model.RegistrationNumber <br>
+            Number of seats: @Model.SeatsNumber
+        </p>
+        <a class="btn btn-primary" asp-action="Details" asp-route-id="@Model.VIN">Show details</a>
+    </div>
+</div>

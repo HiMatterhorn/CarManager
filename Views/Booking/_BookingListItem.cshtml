@@ -1,0 +1,21 @@
+﻿@model AmiFlota.Models.BookingModel
+
+
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+@*        <div class="col-md-4">
+            <img src="@photoPath" class="img-fluid rounded-start">
+        </div>*@
+
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">@Model.CarVIN @Model.Destination</h5>
+                <p class="card-text">
+                    Start Date: @Model.StartDate <br>
+                    End Date: @Model.EndDate
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>

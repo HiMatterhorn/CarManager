@@ -1,0 +1,40 @@
+﻿<h2>Pending reservations</h2>
+
+        <div id="_PendingBookings"> </div>
+
+<h2>Approved reservations</h2>
+
+        <div id="_ApprovedBookings"> </div>
+
+<script>
+
+$(document).ready(function (){
+    $.ajax({
+        url: '@Url.Action("PendingBookingsCurrentUser", "Booking")',
+        datatype: 'html',
+        method: 'GET',
+
+        success: function (result) {
+            $('#_PendingBookings').html('').html(result);
+        },
+
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+    $.ajax({
+        url: '@Url.Action("ApprovedBookingsCurrentUser", "Booking")',
+        datatype: 'html',
+        method: 'GET',
+
+        success: function (result) {
+            $('#_ApprovedBookings').html('').html(result);
+        },
+
+        error: function (error) {
+            console.log(error);
+        }
+    });
+});
+</script>
