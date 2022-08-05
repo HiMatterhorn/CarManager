@@ -21,9 +21,9 @@
         </div>
 
         <div class="form-group row">
-            <div class="col-md-4">
+            <div class="col-md-12">
                 @*<input id="datetimeCalendar">*@
-                <input class="select-datetime" id="select-datetime" type="datetime" >
+                <input class="select-datetime" name="daterange">
                 @*<input id="event-event_start_datetime" type="datetime" value="01/20/2020 06:30 - 01/21/2020 16:45">*@
             </div>
         </div>
@@ -50,228 +50,49 @@
 
 @* //TODO Relocate script to separate file*@
 <script>
-  //   VERSION 1 
-    // ------------
-    var test;
-            $(document).ready(function () {
-            var myCalendar = bulmaCalendar.attach('.select-datetime', {
-            type: 'datetime',
-            isRange: true,
-            weekStart: 1,
-            displayMode:'default',
-            showHeader:'false',
-            dateFormat:'DD/MM/YYYY',
-
-            showButtons: 'true',
-            showTodayButton: 'true',
-            showClearButon: 'true',
-            cancelLabel:'Cancel',
-            clearLabel:'Clear',
-            todayLabel:'Today',
-            nowLabel:'Now',
-            validateLabel:'Save',
-            labelFrom:'From:',
-            labelTo:'To:',
-
-            startDate:'01/01/2022 06:15',
-           // startTime:'06:15',
-            endDate:'03/02/2022 11:15',
-           // endTime:'08:45',
-
-            navigationMonthFormat: 'MMMM',
-            navigationYearFormat: 'YYYY',
-            headerMonthYearFromat: 'MMMM YYYY',
-            });
-
-            // something wrong with bulma code and start date hours and minutes not populated
-            // have a value of: MM/DD/YYYY HH:MM - MM/DD/YYYY HH:MM (startDate startTime - endDate endTime)
-            // get the startDate hours and minutes
-            let startHours = 06;
-            let startMinutes = 15;
-            //let startDate = 01/06/2022;
-
-            let endHours = 08;
-            let endMinutes = 45;
-            //let endDate = 01/06/2022;
-
-           //  put values into proper spots for the calendar to have pre-populated start time
-           // $('input#event-event_start_datetime').val(incomingDate);
-           // $('.datetimepicker-dummy-input.is-datetimepicker-range').val(startDate);
-            $('.timepicker-start .timepicker-hours .timepicker-input-number').text(startHours);
-            $('.datetimepicker-selection-start .datetimepicker-selection-hour').text(startHours + ':' + startMinutes);
-            $('.timepicker-start .timepicker-minutes .timepicker-input-number').text(startMinutes);
-
-            $('.timepicker-end .timepicker-hours .timepicker-input-number').text(endHours);
-            $('.datetimepicker-selection-end .datetimepicker-selection-hour').text(endHours + ':' + endMinutes);
-            $('.timepicker-end .timepicker-minutes .timepicker-input-number').text(endMinutes);
-            test = myCalendar;
-            });
-    
-
-    // VERSION 2 
-  //  // ------------
-
-  //  $(document).ready(function () {
-  //          var myCalendar = bulmaCalendar.attach('.select-datetime', {
-  //          type: 'datetime',
-  //          isRange: true,
-  //          weekStart: 1,
-  //          displayMode:'default',
-  //          showHeader:'false',
-  //          dateFormat:'DD/MM/YYYY',
-
-  //          showButtons: 'true',
-  //          showTodayButton: 'true',
-  //          showClearButon: 'true',
-  //          cancelLabel:'Cancel',
-  //          clearLabel:'Clear',
-  //          todayLabel:'Today',
-  //          nowLabel:'Now',
-  //          validateLabel:'Save',
-  //          labelFrom:'From:',
-  //          labelTo:'To:',
-
-  //          startDate:'01/01/2022 06:15',
-  //         // startTime:'06:15',
-  //          endDate:'03/02/2022 11:15',
-  //         // endTime:'08:45',
-
-  //          navigationMonthFormat: 'MMMM',
-  //          navigationYearFormat: 'YYYY',
-  //          headerMonthYearFromat: 'MMMM YYYY',
-  //          });
-
-
-  //          myCalendar.fixPrefilledDateTime();
-
-
-  //          });
-  
-
-// @* function fixPrefilledDateTime (calendar) {
-//     debugger;   
-
-//    if (calendar[0].options.startDate != null) {
-//        const hours = calendar[0].options.startDate.getHours();
-//        const minutes = calendar[0].options.startDate.getMinutes();
-//        // set value
-//        if (calendar[0].timePicker._time.start != null) {
-//            calendar[0].timePicker._time.start = options.startDate;
-//        }
-//        // set ui
-//        if (calendar[0].timePicker._ui.start.hours.number != null && calendar[0].timePicker._ui.start.minutes.number != null) {
-//            calendar[0].timePicker._ui.start.hours.number.innerHTML = hours;
-//            calendar[0].timePicker._ui.start.minutes.number.innerHTML = minutes;
-//        }
-//    }
-    
-//    if (calendar[0].options.endDate != null) {
-//        const hours = calendar[0].options.endDate.getHours();
-//        const minutes = calendar[0].options.endDate.getMinutes();
-//        // set value
-//        if (calendar[0].timePicker._time.end != null) {
-//            calendar[0].timePicker._time.end = options.endDate;
-//        }
-//        // set ui
-//        if (calendar[0].timePicker._ui.end.hours.number != null && calendar[0].timePicker._ui.end.minutes.number != null) {
-//            calendar[0].timePicker._ui.end.hours.number.innerHTML = hours;
-//            calendar[0].timePicker._ui.end.minutes.number.innerHTML = minutes;
-//        }
-//    }
-//    calendar[0].refresh();
-    
- 
-    
-//    //calendar[0]._refreshTimepicker();
-//    //calendar[0]._refreshdatepicker();
-//}   *@
-    
-@* COPIED SOLUTION TO IMPLEMENT
-
-SET THE UI
-        set value
-    
-        if (calendar.timePicker._time.start != null) {
-        calendar.timePicker._time.start = calendar.startDate;
-        }
-         set ui
-        if (calendar.timePicker._ui.start.hours.number != null && calendar.timePicker._ui.start.minutes.number != null) {
-        calendar.timePicker._ui.start.hours.number.innerHTML = hours;
-        calendar.timePicker._ui.start.minutes.number.innerHTML = minutes;
-        }
-
-         set value
-        if (calendar.timePicker._time.end != null) {
-        calendar.timePicker._time.end = calendar.endDate;
-        }
-         set ui
-        if (calendar.timePicker._ui.end.hours.number != null && calendar.timePicker._ui.end.minutes.number != null) {
-        calendar.timePicker._ui.end.hours.number.innerHTML = hours;
-        calendar.timePicker._ui.end.minutes.number.innerHTML = minutes;       
-
-*@     
- 
-
-
-    @* FORUM WORKING SOLUTION - SOME BUGS
-
-    // WORKS WITH HTML
-    // <input id="event-event_start_datetime" type="datetime" value="01/20/2020 01:15 - 01/21/2020 23:59">
-
-    $(document).ready(function () {
-
-        // save off the incoming(preset)
-        let incomingDate = $('#event-event_start_datetime').val();
-
-        // Initialize datetimepicker
-        let calendars = bulmaCalendar.attach('#event-event_start_datetime', {
-        isRange: true,
-        dateFormat: 'MM/DD/YYYY',
-        timeFormat: 'HH:mm',
-        showHeader: false,
-        showTodayButton: false,
-        showClearButton: false,
-        validateLabel: "Select",
-        minuteSteps: 15,
-        labelFrom: 'Event Start',
-        labelTo: 'Event End'
-        });
-
-        if (incomingDate) {
-        // something wrong with bulma code and start date hours and minutes not populated
-        // have a value of: MM/DD/YYYY HH:MM - MM/DD/YYYY HH:MM (startDate startTime - endDate endTime)
-        // get the startDate hours and minutes
-        let incomingStartHours = incomingDate.substring(11, 13);
-        let incomingStartMinutes = incomingDate.substring(14, 16);
-        let incomingStartDate = incomingDate.substring(0, 16);
-
-        // put values into proper spots for the calendar to have pre-populated start time
-        $('input#event-event_start_datetime').val(incomingDate);
-        $('.datetimepicker-dummy-input.is-datetimepicker-range').val(incomingStartDate);
-        $('.timepicker-start .timepicker-hours .timepicker-input-number').text(incomingStartHours);
-        $('.datetimepicker-selection-start .datetimepicker-selection-hour').text(incomingStartHours + ':' + incomingStartMinutes);
-        $('.timepicker-start .timepicker-minutes .timepicker-input-number').text(incomingStartMinutes);
-        }
-
-        // Loop on each calendar initialized
-        for (let i = 0; i < calendars.length; i++) {
-        // Add listener to date:selected event
-        calendars[i].on('select', date => {
-        console.log(date);
-        });
-        }
-
-        // To access to bulmaCalendar instance of an element
-        let element1 = document.querySelector('#event-event_datetime_start');
-        if (element1) {
-        // bulmaCalendar instance is available as element.bulmaCalendar
-        element1.bulmaCalendar.on('select', function (datepicker) {
-        console.log(datepicker.data.value());
-        });
-        }
-        });
-    *@
-
+    $('input[name="daterange"]').daterangepicker({
+    "showISOWeekNumbers": true,
+    "timePicker": true,
+    "timePicker24Hour": true,
+    "timePickerIncrement": 15,
+    "locale": {
+        "format": "DD/MM/YYYY HH:mm",
+        "separator": " - ",
+        "applyLabel": "Apply",
+        "cancelLabel": "Cancel",
+        "fromLabel": "From",
+        "toLabel": "To",
+        "customRangeLabel": "Custom",
+        "weekLabel": "KW",
+        "daysOfWeek": [
+            "Su",
+            "Mo",
+            "Tu",
+            "We",
+            "Th",
+            "Fr",
+            "Sa"
+        ],
+        "monthNames": [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ],
+        "firstDay": 1
+    },
+    "startDate": "04/08/2022 08:00",
+    "endDate": "07/08/2022 16:15",
+    "opens": "center"
+});
 </script>
 
 <script>
