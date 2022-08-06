@@ -22,16 +22,19 @@ namespace AmiFlota.Services
         }
 
 
-        public async Task<AvailableCarsVM> GetAvailableCars(DateTime startDate, DateTime endDate)
+        public async Task<AvailableCarsVM> GetAvailableCars(String startDate, string endDate)
         {
 
-            List<CarModel> availableCars = await GetCarsInDates(startDate, endDate);
+            DateTime searchingStartDate = DateTime.Parse(startDate);
+            DateTime searchingEndDate = DateTime.Parse(endDate);
+
+            List<CarModel> availableCars = await GetCarsInDates(searchingStartDate, searchingEndDate);
 
             AvailableCarsVM availableCarsVM = new AvailableCarsVM()
             {
                 AvailableCars = availableCars,
-                StartDate = startDate,
-                EndDate = endDate,
+                StartDate = searchingStartDate,
+                EndDate = searchingEndDate,
             };
 
             return availableCarsVM;

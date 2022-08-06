@@ -21,10 +21,8 @@
         </div>
 
         <div class="form-group row">
-            <div class="col-md-12">
-                @*<input id="datetimeCalendar">*@
-                <input class="select-datetime" name="daterange">
-                @*<input id="event-event_start_datetime" type="datetime" value="01/20/2020 06:30 - 01/21/2020 16:45">*@
+            <div class="col-12">
+                <input class="select-datetime" name="daterange" id="datetimeRange">
             </div>
         </div>
 
@@ -97,10 +95,17 @@
 
 <script>
     $('#btnSearch').on('click',function(){
+        var datetimeRangeToParse = document.getElementById('datetimeRange').value;
+        console.log(datetimeRangeToParse);
+
+        const [startDateTime, endDateTime]  = datetimeRangeToParse.split(' - ');
+
+
         $.ajax({
             url: '@Url.Action("FilterCars", "Booking")',
             datatype: 'html',
-            data: {startDate:($('#bookingStartDate').val()), endDate:($('#bookingEndDate').val())},
+  //          data: {startDate:($('#bookingStartDate').val()), endDate:($('#bookingEndDate').val())},
+            data: {startDate:startDateTime, endDate:endDateTime},
             method: 'GET',
 
             success: function (result) {

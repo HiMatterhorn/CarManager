@@ -32,7 +32,7 @@ namespace AmiFlota.Controllers
             return View();
         }
 
-        public async Task<PartialViewResult> FilterCars(DateTime startDate, DateTime endDate)
+        public async Task<PartialViewResult> FilterCars(string startDate, string endDate)
         {
             AvailableCarsVM carList = await _bookingService.GetAvailableCars(startDate, endDate);
             return PartialView("_FilteredCarsView", carList);
