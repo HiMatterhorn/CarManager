@@ -14,8 +14,8 @@
 <form method="post" asp-controller="Booking" asp-action="BookingDetails" id="bookingDetailsForm">
     <input asp-for="RegistrationNumber" type="hidden"></>
     <input asp-for="UserName" type="hidden"></>
-    <input asp-for="StartDate" type="hidden"> </>
-    <input asp-for="EndDate" type="hidden"> </>
+    <input asp-for="StartDate" type="hidden">@Model.StartDate </>
+    <input asp-for="EndDate" type="hidden"> @Model.EndDate</>
 
     <div class="border p-3">
         <div asp-validation-summary="All" class="text-danger"></div>

@@ -52,7 +52,7 @@ namespace AmiFlota.Controllers
         }
 
         //GET - create
-        public IActionResult BookingDetails(string VIN, DateTime startDate, DateTime endDate)
+        public IActionResult BookingDetails (string VIN, DateTime startDate, DateTime endDate)
         {
             BookingVM viewModel = new BookingVM()
             {
