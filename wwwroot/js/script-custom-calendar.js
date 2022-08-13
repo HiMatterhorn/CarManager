@@ -7,6 +7,9 @@ $(document).ready(function () {
 function InitializeCalendar() {
     try {
         var calendarEl = document.getElementById('calendar');
+
+        console.log($('#carVIN').val());
+
         if (calendarEl != null) {
             calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
@@ -22,39 +25,50 @@ function InitializeCalendar() {
                     onShowModal(event, null);
                 },
                 eventDisplay: 'block',
-/*               events: function (fetchInfo, successCallback, failureCallback) {
+/*                events: [{
+                    title: 'event2',
+                    start: '2022-08-05',
+                    end: '2022-08-07'
+                }],*/
+
+              events: function (fetchInfo, successCallback, failureCallback) {
                     $.ajax({
-                        url: routeURL + '/api/Booking/GetCalendarDataForCar?carVIN=' + $("#carVIN").val(),
+                        url: routeURL + '/api/Booking/GetCalendarDataForCar?carVIN=' + $('#carVIN').val(),
                         type: 'GET',
                         dataType: 'JSON',
                         success: function (response) {
                             var events = [];
                             if (response.status === 1) {
+                                console.log(response);
+
 
                                 $.each(response.dataenum, function (i, data) {
                                     events.push({
-                                        title: data.Destination,
-                                        description: data.UserName,
-                                        start: data.StartDate,
-                                        end: data.EndDate,
-                                        backgroundColor: data.isApproved ? "#28a745" : "#dc3545",
-                                        borderColor: "#162466",
-                                        textColor: "white",
-                                        id: data.Id
+                                        title: data.userName,
+                                        description: data.destination,
+                                        start: data.startDate,
+                                        end: data.endDate,
+
+                                        //backgroundColor: data.isApproved ? "#28a745" : "#dc3545",
+                                        //borderColor: "#162466",
+                                        //textColor: "white",
+                                        //id: data.Id
                                     });
 
                                 })
                             }
                             successCallback(events);
+                            console.log(events);
                         },
                         error: function (xhr) {
+                            console.log("failure");
                             $.notify("Error", "error");
                         }
                     });
                 },
                 eventClick: function (info) {
                     getEventDetailsByEventId(info.event)
-                }*/
+                }
             });
             calendar.render();
         }
