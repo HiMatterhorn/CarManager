@@ -46,22 +46,21 @@ namespace AmiFlota.Controllers.api
 
         [HttpGet]
         [Route("GetCalendarDataById/{id}")]
-        public IActionResult GetCalendarDataForUser()
+        public IActionResult GetCalendarDataById(int id)
         {
-            /*            CommonResponse<AppointmentVM> commonResponse = new CommonResponse<AppointmentVM>();
-                        try
-                        {
-                            commonResponse.dataenum = _appointmentService.GetById(id);
-                            commonResponse.status = Helper.success_code;
-                        }
-                        catch (Exception e)
-                        {
-                            commonResponse.message = e.Message;
-                            commonResponse.status = Helper.failure_code;
-                        }
+            CommonResponse<BookingVM> commonResponse = new CommonResponse<BookingVM>();
+            try
+            {
+                commonResponse.dataenum = _bookingService.GetById(id);
+                commonResponse.status = ApiResponses.success_code;
+            }
+            catch (Exception e)
+            {
+                commonResponse.message = e.Message;
+                commonResponse.status = ApiResponses.failure_code;
+            }
 
-                        return Ok(commonResponse);*/
-            return Ok();
+            return Ok(commonResponse);
         }
 
 

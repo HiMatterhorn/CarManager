@@ -17,5 +17,7 @@ namespace AmiFlota.Services
         public List<BookingVM> BookingsByCarVIN(string carVIN);
         public string GetRegistrationNumberByCarVin(string carVIN);
         public string GetUserIdByName(string userName);
+
+        public BookingVM GetById(int id);
     }
 }

@@ -159,6 +159,7 @@ namespace AmiFlota.Services
             {
                 return _db.Bookings.Where(x => x.CarVIN == carVIN).ToList().Select(c => new BookingVM()
                 {
+                    Id = c.Id,
                     UserName = GetUserNameById(c.UserId),
                     RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
                     StartDate = c.StartDate,
@@ -224,6 +225,21 @@ namespace AmiFlota.Services
             {
                 throw;
             }
+        }
+
+        public BookingVM GetById (int id)
+        {
+            return _db.Bookings.Where(x => x.Id == id).ToList().Select(c => new BookingVM()
+            {
+                Id = c.Id,
+                UserName = GetUserNameById(c.UserId),
+                RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
+                StartDate = c.StartDate,
+                EndDate = c.EndDate,
+                Destination = c.Destination,
+                ProjectCost = c.ProjectCost,
+                isApproved = c.isApproved
+            }).SingleOrDefault();
         }
     }
 }

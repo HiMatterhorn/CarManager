@@ -8,8 +8,6 @@ function InitializeCalendar() {
     try {
         var calendarEl = document.getElementById('calendar');
 
-        console.log($('#carVIN').val());
-
         if (calendarEl != null) {
             calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
@@ -25,11 +23,6 @@ function InitializeCalendar() {
                     onShowModal(event, null);
                 },
                 eventDisplay: 'block',
-/*                events: [{
-                    title: 'event2',
-                    start: '2022-08-05',
-                    end: '2022-08-07'
-                }],*/
 
               events: function (fetchInfo, successCallback, failureCallback) {
                     $.ajax({
@@ -49,10 +42,10 @@ function InitializeCalendar() {
                                         start: data.startDate,
                                         end: data.endDate,
 
-                                        //backgroundColor: data.isApproved ? "#28a745" : "#dc3545",
-                                        //borderColor: "#162466",
-                                        //textColor: "white",
-                                        //id: data.Id
+                                        backgroundColor: data.isApproved ? "#28a745" : "#dc3545",
+                                        borderColor: "#162466",
+                                        textColor: "white",
+                                        id: data.id
                                     });
 
                                 })
@@ -92,3 +85,60 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.render();
 });*/
 
+function getEventDetailsByEventId(info) {
+    $.ajax({
+        url: routeURL + '/api/Booking/GetCalendarDataById/' + info.id,
+        type: 'GET',
+        dataType: 'JSON',
+
+
+        success: function (response) {
+            if (response.status === 1 && response.dataenum != undefined)
+            {
+                onShowModal(response.dataenum, true)
+                
+                $.notify("Success", "success");
+                console.log("success");
+                console.log(response.dataenum);
+            }
+            //successCallback(events);
+        },
+        error: function (xhr) {
+            $.notify("Error", "error");
+        }
+    });
+}
+
+
+function onShowModal(obj, isEventDetail) {
+    if (isEventDetail != null) {
+/*        $("#title").val(obj.title);
+        $("#description").val(obj.description);
+        $("#appointmentDate").val(obj.startDate);
+
+        $("#id").val(obj.id);*/
+ 
+       /* if (obj.isDoctorApproved) {
+            $("#lblStatus").html('Approved');
+            $("#btnConfirm").addClass("d-none");
+            $("#btnSubmit").addClass("d-none");
+        }
+        else {
+            $("#lblStatus").html('Pending');
+            $("#btnConfirm").removeClass("d-none");
+            $("#btnSubmit").removeClass("d-none");
+        }
+        $("#btnDelete").removeClass("d-none");*/
+    }
+
+/*    else {
+        $("#appointmentDate").val(obj.startStr + " " + new moment().format("hh:mm A"));
+        $("#id").val(0);
+        $("#btnDelete").addClass("d-none");
+
+    }
+    */
+
+    $("#calendarEvent").modal("show");
+
+}
