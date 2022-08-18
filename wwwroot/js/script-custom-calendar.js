@@ -131,3 +131,7 @@ function onShowModal(obj, isEventDetail) {
     $("#calendarEvent").modal("show");
 
 }
+
+function onCarChange() {
+    calendar.refetchEvents();
+}

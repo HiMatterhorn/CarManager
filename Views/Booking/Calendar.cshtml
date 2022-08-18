@@ -10,7 +10,7 @@
         <label>Select Car</label>
         @Html.DropDownList("carVIN",
         new SelectList(ViewBag.CarList, "VIN", "RegistrationNumber"),
-        new {@class="form-control select2}"})
+        new {@class="form-control select2}", @onchange = "onCarChange()" })
     </div>
 
 
