@@ -72,19 +72,6 @@ function InitializeCalendar() {
     }
 }
 
-
-//SECOND OPTION
-/*$(document).ready(function () {
-    InitializeCalendar();
-});
-document.addEventListener('DOMContentLoaded', function () {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth'
-    });
-    calendar.render();
-});*/
-
 function getEventDetailsByEventId(info) {
     $.ajax({
         url: routeURL + '/api/Booking/GetCalendarDataById/' + info.id,
@@ -96,10 +83,6 @@ function getEventDetailsByEventId(info) {
             if (response.status === 1 && response.dataenum != undefined)
             {
                 onShowModal(response.dataenum, true)
-                
-                $.notify("Success", "success");
-                console.log("success");
-                console.log(response.dataenum);
             }
             //successCallback(events);
         },
@@ -112,8 +95,14 @@ function getEventDetailsByEventId(info) {
 
 function onShowModal(obj, isEventDetail) {
     if (isEventDetail != null) {
-/*        $("#title").val(obj.title);
-        $("#description").val(obj.description);
+        $("#userName").html(obj.userName);
+        $("#registrationNumber").html(obj.registrationNumber);
+        $("#destination").html(obj.destination);
+        $("#projectCost").html(obj.projectCost);
+
+
+   //     $("#title").val(obj.title);
+       /* $("#description").val(obj.description);
         $("#appointmentDate").val(obj.startDate);
 
         $("#id").val(obj.id);*/
