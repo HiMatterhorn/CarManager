@@ -32,9 +32,6 @@ function InitializeCalendar() {
                         success: function (response) {
                             var events = [];
                             if (response.status === 1) {
-                                console.log(response);
-
-
                                 $.each(response.dataenum, function (i, data) {
                                     events.push({
                                         title: data.userName,
@@ -51,10 +48,8 @@ function InitializeCalendar() {
                                 })
                             }
                             successCallback(events);
-                            console.log(events);
                         },
                         error: function (xhr) {
-                            console.log("failure");
                             $.notify("Error", "error");
                         }
                     });
@@ -95,6 +90,7 @@ function getEventDetailsByEventId(info) {
 
 function onShowModal(obj, isEventDetail) {
     if (isEventDetail != null) {
+        $("#id").val(obj.id); 
         $("#userName").html(obj.userName);
         $("#registrationNumber").html(obj.registrationNumber);
         $("#destination").html(obj.destination);
@@ -132,6 +128,63 @@ function onShowModal(obj, isEventDetail) {
 
 }
 
+function onCloseModal() {
+    $("#calendarEventForm")[0].reset();
+    $("#userName").val(' ');
+    $("#registrationNumber").val(' ');
+    $("#destination").val(' ');
+    $("#projectCost").val(' ');
+    $("#calendarEvent").modal("hide");
+}
+
 function onCarChange() {
     calendar.refetchEvents();
+}
+
+function onConfirm() {
+    var id = parseInt($("#id").val());
+
+    $.ajax({
+        url: routeURL + '/api/Booking/ConfirmEvent/' + id,
+        type: 'GET',
+        dataType: 'JSON',
+        success: function (response) {
+            if (response.status === 1) {
+                $.notify(response.message, "success");
+                calendar.refetchEvents();
+                onCloseModal();
+            }
+            else {
+                $.notify(response.message, "error");
+            }
+
+        },
+        error: function (xhr) {
+            $.notify("Error", "error");
+        }
+    });
+}
+
+function onDelete() {
+    var id = parseInt($("#id").val());
+
+    $.ajax({
+        url: routeURL + '/api/Booking/DeleteEvent/' + id,
+        type: 'GET',
+        dataType: 'JSON',
+        success: function (response) {
+            if (response.status === 1) {
+                $.notify(response.message, "success");
+                calendar.refetchEvents();
+                onCloseModal();
+            }
+            else {
+                $.notify(response.message, "error");
+            }
+
+        },
+        error: function (xhr) {
+            $.notify("Error", "error");
+        }
+    });
 }

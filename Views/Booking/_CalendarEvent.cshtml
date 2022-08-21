@@ -6,6 +6,8 @@
                     <h4 class="modal-title">Booking event details</h4>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" id="id" />
+
                     <div class="form-group">
                         <label for="title">User Name</label>
                         <label class="text-center" disabled id="userName" />
@@ -32,10 +34,10 @@
 
                 </div>
                 <div class="modal-footer">
-                    @*                    
-                    <button type="button" class="btn btn-secondary" onclick="onCloseModal();">Close</button> &nbsp; <!--space-->
-                    <button type="button" id="btnSubmit" class="btn btn-success" onclick="onSubmitForm();">Submit</button>
-                    <button type="button" id="btnDelete" class="btn btn-danger" onclick="onDeleteAppointment();">Delete</button>*@
+
+                    <button type="button" id="btnDelete" class="btn btn-danger" onclick="onDelete();">Delete</button> &nbsp
+                    <button type="button" id="btnConfirm" class="btn btn-success" onclick="onConfirm();">Confirm</button> &nbsp
+                    <button type="button" class="btn btn-secondary" onclick="onCloseModal();">Close</button> &nbsp;
                 </div>
             </form>
         </div>

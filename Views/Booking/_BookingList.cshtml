@@ -11,13 +11,27 @@
     <div class="row">
         @foreach (var booking in Model)
         {
+           
             <div class="col-8">
                 <partial name="_BookingListItem" model=booking />
             </div>
 
 
             <div class="col-4 align-content-center">
+                @*               <a asp-controller="Booking" asp-action="BookingDetails"
+            asp-route-VIN="@car.VIN"
+            asp-route-startDate="@Model.StartDate"
+            asp-route-endDate="@Model.EndDate"
+            class="btn btn-primary mx-1" type="button">Book</a>
+            <- Bez wykorzystania API
+            *@ 
 
+                @if (User.IsInRole(AmiFlota.Utilities.Enums.UserRole.admin.ToString()))
+                {
+                   //TODO Not working yet
+                    <button type="button" id="btnConfirm" class="btn btn-success" onclick="onConfirmBooking();">Confirm</button>
+                    <button type="button" id="btnDelete" class="btn btn-danger" onclick="onDeleteBooking();">Delete</button>
+                }
             </div>
         };
     </div>

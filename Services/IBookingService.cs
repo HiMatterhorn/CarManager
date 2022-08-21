@@ -19,5 +19,8 @@ namespace AmiFlota.Services
         public string GetUserIdByName(string userName);
 
         public BookingVM GetById(int id);
+
+        public Task<int> ConfirmEvent(int id);
+        public Task<int> DeleteEvent(int id);
     }
 }

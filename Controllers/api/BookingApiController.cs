@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AmiFlota.Controllers.api
 {
@@ -89,5 +90,52 @@ namespace AmiFlota.Controllers.api
                 }*/
 
 
+        [HttpGet]
+        [Route("ConfirmEvent/{id}")]
+        public IActionResult ConfirmEvent(int id)
+        {
+            CommonResponse<int> commonResponse = new CommonResponse<int>();
+            try
+            {
+                var result = _bookingService.ConfirmEvent(id).Result;
+                if (result > 0)
+                {
+                    commonResponse.status = ApiResponses.success_code;
+                    commonResponse.message = ApiResponses.bookingConfirmed;
+                }
+                else
+                {
+                    commonResponse.status = ApiResponses.failure_code;
+                    commonResponse.message = ApiResponses.bookingConfirmationError;
+                }
+            }
+            catch (Exception e)
+            {
+                commonResponse.message = e.Message;
+                commonResponse.status = ApiResponses.failure_code;
+            }
+
+            return Ok(commonResponse);
+        }
+
+
+        [HttpGet]
+        [Route("DeleteEvent/{id}")]
+        public async Task<IActionResult> DeleteEvent(int id)
+        {
+            CommonResponse<int> commonResponse = new CommonResponse<int>();
+            try
+            {
+                commonResponse.status = await _bookingService.DeleteEvent(id);
+                commonResponse.message = commonResponse.status == 1 ? ApiResponses.bookingDeleted : ApiResponses.bookingDeleteError;
+            }
+            catch (Exception e)
+            {
+                commonResponse.message = e.Message;
+                commonResponse.status = ApiResponses.failure_code;
+            }
+
+            return Ok(commonResponse);
+        }
     }
 }

@@ -241,5 +241,32 @@ namespace AmiFlota.Services
                 isApproved = c.isApproved
             }).SingleOrDefault();
         }
+
+
+        public async Task<int> ConfirmEvent(int id)
+        {
+            var booking = _db.Bookings.FirstOrDefault(x => x.Id == id);
+            if (booking != null)
+            {
+                booking.isApproved = true;
+                return await _db.SaveChangesAsync();
+            }
+
+            return 0;
+        }
+
+        public async Task<int> DeleteEvent(int id)
+        {
+            var booking = _db.Bookings.FirstOrDefault(x => x.Id == id);
+            if (booking != null)
+            {
+                _db.Bookings.Remove(booking);
+                return await _db.SaveChangesAsync();
+            }
+
+            return 0;
+        }
+
+
     }
 }
