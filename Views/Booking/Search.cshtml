@@ -2,8 +2,6 @@
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 
-
-
 <!DOCTYPE html>
 
 <html>
@@ -15,32 +13,23 @@
 
     @*//TODO Rewaork it to search partial view*@
     @*_BookingSearch*@
-    <form id="bookingForm" autocomplete="off" novalidate="novalidate">
-        <div class="row text-center">
-            <h2>Booking dates</h2>
-        </div>
+    <div class="row text-center">
+        <h2>Booking dates</h2>
+    </div>
 
-        <div class="form-group row">
-            <div class="col-12">
-                <input class="select-datetime" name="daterange" id="datetimeRange">
-            </div>
+    <div class="input-group">
+        <input type="text" class="form-control text-center" name="daterange" id="datetimeRange" placeholder="Booking dates" aria-label="Booking dates" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" id="btnSearch" type="button">Search</button>
         </div>
-
-        <div class="form-group row">
-            <div class="col-md-4">
-                <button type="button" id="btnSearch" class="btn btn-success">Search</button>
-            </div>
-        </div>
-
-        @*//TODO Return bookingStartDate and bookingEndDate to bookingVM *@
-    </form>
+    </div>
 
     <div id="_SearchingResults"> </div>
 
     <footer>
-        <div class="text-right pt-2">
-            <p>Confirmation email will be sent to: @HttpContextAccessor.HttpContext.Session.GetString("userEmailAssigned")</p>
-        </div>
+        @*        <div class="text-right pt-2">
+        <p>Confirmation email will be sent to: @HttpContextAccessor.HttpContext.Session.GetString("userEmailAssigned")</p>
+        </div>*@
     </footer>
 
 </body>
@@ -48,71 +37,107 @@
 
 @* //TODO Relocate script to separate file*@
 <script>
+
+    var objToday = new Date(),
+        // weekday = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'),
+        // dayOfWeek = weekday[objToday.getDay()],
+        curDay = objToday.getDate(),
+        curMonth = objToday.getMonth() + 1,
+        curYear = objToday.getFullYear(),
+        curHour = objToday.getHours(),
+        curMinute = objToday.getMinutes(),
+        curSeconds = objToday.getSeconds(),
+
+        startDate = curDay + "/" + curMonth + "/" + curYear;
+    startTime = roundTimeQuarterHour(objToday).getHours() + ":" + roundTimeQuarterHour(objToday).getMinutes();
+    console.log("start Time: " + startTime);
+    startDateTime = startDate + " " + startTime;
+
+    endDate = (curDay + 1) + "/" + curMonth + "/" + curYear;
+    endTime = "18:00";
+    endDateTime = endDate + " " + endTime;
+
+    //TODO Do not take / return car during the weekends
+
+
     $('input[name="daterange"]').daterangepicker({
-    "showISOWeekNumbers": true,
-    "timePicker": true,
-    "timePicker24Hour": true,
-    "timePickerIncrement": 15,
-    "locale": {
-        "format": "DD/MM/YYYY HH:mm",
-        "separator": " - ",
-        "applyLabel": "Apply",
-        "cancelLabel": "Cancel",
-        "fromLabel": "From",
-        "toLabel": "To",
-        "customRangeLabel": "Custom",
-        "weekLabel": "KW",
-        "daysOfWeek": [
-            "Su",
-            "Mo",
-            "Tu",
-            "We",
-            "Th",
-            "Fr",
-            "Sa"
-        ],
-        "monthNames": [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
-        ],
-        "firstDay": 1
-    },
-    "startDate": "04/08/2022 08:00",
-    "endDate": "07/08/2022 16:15",
-    "opens": "center"
-});
+
+        "showISOWeekNumbers": true,
+        "timePicker": true,
+        "timePicker24Hour": true,
+        "timePickerIncrement": 15,
+        "locale": {
+            "format": "DD/MM/YYYY HH:mm",
+            "separator": " - ",
+            "applyLabel": "Apply",
+            "cancelLabel": "Cancel",
+            "fromLabel": "From",
+            "toLabel": "To",
+            "customRangeLabel": "Custom",
+            "weekLabel": "KW",
+            "daysOfWeek": [
+                "Su",
+                "Mo",
+                "Tu",
+                "We",
+                "Th",
+                "Fr",
+                "Sa"
+            ],
+            "monthNames": [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+            ],
+            "firstDay": 1
+        },
+        "startDate": startDateTime,
+        "endDate": endDateTime,
+        "opens": "center"
+    });
+
+    function roundTimeQuarterHour(time) {
+        var timeToReturn = new Date(time);
+
+        timeToReturn.setMilliseconds(Math.floor(timeToReturn.getMilliseconds() / 1000) * 1000);
+        timeToReturn.setSeconds(Math.floor(timeToReturn.getSeconds() / 60) * 60);
+        timeToReturn.setMinutes(Math.ceil(timeToReturn.getMinutes() / 15) * 15);
+
+        if ((Math.ceil(timeToReturn.getMinutes() / 15) * 15) == 4) {
+            timeToReturn.setHours(timeToReturn.getHours() + 1);
+        }
+
+        return timeToReturn
+    }
+
 </script>
 
 <script>
-    $('#btnSearch').on('click',function(){
+    $('#btnSearch').on('click', function() {
         var datetimeRangeToParse = document.getElementById('datetimeRange').value;
-        console.log(datetimeRangeToParse);
 
-        const [startDateTime, endDateTime]  = datetimeRangeToParse.split(' - ');
-
+        const [startDateTime, endDateTime] = datetimeRangeToParse.split(' - ');
 
         $.ajax({
             url: '@Url.Action("FilterCars", "Booking")',
             datatype: 'html',
-  //          data: {startDate:($('#bookingStartDate').val()), endDate:($('#bookingEndDate').val())},
-            data: {startDate:startDateTime, endDate:endDateTime},
+            data: { startDate: startDateTime, endDate: endDateTime },
             method: 'GET',
 
-            success: function (result) {
+            success: function(result) {
                 $('#_SearchingResults').html('').html(result);
             },
 
-            error: function (error) {
+            error: function(error) {
                 console.log(error);
             }
         });
