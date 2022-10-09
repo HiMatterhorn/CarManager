@@ -1,4 +1,4 @@
-﻿@model AmiFlota.Models.BookingModel
+﻿@*@model AmiFlota.Models.ViewModels.BookingVM*@
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 
@@ -11,6 +11,9 @@
 </head>
 <body>
 
+    <div id="_BookingDetailsModal"> </div>
+@*        <partial name="_BookingDetailsModal" />*@
+
     @*//TODO Rewaork it to search partial view*@
     @*_BookingSearch*@
     <div class="row text-center">
@@ -18,9 +21,9 @@
     </div>
 
     <div class="input-group">
-        <input type="text" class="form-control text-center" name="daterange" id="datetimeRange" placeholder="Booking dates" aria-label="Booking dates" aria-describedby="basic-addon2">
+        <input type="text" class="form-control text-center" name="datetimerange" id="datetimeRange" placeholder="Booking dates" aria-label="Booking dates" aria-describedby="basic-addon2">
         <div class="input-group-append">
-            <button class="btn btn-outline-secondary" id="btnSearch" type="button">Search</button>
+            <button class="btn btn-outline-secondary btn-search" id="btnSearch" type="button">Search</button>
         </div>
     </div>
 
@@ -58,9 +61,7 @@
     endDateTime = endDate + " " + endTime;
 
     //TODO Do not take / return car during the weekends
-
-
-    $('input[name="daterange"]').daterangepicker({
+    $('input[name="datetimerange"]').daterangepicker({
 
         "showISOWeekNumbers": true,
         "timePicker": true,

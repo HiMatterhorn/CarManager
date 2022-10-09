@@ -52,7 +52,8 @@ namespace AmiFlota.Controllers
         }
 
         //GET - create
-        public IActionResult BookingDetails (string VIN, DateTime startDate, DateTime endDate)
+        // public IActionResult _BookingDetailsModal (string VIN, DateTime startDate, DateTime endDate)
+        public PartialViewResult _BookingDetailsModal(string VIN, DateTime startDate, DateTime endDate)
         {
             BookingVM viewModel = new BookingVM()
             {
@@ -62,12 +63,13 @@ namespace AmiFlota.Controllers
                 EndDate = endDate,
             };
 
-            return View(viewModel);
+            // return View(viewModel);
+            return PartialView("_BookingDetailsModal", viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult BookingDetails(BookingVM viewModel)
+        public IActionResult _BookingDetailsModal(BookingVM viewModel)
         {
             if (ModelState.IsValid)
             {

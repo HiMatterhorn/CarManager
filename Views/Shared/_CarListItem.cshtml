@@ -4,20 +4,30 @@
     var photoPath = "/images/cars/" + (Model.PhotoPath ?? "noimage") + ".jpg";
 }
 
-<div class="card mb-3" style="max-width: 540px;">
-    <div class="row g-0">
-        <div class="col-md-4">
+<div class="card mb-3">
+    <div class="row">
+        <div class="col-4">
             <img src="@photoPath" class="img-fluid rounded-start">
         </div>
 
-        <div class="col-md-8">
+        <div class="col-8">
             <div class="card-body">
-                <h5 class="card-title">@Model.Brand @Model.Model</h5>
+                <h5 class="card-title">@Model.Brand @Model.Model @Model.RegistrationNumber </h5>
                 <p class="card-text">
-                    Registration number: @Model.RegistrationNumber <br>
-                    Number of seats: @Model.SeatsNumber
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="justify-content-center">
+                                Number of seats: @Model.SeatsNumber
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="justify-content-center">
+                                Trunk type: @Model.Trunk
+                            </div>
+                        </div>
+                    </div>
                 </p>
-@*//TODO Return CarModel.VIN and bookingEndDate to bookingVM *@
+
             </div>
         </div>
     </div>

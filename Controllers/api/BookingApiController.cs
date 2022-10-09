@@ -91,7 +91,7 @@ namespace AmiFlota.Controllers.api
 
 
         [HttpGet]
-        [Route("ConfirmEvent/{id}")]
+        [Route("ConfirmEvent")]
         public IActionResult ConfirmEvent(int id)
         {
             CommonResponse<int> commonResponse = new CommonResponse<int>();
@@ -120,7 +120,7 @@ namespace AmiFlota.Controllers.api
 
 
         [HttpGet]
-        [Route("DeleteEvent/{id}")]
+        [Route("DeleteEvent")]
         public async Task<IActionResult> DeleteEvent(int id)
         {
             CommonResponse<int> commonResponse = new CommonResponse<int>();

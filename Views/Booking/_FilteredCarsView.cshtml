@@ -13,24 +13,81 @@
     <div class="row">
         @foreach (var car in Model.AvailableCars)
         {
-            <div class="col-8">
-                <partial name="_CarListItem" model=car />
-            </div>
-            <div class="col-4 align-content-center">
-                @*<button type="button" id="btnBook@car.VIN" data-VIN="@car.RegistrationNumber" class="btn">Book</button>*@
-@*                <button class='btn btn-light' type='button' onclick="javascript:BookClick(@car.VIN);">Book</button>*@
+            <div class="row">
+                <div class="col-10">
+                    <partial name="_CarListItem" model=car />
+                </div>
+                <div class="col-2">
 
-               <a asp-controller="Booking" asp-action="BookingDetails"
-               asp-route-VIN="@car.VIN"
-               asp-route-startDate="@Model.StartDate"
-               asp-route-endDate="@Model.EndDate"
-               class="btn btn-primary mx-1" type="button">Book</a>
+                    @* //TODO DELETE
+                <button type="button" id="btnBook@car.VIN" data-VIN="@car.RegistrationNumber" class="btn">Book</button>
+                <button class='btn btn-light' type='button' onclick="javascript:BookClick(@car.VIN);">Book</button>
+                *@
 
+
+                    @*     //TODO DELETE
+                <a asp-controller="Booking" asp-action="BookingDetails"
+                asp-route-VIN="@car.VIN"
+                asp-route-startDate="@Model.StartDate"
+                asp-route-endDate="@Model.EndDate"
+                class="btn btn-primary mx-1" type="button">Book</a>
+                *@
+
+                    <button type="button" class="btn btn-success btn-continue" id="@car.VIN"
+                        data-startDate="@Model.StartDate"
+                        data-endDate="@Model.EndDate"
+                        data-vin="@car.VIN">
+                        Continue
+                    </button>
+                </div>
             </div>
         };
     </div>
 </body>
 </html>
+
+
+<script>
+    $(document).ready(function() {
+        var routeURL = location.protocol + "//" + location.host;
+
+
+        $(".btn-continue").click(function() {
+            var VIN = $(this).data("vin");
+            var StartDate = $(this).data("startdate");
+            var EndDate = $(this).data("enddate");
+
+            //TODO AJAX call to HttpGet Create
+            $.ajax({
+                url: '@Url.Action("_BookingDetailsModal", "Booking")',
+                datatype: 'html',
+                data: { vin: VIN, startDate: StartDate, endDate: EndDate },
+                method: 'GET',
+
+                success: function(result) {
+                    //TODO Wyrzucić
+                    // $('#_SearchingResults').html('').html(result);
+                    $('#_BookingDetailsModal').html('').html(result);
+                    onShowBookingDetailsModal();
+                },
+
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+
+    function onShowBookingDetailsModal() {
+
+        //TODO Show detailed information about booking
+        var test = "To Do";
+        $("#userName").val(test);
+        $("#registrationNumber").val(test);
+
+        $("#bookingDetailsModal").modal("show");
+    }
+</script>
 
 
 

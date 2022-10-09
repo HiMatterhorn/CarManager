@@ -157,17 +157,18 @@ namespace AmiFlota.Services
         {
             try
             {
-                return _db.Bookings.Where(x => x.CarVIN == carVIN).ToList().Select(c => new BookingVM()
-                {
-                    Id = c.Id,
-                    UserName = GetUserNameById(c.UserId),
-                    RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
-                    StartDate = c.StartDate,
-                    EndDate = c.EndDate,
-                    Destination = c.Destination,
-                    ProjectCost = c.ProjectCost,
-                    isApproved = c.isApproved,
-                }).ToList();
+              /*    Stara działajaca wersja*/
+                                return _db.Bookings.Where(x => x.CarVIN == carVIN).ToList().Select(c => new BookingVM()
+                                {
+                                    Id = c.Id,
+                                    UserName = GetUserNameById(c.UserId),
+                                    RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
+                                    StartDate = c.StartDate,
+                                    EndDate = c.EndDate,
+                                    Destination = c.Destination,
+                                    ProjectCost = c.ProjectCost,
+                                    isApproved = c.isApproved,
+                                }).ToList();
             }
             catch (Exception)
             {

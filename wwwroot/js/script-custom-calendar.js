@@ -20,7 +20,7 @@ function InitializeCalendar() {
                 selectable: true,
                 editable: false,
                 select: function (event) {
-                    onShowModal(event, null);
+                    onCalendarEventShowModal(event, null);
                 },
                 eventDisplay: 'block',
 
@@ -77,9 +77,8 @@ function getEventDetailsByEventId(info) {
         success: function (response) {
             if (response.status === 1 && response.dataenum != undefined)
             {
-                onShowModal(response.dataenum, true)
+                onCalendarEventShowModal(response.dataenum, true)
             }
-            //successCallback(events);
         },
         error: function (xhr) {
             $.notify("Error", "error");
@@ -87,48 +86,19 @@ function getEventDetailsByEventId(info) {
     });
 }
 
-
-function onShowModal(obj, isEventDetail) {
+function onCalendarEventShowModal(obj, isEventDetail) {
     if (isEventDetail != null) {
-        $("#id").val(obj.id); 
+        $("#id").val(obj.id);
         $("#userName").html(obj.userName);
         $("#registrationNumber").html(obj.registrationNumber);
         $("#destination").html(obj.destination);
         $("#projectCost").html(obj.projectCost);
 
-
-   //     $("#title").val(obj.title);
-       /* $("#description").val(obj.description);
-        $("#appointmentDate").val(obj.startDate);
-
-        $("#id").val(obj.id);*/
- 
-       /* if (obj.isDoctorApproved) {
-            $("#lblStatus").html('Approved');
-            $("#btnConfirm").addClass("d-none");
-            $("#btnSubmit").addClass("d-none");
-        }
-        else {
-            $("#lblStatus").html('Pending');
-            $("#btnConfirm").removeClass("d-none");
-            $("#btnSubmit").removeClass("d-none");
-        }
-        $("#btnDelete").removeClass("d-none");*/
+        $("#calendarEvent").modal("show");
     }
-
-/*    else {
-        $("#appointmentDate").val(obj.startStr + " " + new moment().format("hh:mm A"));
-        $("#id").val(0);
-        $("#btnDelete").addClass("d-none");
-
-    }
-    */
-
-    $("#calendarEvent").modal("show");
-
 }
 
-function onCloseModal() {
+function onCalendarEventCloseModal() {
     $("#calendarEventForm")[0].reset();
     $("#userName").val(' ');
     $("#registrationNumber").val(' ');
@@ -141,18 +111,19 @@ function onCarChange() {
     calendar.refetchEvents();
 }
 
-function onConfirm() {
-    var id = parseInt($("#id").val());
+function onCalendarEventConfirm() {
+    var eventId = parseInt($("#id").val());
 
     $.ajax({
-        url: routeURL + '/api/Booking/ConfirmEvent/' + id,
+        url: routeURL + '/api/Booking/ConfirmEvent',
         type: 'GET',
+        data: { id: eventId },
         dataType: 'JSON',
         success: function (response) {
             if (response.status === 1) {
                 $.notify(response.message, "success");
                 calendar.refetchEvents();
-                onCloseModal();
+                onCalendarEventCloseModal();
             }
             else {
                 $.notify(response.message, "error");
@@ -165,12 +136,13 @@ function onConfirm() {
     });
 }
 
-function onDelete() {
-    var id = parseInt($("#id").val());
+function onCalendarEventDelete() {
+    var eventId = parseInt($("#id").val());
 
     $.ajax({
-        url: routeURL + '/api/Booking/DeleteEvent/' + id,
+        url: routeURL + '/api/Booking/DeleteEvent',
         type: 'GET',
+        data: { id: eventId },
         dataType: 'JSON',
         success: function (response) {
             if (response.status === 1) {
