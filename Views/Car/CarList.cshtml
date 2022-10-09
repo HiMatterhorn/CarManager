@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<AmiFlota.Models.CarModel>
-
+@{
+    var photoPath = "/images/cars/" + "noimage" + ".jpg";
+}
 <!DOCTYPE html>
 
 <html>
@@ -8,38 +10,17 @@
     <title>List of the cars</title>
 </head>
 <body>
-    @*    <div class="card-deck">
 
-    <div class="row">
-    @foreach (var car in Model)
-    {
-    <partial name="_CarCard" model=car />
-    }
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        @foreach (var car in Model)
+        {
+            <partial name="_CarCard" model=car />
+        }
+
     </div>
-    </div>*@
 
-    <div class="container">
-        <div class="card-deck">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-            </div>
-
-        </div>
-    </div>
 </body>
 </html>
+
+

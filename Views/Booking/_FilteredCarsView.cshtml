@@ -57,7 +57,6 @@
             var StartDate = $(this).data("startdate");
             var EndDate = $(this).data("enddate");
 
-            //TODO AJAX call to HttpGet Create
             $.ajax({
                 url: '@Url.Action("_BookingDetailsModal", "Booking")',
                 datatype: 'html',
@@ -65,8 +64,6 @@
                 method: 'GET',
 
                 success: function(result) {
-                    //TODO Wyrzucić
-                    // $('#_SearchingResults').html('').html(result);
                     $('#_BookingDetailsModal').html('').html(result);
                     onShowBookingDetailsModal();
                 },
