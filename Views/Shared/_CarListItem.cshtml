@@ -4,15 +4,15 @@
     var photoPath = "/images/cars/" + (Model.PhotoPath ?? "noimage") + ".jpg";
 }
 
-<div class="card mb-3">
-    <div class="row">
-        <div class="col-4">
-            <img src="@photoPath" class="img-fluid rounded-start">
-        </div>
 
-        <div class="col-8">
+<div class="card border-0 mb-0">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="@photoPath" class="img-fluid rounded-start img-heigt-width" alt="Unable to load car photo">
+        </div>
+        <div class="col-md-8">
             <div class="card-body">
-                <h5 class="card-title">@Model.Brand @Model.Model @Model.RegistrationNumber </h5>
+                <h5 class="card-title text-center text-uppercase">@Model.Brand @Model.Model @Model.RegistrationNumber</h5>
                 <p class="card-text">
                     <div class="row">
                         <div class="col-6">
@@ -27,7 +27,6 @@
                         </div>
                     </div>
                 </p>
-
             </div>
         </div>
     </div>

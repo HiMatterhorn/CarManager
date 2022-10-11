@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<AmiFlota.Models.CarModel>
 @{
-    var photoPath = "/images/cars/" + "noimage" + ".jpg";
+   // var photoPath = "/images/cars/" + "noimage" + ".jpg";
 }
 <!DOCTYPE html>
 
@@ -22,5 +22,33 @@
 
 </body>
 </html>
+
+<script>
+    $(".btn-details").on('click', function() {
+
+        var VIN = $(this).data("vin");
+        console.log(VIN);
+
+        //TODO Don't use Ajax to redirect the page, only to show partial view.
+        // Details should redirect ot another page with history of the trips
+        // Use this pattern for asking booking detailed information in BookingList items
+        
+
+    $.ajax({
+            url: '@Url.Action("Details", "Car")',
+            datatype: 'html',
+            data: { id: VIN },
+            method: 'GET',
+
+            success: function(result) {
+                console.log("GETT")
+            },
+
+            error: function(error) {
+            console.log(error);
+            }
+            });
+        });
+</script>
 
 

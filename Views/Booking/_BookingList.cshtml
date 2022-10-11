@@ -8,33 +8,36 @@
     <title>Bookings list</title>
 </head>
 <body>
-    <div class="row">
+    <div class="row row-cols-1 row-cols-md-1">
         @foreach (var booking in Model)
         {
+            <div class="row mt-4 border border-dark border-opacity-25">
 
-            <div class="col-8">
-                <partial name="_BookingListItem" model=booking />
+                <div class="col-10">
+                    <partial name="_BookingListItem" model=booking />
+                </div>
+
+
+                <div class="col-2">
+                    @*  //TODO Usunąć
+                <a asp-controller="Booking" asp-action="BookingDetails"
+                asp-route-VIN="@car.VIN"
+                asp-route-startDate="@Model.StartDate"
+                asp-route-endDate="@Model.EndDate"
+                class="btn btn-primary mx-1" type="button">Book</a>
+                <- Bez wykorzystania API
+                *@
+
+                    @if (User.IsInRole(AmiFlota.Utilities.Enums.UserRole.admin.ToString()))
+                    {
+                    //TODO Test
+                        <button type="button" id="btnDashboardConfirm" class="btn btn-success btn-confirm" data-id="@booking.Id">Confirm</button>
+                        <button type="button" id="btnDashboardDelete" class="btn btn-danger btn-delete" data-id="@booking.Id">Delete</button>
+                    }
+                </div>
             </div>
 
-
-            <div class="col-4">
-                @*  //TODO Usunąć             
-                    <a asp-controller="Booking" asp-action="BookingDetails"
-            asp-route-VIN="@car.VIN"
-            asp-route-startDate="@Model.StartDate"
-            asp-route-endDate="@Model.EndDate"
-            class="btn btn-primary mx-1" type="button">Book</a>
-            <- Bez wykorzystania API
-            *@
-
-                @if (User.IsInRole(AmiFlota.Utilities.Enums.UserRole.admin.ToString()))
-                {
-                //TODO Test
-                    <button type="button" id="btnDashboardConfirm" class="btn btn-success btn-confirm" data-id="@booking.Id">Confirm</button>
-                    <button type="button" id="btnDashboardDelete" class="btn btn-danger btn-delete" data-id="@booking.Id">Delete</button>
-                }
-            </div>
-        };
+        }
     </div>
 </body>
 </html>

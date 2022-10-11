@@ -75,8 +75,21 @@ body {
     width: auto;
 }
 
-.card-img-top {
+/*//TODO DELETE*/
+/*.card-img-top {
     width: 100%;
     height: 15vw;
+    object-fit: cover;
+}*/
+
+.img-heigt-width {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+.img-heigt-width-small {
+    width: 20vw;
+    height: 100%;
     object-fit: cover;
 }

@@ -1,19 +1,41 @@
 ﻿@model AmiFlota.Models.BookingModel
 
+@{
+    //TODO pass the car photo path
+    var photoPath = "/images/cars/" + "default" + ".jpg";
+}
 
-<div class="card mb-3">
+<div class="card border-0 h-100">
     <div class="row g-0">
-@*        <div class="col-md-4">
-            <img src="@photoPath" class="img-fluid rounded-start">
-        </div>*@
+        <div class="col-4">
+            <img src="@photoPath" class="img-fluid img-heigt-width-small" alt="Unable to load car photo">
+        </div>
 
- 
-            <div class="card-body">
-                <h5 class="card-title">@Model.CarVIN @Model.Destination</h5>
-                <p class="card-text">
-                    Start Date: @Model.StartDate <br>
-                    End Date: @Model.EndDate
-                </p>
+        <div class="col-8">
+            <div class="row card-title text-center">
+                <h5 class="card-title text-uppercase">@Model.CarVIN @Model.Destination</h5>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <p class="card-text">
+                                Destination: @Model.Destination <br>
+                                Project Cost: @Model.ProjectCost
+                            </p>
+                        </div>
+                        <div class="col-6 text-center">
+                            <p class="card-text">
+                                Start Date: @Model.StartDate <br>
+                                End Date: @Model.EndDate
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
+
+
+        </div>
     </div>
 </div>

@@ -12,7 +12,6 @@
 <body>
 
     <div id="_BookingDetailsModal"> </div>
-@*        <partial name="_BookingDetailsModal" />*@
 
     @*//TODO Rewaork it to search partial view*@
     @*_BookingSearch*@
@@ -20,12 +19,24 @@
         <h2>Booking dates</h2>
     </div>
 
-    <div class="input-group">
-        <input type="text" class="form-control text-center" name="datetimerange" id="datetimeRange" placeholder="Booking dates" aria-label="Booking dates" aria-describedby="basic-addon2">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary btn-search" id="btnSearch" type="button">Search</button>
+    @*    <div class="input-group">
+    <input type="text" class="form-control text-center" name="datetimerange" id="datetimeRange" placeholder="Booking dates" aria-label="Booking dates" aria-describedby="basic-addon2">
+    <div class="input-group-append">
+    <button class="btn btn-outline-secondary btn-search" id="btnSearch" type="button">Search</button>
+    </div>
+    </div>*@
+
+    <div class="row">
+        <div class="row">
+            <div class="col-10">
+                <input type="text" class="form-control text-center" name="datetimerange" id="datetimeRange" placeholder="Booking dates" aria-label="Booking dates" aria-describedby="basic-addon2">
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-dark btn-search" id="btnSearch">Search</button>
+            </div>
         </div>
     </div>
+
 
     <div id="_SearchingResults"> </div>
 
@@ -75,7 +86,7 @@
             "fromLabel": "From",
             "toLabel": "To",
             "customRangeLabel": "Custom",
-            "weekLabel": "KW",
+            "weekLabel": "CW",
             "daysOfWeek": [
                 "Su",
                 "Mo",

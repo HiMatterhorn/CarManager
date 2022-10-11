@@ -23,8 +23,21 @@ function InitializeCalendar() {
                     onCalendarEventShowModal(event, null);
                 },
                 eventDisplay: 'block',
+                displayEventTime: false,
+                displayEventEnd: false,
 
-              events: function (fetchInfo, successCallback, failureCallback) {
+                eventTimeFormat: { // like '14:30'
+                    hour: '2-digit',
+                    minute: '2-digit',
+
+                    meridiem: false
+                },
+
+
+                weekNumbers: 'true',
+                weekText: 'CW',
+
+                events: function (fetchInfo, successCallback, failureCallback) {
                     $.ajax({
                         url: routeURL + '/api/Booking/GetCalendarDataForCar?carVIN=' + $('#carVIN').val(),
                         type: 'GET',
@@ -75,8 +88,7 @@ function getEventDetailsByEventId(info) {
 
 
         success: function (response) {
-            if (response.status === 1 && response.dataenum != undefined)
-            {
+            if (response.status === 1 && response.dataenum != undefined) {
                 onCalendarEventShowModal(response.dataenum, true)
             }
         },
