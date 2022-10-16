@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model List<AmiFlota.Models.CarModel>
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -6,18 +7,29 @@
     <title>Calendar</title>
 </head>
 <body>
+
+    @*    //TODO Usunąć
     <div class="form-group col-4" id="carListDropDown">
-        <label>Select Car</label>
-        @Html.DropDownList("carVIN",
-        new SelectList(ViewBag.CarList, "VIN", "RegistrationNumber"),
-        new {@class="form-control select2}", @onchange = "onCarChange()" })
-    </div>
+    <label>Select Car</label>
+    @Html.DropDownList("carVIN",
+    new SelectList(ViewBag.CarList, "VIN", "RegistrationNumber"),
+    new {@class="form-control select2}", @onchange = "onCarChange()" })
+    </div>*@
 
 
     <div class="container">
         <div class="row">
             <div class="col-2">
-                <h4>Blalblalsa</h4>
+                @foreach (var car in Model)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="@car.VIN" id="@car.VIN" checked="checked" />
+                        <label class="form-check-label" for="@car.VIN">@car.Brand @car.Model @car.RegistrationNumber</label>
+                    </div>
+                }
+                <div>
+                    <button type="button" class="btn btn-success btn-refresh" id="btnRefresh">Refresh</button>
+                </div>
             </div>
             <div class="col-10">
                 <div id="calendar"> </div>
@@ -28,4 +40,45 @@
     <partial name="_CalendarEvent" />
 
 </body>
+
 </html>
+
+<script>
+    var routeURL = location.protocol + "//" + location.host;
+
+    $('input[type="checkbox"]').change(function() {
+        var checkedValue = $('input:checkbox:checked').map(function() {
+            return this.value;
+
+        }).get();
+
+        console.log(checkedValue);
+
+        $(".btn-refresh").click(function() {
+            $.ajax({
+                url: routeURL + '/api/Booking/GetCalendarDataForCarList',
+                contentType: 'application/json',
+    @*data: { carVINs: checkedValue },*@
+                data: JSON.stringify({ carVINs: checkedValue }),
+                method: 'GET',
+
+                success: function(result) {
+                    $.notify(response.message, "Calendar Reloaded");
+                    calendar.refetchEvents();
+
+
+                },
+
+                error: function(xhr, status, error) {
+                    alert(status);
+                    alert(xhr.responseText);
+                }
+            })
+    })
+            });
+
+
+
+
+    @*   *@
+</script>

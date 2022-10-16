@@ -5,6 +5,7 @@ using AmiFlota.Utilities;
 using AppointmentScheduler.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -44,6 +45,31 @@ namespace AmiFlota.Controllers.api
 
             return Ok(commonResponse);
         }
+
+        //TODO Test method overload for checkboxes in calendar view
+        [HttpGet]
+        [Route("GetCalendarDataForCarList")]
+        public IActionResult GetCalendarDataForCarList(string[] carVINs)
+        {
+
+            
+            CommonResponse<List<BookingVM>> commonResponse = new CommonResponse<List<BookingVM>>();
+            try
+            {
+                List<string> list = new List<string>(carVINs);
+                commonResponse.dataenum = _bookingService.BookingsByCarVinList(list);
+                commonResponse.status = ApiResponses.success_code;
+            }
+            catch (Exception e)
+            {
+
+                commonResponse.message = e.Message;
+                commonResponse.status = ApiResponses.failure_code;
+            }
+
+            return Ok(commonResponse);
+        }
+
 
         [HttpGet]
         [Route("GetCalendarDataById/{id}")]

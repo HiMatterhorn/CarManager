@@ -89,9 +89,13 @@ namespace AmiFlota.Controllers
 
         public async Task<IActionResult> Calendar()
         {
-            ViewBag.CarList = await _bookingService.GetAllCars();
+            List<CarModel> viewModel = await _bookingService.GetAllCars();
 
-            return View();
+
+            //TODO Usunąć
+            //ViewBag.CarList = await _bookingService.GetAllCars();
+
+            return View(viewModel);
         }
 
     }

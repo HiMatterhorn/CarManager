@@ -2,6 +2,7 @@
 using AmiFlota.Models;
 using AmiFlota.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -46,6 +47,24 @@ namespace AmiFlota.Services
 
             return cars;
         }
+
+        /*        public async Task<List<SelectListItem>> GetCarsForRadioButtons()
+                {
+                    List<SelectListItem> carsListForRadioButtons = new List<SelectListItem>();
+
+                    var carsList = await GetAllCars();
+
+                    foreach(var car in carsList)
+                    {
+                        carsListForRadioButtons.Add(new SelectListItem()
+                        {
+                            Value = car.VIN,
+                            Text = car.Brand + " " + car.Model + " " + car.RegistrationNumber,
+                            Selected = false
+                        });
+                    }
+                    return carsListForRadioButtons;
+                }*/
 
         public async Task<List<CarModel>> GetCarsInDates(DateTime startDate, DateTime endDate)
         {
@@ -157,19 +176,58 @@ namespace AmiFlota.Services
         {
             try
             {
-              /*    Stara działajaca wersja*/
-                                return _db.Bookings.Where(x => x.CarVIN == carVIN).ToList().Select(c => new BookingVM()
-                                {
-                                    Id = c.Id,
-                                    UserName = GetUserNameById(c.UserId),
-                                    RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
-                                    StartDate = c.StartDate,
-                                    EndDate = c.EndDate,
-                                    Destination = c.Destination,
-                                    ProjectCost = c.ProjectCost,
-                                    isApproved = c.isApproved,
-                                }).ToList();
+                return _db.Bookings.Where(x => x.CarVIN == carVIN).ToList().Select(c => new BookingVM()
+                {
+                    Id = c.Id,
+                    UserName = GetUserNameById(c.UserId),
+                    RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
+                    StartDate = c.StartDate,
+                    EndDate = c.EndDate,
+                    Destination = c.Destination,
+                    ProjectCost = c.ProjectCost,
+                    isApproved = c.isApproved,
+                }).ToList();
             }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<BookingVM> BookingsByCarVinList(List<string> carVIN)
+        {
+            try
+            {
+                  
+                // var result = lista.Where(a => listb.Any(b => string.Compare(a,b,true) == 0));
+
+                var result = _db.Bookings.Where(x => carVIN.Any(y=> string.Compare(x.CarVIN,y,true) ==0)).ToList().Select(c => new BookingVM()
+                {
+                    Id = c.Id,
+                    UserName = GetUserNameById(c.UserId),
+                    RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
+                    StartDate = c.StartDate,
+                    EndDate = c.EndDate,
+                    Destination = c.Destination,
+                    ProjectCost = c.ProjectCost,
+                    isApproved = c.isApproved,
+                }).ToList();
+
+                return result;
+            }
+
+            /*                return _db.Bookings.Where(x => x.CarVIN == carVIN).ToList().Select(c => new BookingVM()
+                            {
+                                Id = c.Id,
+                                UserName = GetUserNameById(c.UserId),
+                                RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
+                                StartDate = c.StartDate,
+                                EndDate = c.EndDate,
+                                Destination = c.Destination,
+                                ProjectCost = c.ProjectCost,
+                                isApproved = c.isApproved,
+                            }).ToList();
+                        }*/
             catch (Exception)
             {
                 throw;
@@ -228,7 +286,7 @@ namespace AmiFlota.Services
             }
         }
 
-        public BookingVM GetById (int id)
+        public BookingVM GetById(int id)
         {
             return _db.Bookings.Where(x => x.Id == id).ToList().Select(c => new BookingVM()
             {
