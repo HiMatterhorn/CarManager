@@ -47,16 +47,17 @@ namespace AmiFlota.Controllers.api
         }
 
         //TODO Test method overload for checkboxes in calendar view
-        [HttpGet]
+        [HttpPost]
         [Route("GetCalendarDataForCarList")]
-        public IActionResult GetCalendarDataForCarList(string[] carVINs)
+        public IActionResult GetCalendarDataForCarList([FromBody]List<string> checkedvalues)
         {
 
             
             CommonResponse<List<BookingVM>> commonResponse = new CommonResponse<List<BookingVM>>();
             try
             {
-                List<string> list = new List<string>(carVINs);
+                //TODO TEST
+                List<string> list = new List<string>(checkedvalues);
                 commonResponse.dataenum = _bookingService.BookingsByCarVinList(list);
                 commonResponse.status = ApiResponses.success_code;
             }
