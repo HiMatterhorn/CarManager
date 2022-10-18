@@ -52,7 +52,6 @@ namespace AmiFlota.Controllers
         }
 
         //GET - create
-        // public IActionResult _BookingDetailsModal (string VIN, DateTime startDate, DateTime endDate)
         public PartialViewResult _BookingDetailsModal(string VIN, DateTime startDate, DateTime endDate)
         {
             BookingVM viewModel = new BookingVM()
@@ -63,7 +62,7 @@ namespace AmiFlota.Controllers
                 EndDate = endDate,
             };
 
-            // return View(viewModel);
+        
             return PartialView("_BookingDetailsModal", viewModel);
         }
 
@@ -90,7 +89,6 @@ namespace AmiFlota.Controllers
         public async Task<IActionResult> Calendar()
         {
             List<CarModel> viewModel = await _bookingService.GetAllCars();
-
 
             //TODO Usunąć
             //ViewBag.CarList = await _bookingService.GetAllCars();

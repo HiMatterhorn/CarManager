@@ -1,7 +1,9 @@
-﻿namespace AmiFlota.Dto
+﻿using System.Collections.Generic;
+
+namespace AmiFlota.Dto
 {
     public class dtoVIN
     {
-        string VIN { get; set; }    
+        public List<string> Selected { get; set; }    
     }
 }

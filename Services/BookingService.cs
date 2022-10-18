@@ -1,4 +1,5 @@
 ﻿using AmiFlota.Data;
+using AmiFlota.Dto;
 using AmiFlota.Models;
 using AmiFlota.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -194,14 +195,17 @@ namespace AmiFlota.Services
             }
         }
 
-        public List<BookingVM> BookingsByCarVinList(List<string> carVIN)
+        public List<BookingVM> BookingsByCarVinList(List<string> selectedCars)
         {
             try
             {
-                  
+                //var test = carVIN.Select(x => x.VIN).ToList();
+                   // var list = stockItems.Select(item => item.StockID).ToList();
+
                 // var result = lista.Where(a => listb.Any(b => string.Compare(a,b,true) == 0));
 
-                var result = _db.Bookings.Where(x => carVIN.Any(y=> string.Compare(x.CarVIN,y,true) ==0)).ToList().Select(c => new BookingVM()
+                var result = _db.Bookings.Where(x => selectedCars.Any(y=> string.Compare(x.CarVIN,y,true) ==0)).ToList().Select(c => new BookingVM()
+                //var result = _db.Bookings.Where(x => carVIN.Any(y=> string.Compare(x.CarVIN,y,true) ==0)).ToList().Select(c => new BookingVM()
                 {
                     Id = c.Id,
                     UserName = GetUserNameById(c.UserId),

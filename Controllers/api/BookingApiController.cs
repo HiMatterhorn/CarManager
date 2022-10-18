@@ -1,4 +1,5 @@
-﻿using AmiFlota.Models;
+﻿using AmiFlota.Dto;
+using AmiFlota.Models;
 using AmiFlota.Models.ViewModels;
 using AmiFlota.Services;
 using AmiFlota.Utilities;
@@ -49,16 +50,16 @@ namespace AmiFlota.Controllers.api
         //TODO Test method overload for checkboxes in calendar view
         [HttpPost]
         [Route("GetCalendarDataForCarList")]
-        public IActionResult GetCalendarDataForCarList([FromBody]List<string> checkedvalues)
+        public IActionResult GetCalendarDataForCarList([FromBody] dtoVIN dtoSelectedCars) //[FromBody]List<string> listCarVin)
         {
 
-            
+
             CommonResponse<List<BookingVM>> commonResponse = new CommonResponse<List<BookingVM>>();
             try
             {
                 //TODO TEST
-                List<string> list = new List<string>(checkedvalues);
-                commonResponse.dataenum = _bookingService.BookingsByCarVinList(list);
+                //List<string> list = new List<string>(dtoSelectedCars.Selected);
+                commonResponse.dataenum = _bookingService.BookingsByCarVinList(dtoSelectedCars.Selected);
                 commonResponse.status = ApiResponses.success_code;
             }
             catch (Exception e)
