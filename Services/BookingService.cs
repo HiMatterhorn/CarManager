@@ -24,7 +24,7 @@ namespace AmiFlota.Services
         }
 
 
-        public async Task<AvailableCarsVM> GetAvailableCars(String startDate, string endDate)
+        public async Task<AvailableCarsVM> GetAvailableCars(string startDate, string endDate)
         {
 
             DateTime searchingStartDate = DateTime.Parse(startDate);
@@ -48,24 +48,6 @@ namespace AmiFlota.Services
 
             return cars;
         }
-
-        /*        public async Task<List<SelectListItem>> GetCarsForRadioButtons()
-                {
-                    List<SelectListItem> carsListForRadioButtons = new List<SelectListItem>();
-
-                    var carsList = await GetAllCars();
-
-                    foreach(var car in carsList)
-                    {
-                        carsListForRadioButtons.Add(new SelectListItem()
-                        {
-                            Value = car.VIN,
-                            Text = car.Brand + " " + car.Model + " " + car.RegistrationNumber,
-                            Selected = false
-                        });
-                    }
-                    return carsListForRadioButtons;
-                }*/
 
         public async Task<List<CarModel>> GetCarsInDates(DateTime startDate, DateTime endDate)
         {

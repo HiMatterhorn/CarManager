@@ -52,17 +52,15 @@ namespace AmiFlota.Controllers
         }
 
         //GET - create
-        public PartialViewResult _BookingDetailsModal(string VIN, DateTime startDate, DateTime endDate)
+        public PartialViewResult _BookingDetailsModal(string VIN, string startDate, string endDate)
         {
             BookingVM viewModel = new BookingVM()
             {
                 UserName = userName,
                 RegistrationNumber = _bookingService.GetRegistrationNumberByCarVin(VIN),
-                StartDate = startDate,
-                EndDate = endDate,
+                StartDate = DateTime.Parse(startDate),
+                EndDate = DateTime.Parse(endDate),
             };
-
-        
             return PartialView("_BookingDetailsModal", viewModel);
         }
 
