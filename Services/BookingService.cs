@@ -199,17 +199,9 @@ namespace AmiFlota.Services
         {
             try
             {
-                var testIncomingData = selectedCars.Where(x => x.Contains("VIN")).ToList();
-                var testDatabase = _db.Bookings.Where(y => y.CarVIN.Contains("VIN")).ToList();
-
-                // WORKS    var result = _db.Bookings.ToList().Where(a => selectedCars.Any(b => string.Compare(a.CarVIN, b, true) == 0)).ToList() ;
-
-
-
                 // NOTE var result = lista.Where(a => listb.Any(b => string.Compare(a,b,true) == 0));
 
-                //TRY
-                var result = _db.Bookings.ToList().Where(a => selectedCars.Any(b => string.Compare(a.CarVIN, b, true) == 0)).ToList().Select(c => new BookingVM()
+                return _db.Bookings.ToList().Where(a => selectedCars.Any(b => string.Compare(a.CarVIN, b, true) == 0)).ToList().Select(c => new BookingVM()
                 {
                     Id = c.Id,
                     UserName = GetUserNameById(c.UserId),
@@ -220,10 +212,6 @@ namespace AmiFlota.Services
                     ProjectCost = c.ProjectCost,
                     isApproved = c.isApproved,
                 }).ToList();
-
-                        
-
-                return result;
             }
 
             catch (Exception)

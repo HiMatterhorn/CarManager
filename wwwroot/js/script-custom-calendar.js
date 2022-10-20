@@ -1,8 +1,49 @@
 ﻿var routeURL = location.protocol + "//" + location.host;
+var checkedvalues;
+var dtoVIN;
+
 
 $(document).ready(function () {
     InitializeCalendar();
+    getEventsSelectedCars();
 });
+
+
+function getEventsSelectedCars() {
+    $('input[type="checkbox"]').change(function () {
+        updateSelectedCarsList();
+
+        $.ajax({
+            url: routeURL + '/api/Booking/GetCalendarDataForCarList',
+            contentType: 'application/json',
+            datatype: JSON,
+            data: JSON.stringify(dtoVIN),
+            method: 'POST',
+
+            success: function (response) {
+                if (response.status === 1) {
+                    calendar.refetchEvents();
+                }
+                else {
+                    //TODO notify
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+    });
+}
+
+function updateSelectedCarsList() {
+    checkedvalues = $('input:checkbox:checked').map(function () {
+        return this.value;
+    }).get();
+
+    dtoVIN = {
+        Selected: checkedvalues
+    };
+}
 
 function InitializeCalendar() {
     try {
@@ -10,6 +51,7 @@ function InitializeCalendar() {
 
         if (calendarEl != null) {
             calendar = new FullCalendar.Calendar(calendarEl, {
+
                 initialView: 'dayGridMonth',
 
                 headerToolbar: {
@@ -33,22 +75,32 @@ function InitializeCalendar() {
                     meridiem: false
                 },
 
-
                 weekNumbers: 'true',
                 weekText: 'CW',
 
                 events: function (fetchInfo, successCallback, failureCallback) {
+                    updateSelectedCarsList();
+
                     $.ajax({
-                        //url: routeURL + '/api/Booking/GetCalendarDataForCar?carVIN=' + $('#carVIN').val(),
-                        //TODO Set proper controller method
-                        type: 'GET',
-                        dataType: 'JSON',
+                        url: routeURL + '/api/Booking/GetCalendarDataForCarList',
+                        contentType: 'application/json',
+                        datatype: JSON,
+                        data: JSON.stringify(dtoVIN),
+                        method: 'POST',
+
                         success: function (response) {
                             var events = [];
                             if (response.status === 1) {
                                 $.each(response.dataenum, function (i, data) {
+
+                                    let inStartDateTime = new Date(data.startDate);
+                                    let StartTime = inStartDateTime.toLocaleString("en-us", { hour: '2-digit', minute: '2-digit', hour12: false }); //year: 'numeric', month: 'numeric', day: 'numeric',
+
+                                    let inEndDateTime = new Date(data.endDate);
+                                    let EndTime = inEndDateTime.toLocaleString("en-us", { hour: '2-digit', minute: '2-digit', hour12: false }); //year: 'numeric', month: 'numeric', day: 'numeric',
+
                                     events.push({
-                                        title: data.userName,
+                                        title: StartTime + ' ' + data.registrationNumber + ' ' + EndTime,
                                         description: data.destination,
                                         start: data.startDate,
                                         end: data.endDate,
@@ -65,6 +117,7 @@ function InitializeCalendar() {
                         },
                         error: function (xhr) {
                             $.notify("Error", "error");
+                            alert(xhr.responseText);
                         }
                     });
                 },

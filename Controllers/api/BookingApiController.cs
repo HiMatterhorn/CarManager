@@ -58,7 +58,6 @@ namespace AmiFlota.Controllers.api
             try
             {
                 //TODO TEST
-                //List<string> list = new List<string>(dtoSelectedCars.Selected);
                 commonResponse.dataenum = _bookingService.BookingsByCarVinList(dtoSelectedCars.Selected);
                 commonResponse.status = ApiResponses.success_code;
             }
