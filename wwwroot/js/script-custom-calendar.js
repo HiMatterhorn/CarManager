@@ -40,7 +40,7 @@ function InitializeCalendar() {
                 events: function (fetchInfo, successCallback, failureCallback) {
                     $.ajax({
                         //url: routeURL + '/api/Booking/GetCalendarDataForCar?carVIN=' + $('#carVIN').val(),
-
+                        //TODO Set proper controller method
                         type: 'GET',
                         dataType: 'JSON',
                         success: function (response) {

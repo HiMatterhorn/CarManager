@@ -199,13 +199,17 @@ namespace AmiFlota.Services
         {
             try
             {
-                //var test = carVIN.Select(x => x.VIN).ToList();
-                   // var list = stockItems.Select(item => item.StockID).ToList();
+                var testIncomingData = selectedCars.Where(x => x.Contains("VIN")).ToList();
+                var testDatabase = _db.Bookings.Where(y => y.CarVIN.Contains("VIN")).ToList();
 
-                // var result = lista.Where(a => listb.Any(b => string.Compare(a,b,true) == 0));
+                // WORKS    var result = _db.Bookings.ToList().Where(a => selectedCars.Any(b => string.Compare(a.CarVIN, b, true) == 0)).ToList() ;
 
-                var result = _db.Bookings.Where(x => selectedCars.Any(y=> string.Compare(x.CarVIN,y,true) ==0)).ToList().Select(c => new BookingVM()
-                //var result = _db.Bookings.Where(x => carVIN.Any(y=> string.Compare(x.CarVIN,y,true) ==0)).ToList().Select(c => new BookingVM()
+
+
+                // NOTE var result = lista.Where(a => listb.Any(b => string.Compare(a,b,true) == 0));
+
+                //TRY
+                var result = _db.Bookings.ToList().Where(a => selectedCars.Any(b => string.Compare(a.CarVIN, b, true) == 0)).ToList().Select(c => new BookingVM()
                 {
                     Id = c.Id,
                     UserName = GetUserNameById(c.UserId),
@@ -217,21 +221,11 @@ namespace AmiFlota.Services
                     isApproved = c.isApproved,
                 }).ToList();
 
+                        
+
                 return result;
             }
 
-            /*                return _db.Bookings.Where(x => x.CarVIN == carVIN).ToList().Select(c => new BookingVM()
-                            {
-                                Id = c.Id,
-                                UserName = GetUserNameById(c.UserId),
-                                RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
-                                StartDate = c.StartDate,
-                                EndDate = c.EndDate,
-                                Destination = c.Destination,
-                                ProjectCost = c.ProjectCost,
-                                isApproved = c.isApproved,
-                            }).ToList();
-                        }*/
             catch (Exception)
             {
                 throw;

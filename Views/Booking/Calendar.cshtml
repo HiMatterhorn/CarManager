@@ -46,47 +46,48 @@
 <script>
     var routeURL = location.protocol + "//" + location.host;
 
+    $(document).ready(function() {
+        var checkedvalues;
+        var dtoVIN;
+        var postdata;
 
+        $('input[type="checkbox"]').change(function() {
+            checkedvalues = $('input:checkbox:checked').map(function() {
+                return this.value;
+            }).get();
 
-    $('input[type="checkbox"]').change(function() {
-        var checkedvalues = $('input:checkbox:checked').map(function() {
-            return this.value;
-        }).get();
-
-        console.log(checkedvalues.toString());
-
-        var dtoVIN = {
-            Selected: checkedvalues //???
-        };
-
-        var show = JSON.stringify(dtoVIN);
-        console.log(show);
-
-        var show2 = JSON.stringify({ dtoSelectedCars: show });
-        console.log(show2);
+            console.log(checkedvalues.toString());
+        });
 
         $(".btn-refresh").click(function() {
+            dtoVIN = {
+                Selected: checkedvalues //???
+            };
+
+            postdata = JSON.stringify(dtoVIN);
+            console.log(postdata);
+
             $.ajax({
                 url: routeURL + '/api/Booking/GetCalendarDataForCarList',
                 contentType: 'application/json',
                 datatype: JSON,
-                data: show,
-                //JSON.stringify(listCarVin),
+                data: postdata,
                 method: 'POST',
 
-                success: function(result) {
-                    $.notify(response.message, "Calendar Reloaded");
-                    calendar.refetchEvents();
+                success: function(response) {
+                    if (response.status === 1) {
+                        calendar.refetchEvents();
+                    }
+                    else {
+                        //
+                    }
                 },
-
                 error: function(xhr, status, error) {
                     alert(status);
                     alert(xhr.responseText);
                 }
             })
-
         })
-    });
 
-
+    })
 </script>
