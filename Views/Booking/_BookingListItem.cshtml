@@ -1,8 +1,8 @@
-﻿@model AmiFlota.Models.BookingModel
+﻿@model AmiFlota.Models.ViewModels.BookingVM
 
 @{
     //TODO pass the car photo path
-    var photoPath = "/images/cars/" + "default" + ".jpg";
+    var photoPath = "/images/cars/" + (Model.PhotoPath ?? "noimage") + ".jpg";
 }
 
 <div class="card border-0 h-100">
@@ -13,12 +13,13 @@
 
         <div class="col-8">
             <div class="row card-title text-center">
-                <h5 class="card-title text-uppercase">@Model.CarVIN @Model.Destination</h5>
+                <h5 class="card-title text-uppercase">@Model.RegistrationNumber @Model.Destination</h5>
 
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6 text-center">
                             <p class="card-text">
+                                User: @Model.UserName <br>
                                 Destination: @Model.Destination <br>
                                 Project Cost: @Model.ProjectCost
                             </p>

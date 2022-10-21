@@ -4,6 +4,7 @@ using AmiFlota.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmiFlota.Migrations
 {
     [DbContext(typeof(AmiFlotaContext))]
-    partial class AmiFlotaContextModelSnapshot : ModelSnapshot
+    [Migration("20221021110901_TripModelAddedToDatabase")]
+    partial class TripModelAddedToDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,12 +172,12 @@ namespace AmiFlota.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("BookingRefId")
+                    b.Property<int>("BookingId")
                         .HasColumnType("int")
                         .HasColumnName("Booking ID");
+
+                    b.Property<int?>("BookingModelsId")
+                        .HasColumnType("int");
 
                     b.Property<string>("CarInsepctionRemarks")
                         .HasColumnType("nvarchar(max)")
@@ -189,15 +191,13 @@ namespace AmiFlota.Migrations
                         .HasColumnType("real");
 
                     b.Property<string>("CostsRemarks")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Costs remarks");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Damages")
                         .HasColumnType("bit");
 
                     b.Property<string>("DamagesDescription")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Damages description");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("EndKm")
                         .HasColumnType("bigint")
@@ -209,8 +209,7 @@ namespace AmiFlota.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookingRefId")
-                        .IsUnique();
+                    b.HasIndex("BookingModelsId");
 
                     b.ToTable("Trips");
                 });
@@ -370,10 +369,8 @@ namespace AmiFlota.Migrations
             modelBuilder.Entity("AmiFlota.Models.TripModel", b =>
                 {
                     b.HasOne("AmiFlota.Models.BookingModel", "BookingModels")
-                        .WithOne("Trips")
-                        .HasForeignKey("AmiFlota.Models.TripModel", "BookingRefId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("BookingModelsId");
 
                     b.Navigation("BookingModels");
                 });
@@ -432,11 +429,6 @@ namespace AmiFlota.Migrations
             modelBuilder.Entity("AmiFlota.Models.ApplicationUserModel", b =>
                 {
                     b.Navigation("BookingModels");
-                });
-
-            modelBuilder.Entity("AmiFlota.Models.BookingModel", b =>
-                {
-                    b.Navigation("Trips");
                 });
 
             modelBuilder.Entity("AmiFlota.Models.CarModel", b =>

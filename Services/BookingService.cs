@@ -119,14 +119,49 @@ namespace AmiFlota.Services
             return false;
         }
 
-        public async Task<IEnumerable<BookingModel>> GetPendingBookingsByUserId(string userId)
+        //TODO OLD working version
+        /*        public async Task<IEnumerable<BookingModel>> GetPendingBookingsByUserId(string userId)
+                {
+                    try
+                    {
+                        var results = await _db.Bookings.
+                        Where(x => x.UserId == userId).
+                        Where(a => a.isApproved == false).
+                        ToListAsync();
+                        return results;
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }*/
+
+
+        //TODO New version - to be tested
+        public async Task<IEnumerable<BookingVM>> GetPendingBookingsByUserId(string userId)
         {
             try
             {
-                var results = await _db.Bookings.
-                Where(x => x.UserId == userId).
-                Where(a => a.isApproved == false).
-                ToListAsync();
+                var results = await
+                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.isApproved == false)
+                     from c in _db.Cars
+                     //from t in _db.Trips
+                     from u in _db.Users
+                     where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id) //&& b.Id.Equals(t.BookingRefId)
+                     select new BookingVM
+                     {
+                         Id = b.Id,
+                         UserName = u.UserName,
+                         RegistrationNumber = c.RegistrationNumber,
+                         PhotoPath = c.PhotoPath,
+                         StartDate = b.StartDate,
+                         EndDate = b.EndDate,
+                         Destination = b.Destination,
+                         ProjectCost = b.ProjectCost,
+                         isApproved = b.isApproved,
+                         //isTripActive = t.Active
+                     }).ToListAsync();
+
                 return results;
             }
             catch (Exception)
@@ -135,21 +170,54 @@ namespace AmiFlota.Services
             }
         }
 
-        public async Task<IEnumerable<BookingModel>> GetApprovedBookingsByUserId(string userId)
+        //TODO OLD working version
+        /*        public async Task<IEnumerable<BookingModel>> GetApprovedBookingsByUserId(string userId)
+                {
+                    try
+                    {
+                        var results = await _db.Bookings.
+                        Where(x => x.UserId == userId).
+                        Where(a => a.isApproved == true).
+                        ToListAsync();
+                        return results;
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }*/
+
+        //TODO New version - to be tested
+        public async Task<IEnumerable<BookingVM>> GetApprovedBookingsByUserId(string userId)
         {
             try
             {
-                var results = await _db.Bookings.
-                Where(x => x.UserId == userId).
-                Where(a => a.isApproved == true).
-                ToListAsync();
+                var results = await
+                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.isApproved == true)
+                     from c in _db.Cars
+                         //from t in _db.Trips
+                     from u in _db.Users
+                     where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id) //&& b.Id.Equals(t.BookingRefId)
+                     select new BookingVM
+                     {
+                         Id = b.Id,
+                         UserName = u.UserName,
+                         RegistrationNumber = c.RegistrationNumber,
+                         PhotoPath = c.PhotoPath,
+                         StartDate = b.StartDate,
+                         EndDate = b.EndDate,
+                         Destination = b.Destination,
+                         ProjectCost = b.ProjectCost,
+                         isApproved = b.isApproved,
+                         //isTripActive = t.Active
+                     }).ToListAsync();
+
                 return results;
             }
             catch (Exception)
             {
                 throw;
             }
-
         }
 
         public List<BookingVM> BookingsByCarVIN(string carVIN)

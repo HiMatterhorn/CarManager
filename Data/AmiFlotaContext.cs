@@ -13,6 +13,7 @@ namespace AmiFlota.Data
 
         public DbSet<CarModel> Cars { get; set; }
         public DbSet<BookingModel> Bookings { get; set; }
+        public DbSet<TripModel> Trips { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

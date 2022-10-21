@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AmiFlota.Models.BookingModel>
+﻿@model IEnumerable<AmiFlota.Models.ViewModels.BookingVM>
 
 <!DOCTYPE html>
 
@@ -24,6 +24,8 @@
                         if (booking.isApproved)
                         {
                             <button type="button" id="btnDashboardReject" class="btn btn-warning btn-reject" data-id="@booking.Id">Reject</button>
+                           
+                            <button type="button" id="btnDashboardTakeCar" class="btn btn-warning btn-take-car" data-id="@booking.Id">Take the car</button>
                         }
                         else
                         {
