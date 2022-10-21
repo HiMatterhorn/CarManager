@@ -30,8 +30,15 @@
 
                     @if (User.IsInRole(AmiFlota.Utilities.Enums.UserRole.admin.ToString()))
                     {
-                    //TODO Test
-                        <button type="button" id="btnDashboardConfirm" class="btn btn-success btn-confirm" data-id="@booking.Id">Confirm</button>
+                        if (booking.isApproved)
+                        {
+                            <button type="button" id="btnDashboardReject" class="btn btn-warning btn-reject" data-id="@booking.Id">Reject</button>
+                        }
+                        else
+                        {
+                            <button type="button" id="btnDashboardConfirm" class="btn btn-success btn-confirm" data-id="@booking.Id">Confirm</button>
+                        }
+
                         <button type="button" id="btnDashboardDelete" class="btn btn-danger btn-delete" data-id="@booking.Id">Delete</button>
                     }
                 </div>
@@ -46,12 +53,36 @@
     $(document).ready(function() {
         var routeURL = location.protocol + "//" + location.host;
 
-        //TODO Check why it's not working
+        //TODO Two notifications, one for ok, second for error
+
         $(".btn-confirm").click(function() {
             var eventId = $(this).data("id");
 
             $.ajax({
                 url: routeURL + '/api/Booking/ConfirmEvent',
+                type: 'GET',
+                data: { id: eventId },
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.status === 1) {
+                        $.notify(response.message, "success");
+                    }
+                    else {
+                        $.notify(response.message, "error");
+                    }
+
+                },
+                error: function(xhr) {
+                    $.notify("Error", "error");
+                }
+            });
+        });
+
+        $(".btn-reject").click(function() {
+            var eventId = $(this).data("id");
+
+            $.ajax({
+                url: routeURL + '/api/Booking/RejectEvent',
                 type: 'GET',
                 data: { id: eventId },
                 dataType: 'JSON',

@@ -42,10 +42,6 @@
             var StartDate = $(this).data("startdate");
             var EndDate = $(this).data("enddate");
             
-            console.log(VIN);
-            console.log(StartDate);
-            console.log(EndDate);
-
             $.ajax({
                 url: '@Url.Action("_BookingDetailsModal", "Booking")',
                 datatype: 'html',

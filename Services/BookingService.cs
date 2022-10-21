@@ -272,7 +272,7 @@ namespace AmiFlota.Services
 
         public async Task<int> ConfirmEvent(int id)
         {
-            var booking = _db.Bookings.FirstOrDefault(x => x.Id == id);
+            var booking = await _db.Bookings.FirstOrDefaultAsync(x => x.Id == id);
             if (booking != null)
             {
                 booking.isApproved = true;
@@ -282,9 +282,21 @@ namespace AmiFlota.Services
             return 0;
         }
 
+        public async Task<int> RejectEvent(int id)
+        {
+            var booking = await _db.Bookings.FirstOrDefaultAsync(x => x.Id == id);
+            if (booking != null)
+            {
+                booking.isApproved = false;
+                return await _db.SaveChangesAsync();
+            }
+
+            return 0;
+        }
+
         public async Task<int> DeleteEvent(int id)
         {
-            var booking = _db.Bookings.FirstOrDefault(x => x.Id == id);
+            var booking = await _db.Bookings.FirstOrDefaultAsync(x => x.Id == id);
             if (booking != null)
             {
                 _db.Bookings.Remove(booking);

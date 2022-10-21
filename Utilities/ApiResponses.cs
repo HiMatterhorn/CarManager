@@ -11,6 +11,7 @@
         public static readonly string bookingConfirmationError = "Error occured while confirming the booking";
         public static readonly string bookingDeleted = "Booking Deleted";
         public static readonly string bookingDeleteError = "Error occured while deleting the booking";
-
+        public static readonly string bookingRejected = "Booking Rejected";
+        public static readonly string bookingRejectionError = "Error occured while rejecting the booking";
     }
 }

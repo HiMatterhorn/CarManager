@@ -214,7 +214,7 @@ function onCalendarEventDelete() {
             if (response.status === 1) {
                 $.notify(response.message, "success");
                 calendar.refetchEvents();
-                onCloseModal();
+                onCalendarEventCloseModal();
             }
             else {
                 $.notify(response.message, "error");

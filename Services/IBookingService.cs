@@ -23,6 +23,7 @@ namespace AmiFlota.Services
         public BookingVM GetById(int id);  
 
         public Task<int> ConfirmEvent(int id);
+        public Task<int> RejectEvent(int id);
         public Task<int> DeleteEvent(int id);
     }
 }

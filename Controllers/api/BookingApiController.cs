@@ -92,39 +92,14 @@ namespace AmiFlota.Controllers.api
         }
 
 
-        /*        public IActionResult Index()
-                {
-                    return View();
-                }*/
-
-        /*        [HttpGet]
-                [Route("GetAllAvailableCars")]
-                public IActionResult GetAllAvailableCars(DateTime startDate, DateTime endDate)
-                {
-                    CommonResponse<List<CarModel>> commonResponse = new CommonResponse<List<CarModel>>();
-                    try
-                    {
-                        commonResponse.dataenum = _bookingService.GetAllAvailableCars(startDate, endDate);
-                        commonResponse.status = ApiResponses.success_code;
-                    }
-                    catch (Exception e)
-                    {
-                        commonResponse.message = e.Message;
-                        commonResponse.status = ApiResponses.failure_code;
-                    }
-
-                    return Ok(commonResponse);
-                }*/
-
-
         [HttpGet]
         [Route("ConfirmEvent")]
-        public IActionResult ConfirmEvent(int id)
+        public async Task<IActionResult> ConfirmEvent(int id)
         {
             CommonResponse<int> commonResponse = new CommonResponse<int>();
             try
             {
-                var result = _bookingService.ConfirmEvent(id).Result;
+                var result = await _bookingService.ConfirmEvent(id);
                 if (result > 0)
                 {
                     commonResponse.status = ApiResponses.success_code;
@@ -134,6 +109,34 @@ namespace AmiFlota.Controllers.api
                 {
                     commonResponse.status = ApiResponses.failure_code;
                     commonResponse.message = ApiResponses.bookingConfirmationError;
+                }
+            }
+            catch (Exception e)
+            {
+                commonResponse.message = e.Message;
+                commonResponse.status = ApiResponses.failure_code;
+            }
+
+            return Ok(commonResponse);
+        }
+
+        [HttpGet]
+        [Route("RejectEvent")]
+        public async Task<IActionResult> RejectEvent(int id)
+        {
+            CommonResponse<int> commonResponse = new CommonResponse<int>();
+            try
+            {
+                var result = await _bookingService.RejectEvent(id);
+                if (result > 0)
+                {
+                    commonResponse.status = ApiResponses.success_code;
+                    commonResponse.message = ApiResponses.bookingRejected;
+                }
+                else
+                {
+                    commonResponse.status = ApiResponses.failure_code;
+                    commonResponse.message = ApiResponses.bookingRejectionError;
                 }
             }
             catch (Exception e)
