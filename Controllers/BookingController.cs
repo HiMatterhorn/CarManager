@@ -88,9 +88,6 @@ namespace AmiFlota.Controllers
         {
             List<CarModel> viewModel = await _bookingService.GetAllCars();
 
-            //TODO Usunąć
-            //ViewBag.CarList = await _bookingService.GetAllCars();
-
             return View(viewModel);
         }
 

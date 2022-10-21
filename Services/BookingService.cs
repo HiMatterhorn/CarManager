@@ -77,10 +77,8 @@ namespace AmiFlota.Services
 
         public void BookCar(BookingVM bookingVM)
         {
-            //TODO GetCarVinByRegistrationNumber
             BookingModel bookingModel = new BookingModel()
             {
-                //TODO Convert bookingVM -> bookingModel
                 UserId = GetUserIdByName(bookingVM.UserName),
                 StartDate = bookingVM.StartDate,
                 EndDate = bookingVM.EndDate,
@@ -102,18 +100,17 @@ namespace AmiFlota.Services
 
             else
             {
-                //TODO Booking not validated successfully
+                //TODO Booking not validated successfully - exception
                 Console.WriteLine("booking not validated");
             }
         }
 
         public bool ValidateBooking(BookingModel bookingModel)
         {
-            //TODO Check if carVin exists in database?
             var bookings = _db.Bookings
-                .Where(x => x.CarVIN.Equals(bookingModel.CarVIN))
-                .Where(s => s.StartDate <= bookingModel.StartDate)
-                .Where(e => e.EndDate >= bookingModel.StartDate).ToList();
+    .Where(x => x.CarVIN.Equals(bookingModel.CarVIN))
+    .Where(s => s.StartDate <= bookingModel.StartDate)
+    .Where(e => e.EndDate >= bookingModel.StartDate).ToList();
 
             if (bookings.Count() == 0)
             {

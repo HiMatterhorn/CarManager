@@ -19,15 +19,6 @@
 
 
                 <div class="col-2">
-                    @*  //TODO Usunąć
-                <a asp-controller="Booking" asp-action="BookingDetails"
-                asp-route-VIN="@car.VIN"
-                asp-route-startDate="@Model.StartDate"
-                asp-route-endDate="@Model.EndDate"
-                class="btn btn-primary mx-1" type="button">Book</a>
-                <- Bez wykorzystania API
-                *@
-
                     @if (User.IsInRole(AmiFlota.Utilities.Enums.UserRole.admin.ToString()))
                     {
                         if (booking.isApproved)
@@ -53,7 +44,7 @@
     $(document).ready(function() {
         var routeURL = location.protocol + "//" + location.host;
 
-        //TODO Two notifications, one for ok, second for error
+        @*//TODO Two notifications, one for ok, second for error <- must be fixed*@
 
         $(".btn-confirm").click(function() {
             var eventId = $(this).data("id");
