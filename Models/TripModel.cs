@@ -14,31 +14,31 @@ namespace AmiFlota.Models
         [Column("Start Mileage")]
         public uint StartKm { get; set; }
 
+/*        [Column("Start Inspection")]
+        [ForeignKey("InspectionModels")]
+        public InspectionModel StartInspectionId { get; set; }*/
+
         [Required]
         [Column("End Mileage")]
         public uint EndKm { get; set; }
+
+/*        [Column("End Inspection")]
+        [ForeignKey("InspectionModels")]
+        public InspectionModel EndInspectionId { get; set; }*/
+
+        public float Cost { get; set; }
+        [Column("Costs remarks")]
+        public string CostRemarks { get; set; }
+
+        public bool Active { get; set; }
 
         [Required]
         [Column("Booking ID")]
         [ForeignKey("BookingModels")]
         public int BookingRefId { get; set; }
 
-        public float Costs { get; set; }
-        [Column("Costs remarks")]
-        public string CostsRemarks { get; set; }
-
-        [Column("Inspection")]
-        public bool CarInspectionDone { get; set;}
-        [Column("Inspection remarks")]
-        public string CarInsepctionRemarks { get; set; }
-
-        public bool Damages { get; set; }
-        [Column("Damages description")]
-        public string DamagesDescription { get; set; }
-
-        public bool Active { get; set; }
-
         public virtual BookingModel BookingModels { get; set; }
+/*        public virtual InspectionModel InspectionModels { get; set; }*/
 
     }
 }

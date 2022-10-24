@@ -30,6 +30,7 @@ namespace AmiFlota
                     options.UseSqlServer(Configuration.GetConnectionString("AmiFlotaContext")));
 
             services.AddTransient<IBookingService, BookingService>();
+            services.AddTransient<ITripService, TripService>();
 
             services.AddIdentity<ApplicationUserModel, IdentityRole>()
                 .AddEntityFrameworkStores<AmiFlotaContext>()

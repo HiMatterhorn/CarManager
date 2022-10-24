@@ -1,4 +1,4 @@
-﻿namespace AppointmentScheduler.Models.ViewModels
+﻿namespace AmiFlota.Models.ViewModels
 {
     public class CommonResponse<T>
     {

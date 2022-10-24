@@ -266,7 +266,7 @@ namespace AmiFlota.Services
                 throw;
             }
         }
-
+        //TODO Use tables join instead of this method
         public string GetRegistrationNumberByCarVin(string carVIN)
         {
             try
@@ -279,7 +279,7 @@ namespace AmiFlota.Services
                 throw;
             }
         }
-
+        //TODO Use tables join instead of this method
         public string GetVinByRegistrationNumber(string registrationNumber)
         {
             try
@@ -292,7 +292,7 @@ namespace AmiFlota.Services
                 throw;
             }
         }
-
+        //TODO Use tables join instead of this method
         public string GetUserIdByName(string userName)
         {
             try
@@ -305,7 +305,7 @@ namespace AmiFlota.Services
                 throw;
             }
         }
-
+        //TODO Use tables join instead of this method
         public string GetUserNameById(string userId)
         {
             try

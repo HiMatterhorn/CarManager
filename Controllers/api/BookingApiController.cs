@@ -3,7 +3,7 @@ using AmiFlota.Models;
 using AmiFlota.Models.ViewModels;
 using AmiFlota.Services;
 using AmiFlota.Utilities;
-using AppointmentScheduler.Models.ViewModels;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;

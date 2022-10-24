@@ -1,0 +1,85 @@
+﻿@model IEnumerable<AmiFlota.Models.ViewModels.BookingVM>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Bookings list</title>
+</head>
+<body>
+    <div class="row row-cols-1 row-cols-md-1">
+        @foreach (var booking in Model)
+        {
+            <div class="row mt-4 border border-dark border-opacity-25">
+
+                <div class="col-10">
+                    <partial name="_BookingListItem" model=booking />
+                </div>
+
+
+                <div class="col-2">
+                    @if (User.IsInRole(AmiFlota.Utilities.Enums.UserRole.admin.ToString()))
+                    {
+                        <button type="button" id="btnPendingConfirm" class="btn btn-success btn-pending-confirm" data-id="@booking.Id">Confirm</button>
+                        <button type="button" id="btnPendingDelete" class="btn btn-danger btn-pending-delete" data-id="@booking.Id">Delete</button>
+                    }
+                </div>
+            </div>
+
+        }
+    </div>
+</body>
+</html>
+
+<script>
+$(document).ready(function() {
+    $(".btn-pending-confirm").click(function() {
+        var eventId = $(this).data("id");
+
+        $.ajax({
+            url: routeURL + '/api/Booking/ConfirmEvent',
+            type: 'GET',
+            data: { id: eventId },
+            dataType: 'JSON',
+            success: function(response) {
+                if (response.status === 1) {
+                    $.notify(response.message, "success");
+                }
+                else {
+                    $.notify(response.message, "error");
+                }
+
+            },
+            error: function(xhr) {
+                $.notify("Error", "error");
+            }
+        });
+    });
+
+    $(".btn-pending-delete").click(function() {
+        var eventId = $(this).data("id");
+
+        $.ajax({
+            url: routeURL + '/api/Booking/DeleteEvent',
+            type: 'GET',
+            data: { id: eventId },
+            dataType: 'JSON',
+            success: function(response) {
+                if (response.status === 1) {
+                    $.notify(response.message, "success");
+                }
+                else {
+                    $.notify(response.message, "error");
+                }
+            },
+            error: function(xhr) {
+                $.notify("Error", "error");
+            }
+        });
+    });
+});
+</script>
+
+
+

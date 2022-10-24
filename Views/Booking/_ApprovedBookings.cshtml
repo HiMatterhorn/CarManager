@@ -21,18 +21,14 @@
                 <div class="col-2">
                     @if (User.IsInRole(AmiFlota.Utilities.Enums.UserRole.admin.ToString()))
                     {
-                        if (booking.isApproved)
-                        {
-                            <button type="button" id="btnDashboardReject" class="btn btn-warning btn-reject" data-id="@booking.Id">Reject</button>
-                           
-                            <button type="button" id="btnDashboardTakeCar" class="btn btn-warning btn-take-car" data-id="@booking.Id">Take the car</button>
-                        }
-                        else
-                        {
-                            <button type="button" id="btnDashboardConfirm" class="btn btn-success btn-confirm" data-id="@booking.Id">Confirm</button>
-                        }
 
-                        <button type="button" id="btnDashboardDelete" class="btn btn-danger btn-delete" data-id="@booking.Id">Delete</button>
+                        <button type="button" id="btnDashboardReject" class="btn btn-warning btn-approved-reject" data-id="@booking.Id">Reject</button>
+
+                    //TODO Show the button only when booking start date is lower than now()
+                        //TODO When button is clicked -> create new record in Trips Database
+                        <button type="button" id="btnDashboardTakeCar" class="btn btn-warning btn-approved-take-car" data-id="@booking.Id" data-url="@Url.Action("_TripStartModal", "Trip")">Take the car</button>
+
+                        <button type="button" id="btnDashboardDelete" class="btn btn-danger btn-approved-delete" data-id="@booking.Id">Delete</button>
                     }
                 </div>
             </div>
@@ -44,34 +40,34 @@
 
 <script>
     $(document).ready(function() {
-        var routeURL = location.protocol + "//" + location.host;
-
-        @*//TODO Two notifications, one for ok, second for error <- must be fixed*@
-
-        $(".btn-confirm").click(function() {
-            var eventId = $(this).data("id");
+        $(".btn-approved-take-car").click(function() {
+            var bookingId = $(this).data("id");
+            var UrlRequest = $(this).data('url');
 
             $.ajax({
-                url: routeURL + '/api/Booking/ConfirmEvent',
-                type: 'GET',
-                data: { id: eventId },
-                dataType: 'JSON',
-                success: function(response) {
-                    if (response.status === 1) {
-                        $.notify(response.message, "success");
-                    }
-                    else {
-                        $.notify(response.message, "error");
-                    }
+                url: UrlRequest,
+                datatype: 'html',
+                data: { id: bookingId },
+                method: 'GET',
 
+                success: function(result) {
+                    $('#_TripStartModal').html('').html(result);
+                    onShowTripStartModal();
                 },
-                error: function(xhr) {
-                    $.notify("Error", "error");
+
+                error: function(xhr, status, error) {
+                    console.log("error");
+                    alert(status);
+                    alert(error);
                 }
             });
         });
 
-        $(".btn-reject").click(function() {
+        function onShowTripStartModal() {
+            $("#tripStartModal").modal("show");
+        }
+
+        $(".btn-approved-reject").click(function() {
             var eventId = $(this).data("id");
 
             $.ajax({
@@ -94,7 +90,8 @@
             });
         });
 
-        $(".btn-delete").click(function() {
+
+        $(".btn-approved-delete").click(function() {
             var eventId = $(this).data("id");
 
             $.ajax({
@@ -109,6 +106,7 @@
                     else {
                         $.notify(response.message, "error");
                     }
+
                 },
                 error: function(xhr) {
                     $.notify("Error", "error");
@@ -117,3 +115,6 @@
         });
     });
 </script>
+
+
+
