@@ -2,10 +2,12 @@
 using AmiFlota.Models;
 using AmiFlota.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static AmiFlota.Utilities.Enums;
 
 namespace AmiFlota.Services
 {
@@ -21,7 +23,16 @@ namespace AmiFlota.Services
             _userManager = userManager;
         }
 
-        public void CreateTrip(TripVM tripVM) //ASYNC return?
+        public int StartTrip(TripVM tripVM) //ASYNC return?
+        {
+            CreateTrip(tripVM);
+            ChangeBookingStatus(tripVM.BookingId, BookingStatus.Active);
+
+            //TODO ???
+            return 1;
+        }
+
+        public int CreateTrip(TripVM tripVM)
         {
             TripModel tripModel = new TripModel()
             {
@@ -30,7 +41,6 @@ namespace AmiFlota.Services
                 EndKm = tripVM.EndKm,
                 Cost = tripVM.Cost,
                 CostRemarks = tripVM.CostRemarks,
-                Active = tripVM.Active,
                 BookingRefId = tripVM.BookingId
             };
 
@@ -38,22 +48,46 @@ namespace AmiFlota.Services
 
             //Save to database
             _db.Trips.Add(tripModel);
-            _db.SaveChanges();
+            return _db.SaveChanges();
         }
 
-        public void UpdateTrip(TripVM tripVM) //ASYNC return?
+
+
+        public int FinishTrip(TripVM tripVM) //ASYNC return?
         {
-            TripModel model = _db.Trips.FirstOrDefault(x => x.Id == tripVM.Id);
-            model.EndKm = tripVM.EndKm;
-            model.Cost = tripVM.Cost;
-            model.CostRemarks = tripVM.CostRemarks;
-            model.Active = false;
-            _db.SaveChanges();
+            UpdateTrip(tripVM);
+            ChangeBookingStatus(tripVM.BookingId, BookingStatus.Finished);
+
+            //TODO ???
+            return 1;
+        }
+
+        public int UpdateTrip(TripVM tripVM)
+        {
+            TripModel tripModel = _db.Trips.FirstOrDefault(x => x.Id == tripVM.Id);
+            tripModel.EndKm = tripVM.EndKm;
+            tripModel.Cost = tripVM.Cost;
+            tripModel.CostRemarks = tripVM.CostRemarks;
+
+            return  _db.SaveChanges();
+        }
+
+
+        public int ChangeBookingStatus(int bookingId, BookingStatus newBookingStatus)
+        {
+            var booking = _db.Bookings.FirstOrDefault(x => x.Id == bookingId);
+            if (booking != null)
+            {
+                booking.BookingStatus = newBookingStatus;
+                return _db.SaveChanges();
+            }
+
+            return 0;
         }
 
         public TripVM GetTripByBookingId(int bookingId)
         {
-            return _db.Trips.Where(x => x.Id == bookingId).ToList().Select(m => new TripVM()
+            return _db.Trips.Where(x => x.BookingRefId == bookingId).ToList().Select(m => new TripVM()
             {
                 Id = m.Id,
                 BookingId = m.BookingRefId,
@@ -61,7 +95,6 @@ namespace AmiFlota.Services
                 EndKm = m.EndKm,
                 Cost = m.Cost,
                 CostRemarks = m.CostRemarks,
-                Active = m.Active
             }).SingleOrDefault();
         }
 

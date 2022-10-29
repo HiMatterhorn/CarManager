@@ -26,7 +26,7 @@
 
                     //TODO Show the button only when booking start date is lower than now()
                         //TODO When button is clicked -> create new record in Trips Database
-                        <button type="button" id="btnDashboardTakeCar" class="btn btn-warning btn-approved-take-car" data-id="@booking.Id" data-url="@Url.Action("_TripStartModal", "Trip")">Take the car</button>
+                        <button type="button" id="btnDashboardTakeCar" class="btn btn-warning btn-approved-take-car" data-id="@booking.Id" data-status="@booking.BookingStatus" data-url="@Url.Action("_TripStartModal", "Trip")">Take the car</button>
 
                         <button type="button" id="btnDashboardDelete" class="btn btn-danger btn-approved-delete" data-id="@booking.Id">Delete</button>
                     }
@@ -42,12 +42,13 @@
     $(document).ready(function() {
         $(".btn-approved-take-car").click(function() {
             var BookingId = $(this).data("id");
+            var BookingStatus = $(this).data("status");
             var UrlRequest = $(this).data('url');
 
             $.ajax({
                 url: UrlRequest,
                 datatype: 'html',
-                data: { bookingId: BookingId },
+                data: { bookingId: BookingId, bookingStatus: BookingStatus },
                 method: 'GET',
 
                 success: function(result) {

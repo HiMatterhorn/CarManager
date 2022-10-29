@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <h4>Start Trip Modal</h4>
-            <form method="post" asp-controller="Trip" asp-action="CreateTrip" id="tripStartModalForm">
+            <form method="post" asp-controller="Trip" asp-action="StartTrip" id="tripStartModalForm">
                 <div class="modal-header">
                     <h5 class="modal-title" id="tripStartModalTitle">Trip start</h5>
                 </div>
@@ -13,7 +13,7 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <div class="col-6 text-right">
-                            <label asp-for="BookingId">BookingId: </label>
+                            <label for="BookingId">BookingId: </label>
                         </div>
 
                         <div class="col-6 text-left">
@@ -28,23 +28,18 @@
                     </div>
 
                     <div class="form-group">
-                        @*<label asp-for="EndKm">End milleage: @Model.EndKm</label>*@
                         <input asp-for="EndKm" type="hidden"></>
                     </div>
 
                     <div class="form-group">
-@*                        <label asp-for="Cost">Cost: @Model.Cost</label>*@
                         <input asp-for="Cost" type="hidden"></>
                     </div>
 
                     <div class="form-group">
-@*                        <label asp-for="CostRemarks">Cost remarks</label>*@
                         <input asp-for="CostRemarks" type="hidden" class="form-control" id="costRemarks"></>
-                        <span asp-validation-for="CostRemarks"></span>
                     </div>
                     <div class="form-group">
-@*                        <label asp-for="Active">isActive:</label>*@
-                        <input asp-for="Active" type="hidden" class="form-control" id="active"></>
+                        <input asp-for="BookingStatus" type="hidden" value="@AmiFlota.Utilities.Enums.BookingStatus.Active" class="form-control"></>
                     </div>
                 </div>
 

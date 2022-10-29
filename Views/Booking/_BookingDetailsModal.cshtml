@@ -12,6 +12,8 @@
 
                 @*//TODO Layout corrections*@
                 <div class="modal-body">
+                    <input type="hidden" asp-for="BookingStatus" value="@AmiFlota.Utilities.Enums.BookingStatus.Pending" />
+
                     @*  <div asp-validation-summary="ModelOnly" class="text-danger">*@
                     <div class="form-group row">
                         <div class="col-6 text-right">
@@ -19,23 +21,23 @@
                         </div>
 
                         <div class="col-6 text-left">
-                            <label for="lblUserNameValue">@Model.UserName</label>
+                            <label asp-for="UserName">@Model.UserName</label>
                             <input asp-for="UserName" type="hidden"></>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="RegistrationNumber">Registration Number: @Model.RegistrationNumber</label>
+                        <label asp-for="RegistrationNumber">Registration Number: @Model.RegistrationNumber</label>
                         <input asp-for="RegistrationNumber" type="hidden"></>
                     </div>
 
                     <div class="form-group">
-                        <label for="StartDate">Start date: @Model.StartDate</label>
+                        <label asp-for="StartDate">Start date: @Model.StartDate</label>
                         <input asp-for="StartDate" type="hidden"></>
                     </div>
 
                     <div class="form-group">
-                        <label for="EndDate">End date: @Model.EndDate</label>
+                        <label asp-for="EndDate">End date: @Model.EndDate</label>
                         <input asp-for="EndDate" type="hidden"></>
                     </div>
 
@@ -50,6 +52,8 @@
                         <input asp-for="ProjectCost" class="form-control" id="Booking.ProjectCost"></>
                         <span asp-validation-for="ProjectCost"></span>
                     </div>
+
+
                     @*    </div>*@
                 </div>
 
@@ -62,32 +66,3 @@
         </div>
     </div>
 </div>
-
-
-
-<script>
-
-    @*   Ajax call option
-        $("#btnBook").click(function() {
-        var Destination = document.getElementById("inDestination").value;
-        var ProjectCost = document.getElementById("inProjectCost").value;
-        });
-
-
-        //TODO Rethink
-        @*$.ajax({
-        // url: '@Url.Action("BookingDetails", "Booking")',
-        routeURL + '/api/Booking/GetCalendarDataById/'
-        datatype: 'JSON',
-        data: { vin : VIN, startDate: StartDate, endDate: EndDate },
-        method: 'GET',
-
-        success: function(result) {
-        console.log("OK");
-        },
-
-        error: function(error) {
-        console.log(error);
-        }
-        });*@
-</script>

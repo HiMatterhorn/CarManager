@@ -85,7 +85,7 @@ namespace AmiFlota.Services
                 CarVIN = GetVinByRegistrationNumber(bookingVM.RegistrationNumber),
                 ProjectCost = bookingVM.ProjectCost,
                 Destination = bookingVM.Destination,
-                isApproved = bookingVM.isApproved,
+                BookingStatus = Utilities.Enums.BookingStatus.Pending
             };
 
             //Validate booking
@@ -119,35 +119,15 @@ namespace AmiFlota.Services
             return false;
         }
 
-        //TODO OLD working version
-        /*        public async Task<IEnumerable<BookingModel>> GetPendingBookingsByUserId(string userId)
-                {
-                    try
-                    {
-                        var results = await _db.Bookings.
-                        Where(x => x.UserId == userId).
-                        Where(a => a.isApproved == false).
-                        ToListAsync();
-                        return results;
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                }*/
-
-
-        //TODO New version - to be tested
         public async Task<IEnumerable<BookingVM>> GetPendingBookingsByUserId(string userId)
         {
             try
             {
                 var results = await
-                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.isApproved == false)
+                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.BookingStatus.Equals(Utilities.Enums.BookingStatus.Pending))
                      from c in _db.Cars
-                     //from t in _db.Trips
                      from u in _db.Users
-                     where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id) //&& b.Id.Equals(t.BookingRefId)
+                     where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
                      select new BookingVM
                      {
                          Id = b.Id,
@@ -158,8 +138,7 @@ namespace AmiFlota.Services
                          EndDate = b.EndDate,
                          Destination = b.Destination,
                          ProjectCost = b.ProjectCost,
-                         isApproved = b.isApproved,
-                         //isTripActive = t.Active
+                         BookingStatus = b.BookingStatus,
                      }).ToListAsync();
 
                 return results;
@@ -170,34 +149,15 @@ namespace AmiFlota.Services
             }
         }
 
-        //TODO OLD working version
-        /*        public async Task<IEnumerable<BookingModel>> GetApprovedBookingsByUserId(string userId)
-                {
-                    try
-                    {
-                        var results = await _db.Bookings.
-                        Where(x => x.UserId == userId).
-                        Where(a => a.isApproved == true).
-                        ToListAsync();
-                        return results;
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                }*/
-
-        //TODO New version - to be tested
         public async Task<IEnumerable<BookingVM>> GetApprovedBookingsByUserId(string userId)
         {
             try
             {
                 var results = await
-                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.isApproved == true)
+                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.BookingStatus.Equals(Utilities.Enums.BookingStatus.Approved))
                      from c in _db.Cars
-                     //from t in _db.Trips
                      from u in _db.Users
-                     where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id) //&& b.Id.Equals(t.BookingRefId)
+                     where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
                      select new BookingVM
                      {
                          Id = b.Id,
@@ -208,8 +168,7 @@ namespace AmiFlota.Services
                          EndDate = b.EndDate,
                          Destination = b.Destination,
                          ProjectCost = b.ProjectCost,
-                         isApproved = b.isApproved,
-                         //isTripActive = t.Active
+                         BookingStatus = b.BookingStatus,
                      }).ToListAsync();
 
                 return results;
@@ -225,11 +184,10 @@ namespace AmiFlota.Services
             try
             {
                 var results = await
-                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.isApproved == true)
+                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.BookingStatus.Equals(Utilities.Enums.BookingStatus.Active))
                      from c in _db.Cars
-                     from t in _db.Trips
                      from u in _db.Users
-                     where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id) && b.Id.Equals(t.BookingRefId) &&t.Active == true
+                     where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
                      select new BookingVM
                      {
                          Id = b.Id,
@@ -240,8 +198,7 @@ namespace AmiFlota.Services
                          EndDate = b.EndDate,
                          Destination = b.Destination,
                          ProjectCost = b.ProjectCost,
-                         isApproved = b.isApproved,
-                         isTripActive = t.Active
+                         BookingStatus = b.BookingStatus,
                      }).ToListAsync();
 
                 return results;
@@ -265,7 +222,7 @@ namespace AmiFlota.Services
                     EndDate = c.EndDate,
                     Destination = c.Destination,
                     ProjectCost = c.ProjectCost,
-                    isApproved = c.isApproved,
+                    BookingStatus = c.BookingStatus,
                 }).ToList();
             }
             catch (Exception)
@@ -289,7 +246,7 @@ namespace AmiFlota.Services
                     EndDate = c.EndDate,
                     Destination = c.Destination,
                     ProjectCost = c.ProjectCost,
-                    isApproved = c.isApproved,
+                    BookingStatus = c.BookingStatus,
                 }).ToList();
             }
 
@@ -298,6 +255,9 @@ namespace AmiFlota.Services
                 throw;
             }
         }
+
+
+
         //TODO Use tables join instead of this method
         public string GetRegistrationNumberByCarVin(string carVIN)
         {
@@ -362,7 +322,7 @@ namespace AmiFlota.Services
                 EndDate = c.EndDate,
                 Destination = c.Destination,
                 ProjectCost = c.ProjectCost,
-                isApproved = c.isApproved
+                BookingStatus = c.BookingStatus,
             }).SingleOrDefault();
         }
 
@@ -372,7 +332,7 @@ namespace AmiFlota.Services
             var booking = await _db.Bookings.FirstOrDefaultAsync(x => x.Id == id);
             if (booking != null)
             {
-                booking.isApproved = true;
+                booking.BookingStatus = Utilities.Enums.BookingStatus.Approved;
                 return await _db.SaveChangesAsync();
             }
 
@@ -384,7 +344,7 @@ namespace AmiFlota.Services
             var booking = await _db.Bookings.FirstOrDefaultAsync(x => x.Id == id);
             if (booking != null)
             {
-                booking.isApproved = false;
+                booking.BookingStatus = Utilities.Enums.BookingStatus.Pending;
                 return await _db.SaveChangesAsync();
             }
 

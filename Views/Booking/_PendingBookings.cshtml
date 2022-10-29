@@ -35,12 +35,12 @@
 <script>
 $(document).ready(function() {
     $(".btn-pending-confirm").click(function() {
-        var eventId = $(this).data("id");
+        var bookingId = $(this).data("id");
 
         $.ajax({
             url: routeURL + '/api/Booking/ConfirmEvent',
             type: 'GET',
-            data: { id: eventId },
+            data: { id: bookingId },
             dataType: 'JSON',
             success: function(response) {
                 if (response.status === 1) {

@@ -11,5 +11,10 @@
         {
             admin, manager, user
         }
+
+        public enum BookingStatus
+        {
+            Pending, Approved, Active, Finished
+        }
     }
 }

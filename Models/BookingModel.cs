@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static AmiFlota.Utilities.Enums;
 
 namespace AmiFlota.Models
 {
@@ -24,7 +25,7 @@ namespace AmiFlota.Models
         [Required]
         public string ProjectCost { get; set; }
 
-        public bool isApproved { get; set; }
+        public BookingStatus BookingStatus { get; set; }
 
         public virtual ApplicationUserModel ApplicationUserModels { get; set; }
         public virtual CarModel CarModels { get; set; }

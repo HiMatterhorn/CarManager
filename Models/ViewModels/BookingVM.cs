@@ -19,9 +19,7 @@ namespace AmiFlota.Models.ViewModels
         public DateTime EndDate { get; set; }
         public string Destination { get; set; }
         public string ProjectCost { get; set; }
-        public bool isApproved { get; set; }
+        public BookingStatus BookingStatus { get; set; }
 
-        //FROM Trips
-        public bool isTripActive { get; set; }  
     }
 }

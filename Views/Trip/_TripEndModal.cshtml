@@ -4,7 +4,9 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <h4>End Trip Modal</h4>
-            <form method="post" asp-controller="Trip" asp-action="UpdateTrip" id="tripEndModalForm">
+            <form method="post" asp-controller="Trip" asp-action="FinishTrip" id="tripEndModalForm">
+                <input asp-for="Id" type="hidden"></>
+
                 <div class="modal-header">
                     <h5 class="modal-title" id="tripEndModalTitle">Trip end</h5>
                 </div>
@@ -40,11 +42,9 @@
                     <div class="form-group">
                         <label asp-for="CostRemarks">Cost remarks</label>
                         <input asp-for="CostRemarks" class="form-control" id="costRemarks"></>
-@*                        <span asp-validation-for="CostRemarks"></span>*@
                     </div>
                     <div class="form-group">
-                        @*                        <label asp-for="Active">isActive:</label>*@
-                        <input asp-for="Active" type="hidden"></>
+                        <input asp-for="BookingStatus" type="hidden" value="@AmiFlota.Utilities.Enums.BookingStatus.Finished"></>
                     </div>
                 </div>
 

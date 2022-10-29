@@ -1,4 +1,6 @@
-﻿namespace AmiFlota.Models.ViewModels
+﻿using static AmiFlota.Utilities.Enums;
+
+namespace AmiFlota.Models.ViewModels
 {
     public class TripVM
     {
@@ -14,6 +16,7 @@
 
         public float Cost { get; set; }
         public string CostRemarks { get; set; }
-        public bool Active { get; set; }
+
+        public BookingStatus BookingStatus { get; set; }
     }
 }

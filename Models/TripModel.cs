@@ -30,8 +30,6 @@ namespace AmiFlota.Models
         [Column("Costs remarks")]
         public string CostRemarks { get; set; }
 
-        public bool Active { get; set; }
-
         [Required]
         [Column("Booking ID")]
         [ForeignKey("BookingModels")]

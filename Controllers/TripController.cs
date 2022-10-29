@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using static AmiFlota.Utilities.Enums;
 
 namespace AmiFlota.Controllers
 {
@@ -11,6 +12,7 @@ namespace AmiFlota.Controllers
     {
 
         private readonly ITripService _tripService;
+
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly string userId;
         private readonly string userName;
@@ -26,19 +28,20 @@ namespace AmiFlota.Controllers
         {
             return View();
         }
-        
+
         [HttpGet]
-        public PartialViewResult _TripStartModal(int bookingId)
+        public PartialViewResult _TripStartModal(int bookingId) // Boking status not needed?
         {
             TripVM viewModel = new TripVM()
             {
                 BookingId = bookingId,
+            /*    BookingStatus = bookingstatus,*/
             };
             return PartialView("_TripStartModal", viewModel);
         }
 
         [HttpGet]
-        public PartialViewResult _TripEndModal(int bookingId)
+        public PartialViewResult _TripEndModal(int bookingId) // Boking status not needed?
         {
             TripVM viewModel = _tripService.GetTripByBookingId(bookingId);
 
@@ -48,11 +51,12 @@ namespace AmiFlota.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateTrip(TripVM viewModel)
+        public IActionResult StartTrip(TripVM viewModel)
         {
             if (ModelState.IsValid)
             {
-                _tripService.CreateTrip(viewModel);
+                _tripService.StartTrip(viewModel);
+               // _tripService.ChangeBookingStatus(viewModel.BookingId, viewModel.BookingStatus);
                 return RedirectToAction("UserDashboard", "Booking");
             }
             return View(viewModel);
@@ -60,11 +64,11 @@ namespace AmiFlota.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateTrip(TripVM viewModel)
+        public IActionResult FinishTrip(TripVM viewModel)
         {
             if (ModelState.IsValid)
             {
-                _tripService.UpdateTrip(viewModel);
+                _tripService.FinishTrip(viewModel);
                 return RedirectToAction("UserDashboard", "Booking");
             }
             return View(viewModel);
