@@ -1,12 +1,12 @@
 ﻿@model AmiFlota.Models.ViewModels.TripVM
 
-<div class="modal fade" id="tripStartModal" tabindex="-1" role="dialog" aria-labelledby="tripStartModal" aria-hidden="true">
+<div class="modal fade" id="tripEndModal" tabindex="-1" role="dialog" aria-labelledby="tripEndModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <h4>Start Trip Modal</h4>
-            <form method="post" asp-controller="Trip" asp-action="CreateTrip" id="tripStartModalForm">
+            <h4>End Trip Modal</h4>
+            <form method="post" asp-controller="Trip" asp-action="UpdateTrip" id="tripEndModalForm">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="tripStartModalTitle">Trip start</h5>
+                    <h5 class="modal-title" id="tripEndModalTitle">Trip end</h5>
                 </div>
 
 
@@ -24,33 +24,33 @@
 
                     <div class="form-group">
                         <label asp-for="StartKm">Start mileage: @Model.StartKm</label>
-                        <input asp-for="StartKm" class="form-control" id="startKm"></>
+                        <input asp-for="StartKm" type="hidden"></>
                     </div>
 
                     <div class="form-group">
-                        @*<label asp-for="EndKm">End milleage: @Model.EndKm</label>*@
-                        <input asp-for="EndKm" type="hidden"></>
+                        <label asp-for="EndKm">End milleage:</label>
+                        <input asp-for="EndKm" class="form-control" id="endKm"></>
                     </div>
 
                     <div class="form-group">
-@*                        <label asp-for="Cost">Cost: @Model.Cost</label>*@
-                        <input asp-for="Cost" type="hidden"></>
+                        <label asp-for="Cost">Cost: </label>
+                        <input asp-for="Cost" class="form-control" id="cost"></>
                     </div>
 
                     <div class="form-group">
-@*                        <label asp-for="CostRemarks">Cost remarks</label>*@
-                        <input asp-for="CostRemarks" type="hidden" class="form-control" id="costRemarks"></>
-                        <span asp-validation-for="CostRemarks"></span>
+                        <label asp-for="CostRemarks">Cost remarks</label>
+                        <input asp-for="CostRemarks" class="form-control" id="costRemarks"></>
+@*                        <span asp-validation-for="CostRemarks"></span>*@
                     </div>
                     <div class="form-group">
-@*                        <label asp-for="Active">isActive:</label>*@
-                        <input asp-for="Active" type="hidden" class="form-control" id="active"></>
+                        @*                        <label asp-for="Active">isActive:</label>*@
+                        <input asp-for="Active" type="hidden"></>
                     </div>
                 </div>
 
                 <div class="modal-footer">
                     <div class="row align-items-center">
-                        <button type="submit" id="btnStartTrip" class="btn btn-success btn-start-trip">Start trip</button>
+                        <button type="submit" id="btnEndTrip" class="btn btn-success btn-end-trip">End trip</button>
                     </div>
                 </div>
             </form>

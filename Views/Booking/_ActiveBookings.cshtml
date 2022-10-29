@@ -1,0 +1,66 @@
+﻿@model IEnumerable<AmiFlota.Models.ViewModels.BookingVM>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Bookings list</title>
+</head>
+<body>
+    <div class="row row-cols-1 row-cols-md-1">
+        @foreach (var booking in Model)
+        {
+            <div class="row mt-4 border border-dark border-opacity-25">
+
+                <div class="col-10">
+                    <partial name="_BookingListItem" model=booking />
+                </div>
+
+
+                <div class="col-2">
+                    @if (User.IsInRole(AmiFlota.Utilities.Enums.UserRole.admin.ToString()))
+                    {
+                        <button type="button" id="btnDashboardReturnCar" class="btn btn-warning btn-active-return-car" data-id="@booking.Id" data-url="@Url.Action("_TripEndModal", "Trip")">Return the car</button>
+                    }
+                </div>
+            </div>
+
+        }
+    </div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function() {
+        $(".btn-active-return-car").click(function() {
+            var BookingId = $(this).data("id");
+            var UrlRequest = $(this).data('url');
+
+            $.ajax({
+                url: UrlRequest,
+                datatype: 'html',
+                data: { bookingId: BookingId },
+                method: 'GET',
+
+                success: function(result) {
+                    $('#_TripEndModal').html('').html(result);
+                    onShowTripEndModal();
+                },
+
+                error: function(xhr, status, error) {
+                    console.log("error");
+                    alert(status);
+                    alert(error);
+                }
+            });
+        });
+
+        function onShowTripEndModal() {
+            $("#tripEndModal").modal("show");
+        }
+    });
+</script>
+
+
+

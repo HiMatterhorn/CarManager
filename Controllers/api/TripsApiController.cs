@@ -24,7 +24,7 @@ namespace AmiFlota.Controllers.api
 
 
         //TODO Create inspection
-        [HttpPost]
+/*        [HttpPost]
         [Route("CreateInspection")]
         public async Task<IActionResult> CreateInspection(TripVM tripVM)
         {
@@ -43,6 +43,6 @@ namespace AmiFlota.Controllers.api
             }
 
             return Ok(commonResponse);
-        }
+        }*/
     }
 }

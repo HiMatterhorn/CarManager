@@ -41,13 +41,13 @@
 <script>
     $(document).ready(function() {
         $(".btn-approved-take-car").click(function() {
-            var bookingId = $(this).data("id");
+            var BookingId = $(this).data("id");
             var UrlRequest = $(this).data('url');
 
             $.ajax({
                 url: UrlRequest,
                 datatype: 'html',
-                data: { id: bookingId },
+                data: { bookingId: BookingId },
                 method: 'GET',
 
                 success: function(result) {

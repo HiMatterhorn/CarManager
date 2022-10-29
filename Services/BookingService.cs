@@ -195,7 +195,7 @@ namespace AmiFlota.Services
                 var results = await
                     (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.isApproved == true)
                      from c in _db.Cars
-                         //from t in _db.Trips
+                     //from t in _db.Trips
                      from u in _db.Users
                      where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id) //&& b.Id.Equals(t.BookingRefId)
                      select new BookingVM
@@ -210,6 +210,38 @@ namespace AmiFlota.Services
                          ProjectCost = b.ProjectCost,
                          isApproved = b.isApproved,
                          //isTripActive = t.Active
+                     }).ToListAsync();
+
+                return results;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<BookingVM>> GetActiveBookingsByUserId(string userId)
+        {
+            try
+            {
+                var results = await
+                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.isApproved == true)
+                     from c in _db.Cars
+                     from t in _db.Trips
+                     from u in _db.Users
+                     where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id) && b.Id.Equals(t.BookingRefId) &&t.Active == true
+                     select new BookingVM
+                     {
+                         Id = b.Id,
+                         UserName = u.UserName,
+                         RegistrationNumber = c.RegistrationNumber,
+                         PhotoPath = c.PhotoPath,
+                         StartDate = b.StartDate,
+                         EndDate = b.EndDate,
+                         Destination = b.Destination,
+                         ProjectCost = b.ProjectCost,
+                         isApproved = b.isApproved,
+                         isTripActive = t.Active
                      }).ToListAsync();
 
                 return results;

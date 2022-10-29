@@ -46,9 +46,14 @@ namespace AmiFlota.Controllers
 
         public async Task<PartialViewResult> ApprovedBookingsCurrentUser()
         {
-            ;
             var approvedBookingsList = await _bookingService.GetApprovedBookingsByUserId(userId);
             return PartialView("_ApprovedBookings", approvedBookingsList);
+        }
+
+        public async Task<PartialViewResult> ActiveBookingsCurrentUser()
+        {
+            var activeTripList = await _bookingService.GetActiveBookingsByUserId(userId);
+            return PartialView("_ActiveBookings", activeTripList);
         }
 
         //GET - create

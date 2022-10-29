@@ -5,6 +5,9 @@ namespace AmiFlota.Services
 {
     public interface ITripService
     {
-        public Task<int> CreateInspection(TripVM bookingVM);
+        public void CreateTrip(TripVM bookingVM);
+        public void UpdateTrip(TripVM tripVM);
+        public TripVM GetTripByBookingId(int bookingId);
+
     }
 }
