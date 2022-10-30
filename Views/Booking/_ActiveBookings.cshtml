@@ -21,7 +21,7 @@
                 <div class="col-2">
                     @if (User.IsInRole(AmiFlota.Utilities.Enums.UserRole.admin.ToString()))
                     {
-                        <button type="button" id="btnDashboardReturnCar" class="btn btn-warning btn-active-return-car" data-id="@booking.Id" data-status="@booking.BookingStatus" data-url="@Url.Action("_TripEndModal", "Trip")">Return the car</button>
+                        <button type="button" id="btnDashboardReturnCar" class="btn btn-warning btn-active-return-car" data-id="@booking.Id" data-url="@Url.Action("_TripEndModal", "Trip")">Return the car</button>
                     }
                 </div>
             </div>
@@ -35,13 +35,12 @@
     $(document).ready(function() {
         $(".btn-active-return-car").click(function() {
             var BookingId = $(this).data("id");
-            var BookingStatus = $(this).data("status");
             var UrlRequest = $(this).data('url');
 
             $.ajax({
                 url: UrlRequest,
                 datatype: 'html',
-                data: { bookingId: BookingId, bookingStatus : BookingStatus },
+                data: { bookingId: BookingId},
                 method: 'GET',
 
                 success: function(result) {
@@ -51,8 +50,6 @@
 
                 error: function(xhr, status, error) {
                     console.log("error");
-                    alert(status);
-                    alert(error);
                 }
             });
         });

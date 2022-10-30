@@ -4,6 +4,7 @@ using AmiFlota.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmiFlota.Migrations
 {
     [DbContext(typeof(AmiFlotaContext))]
-    partial class AmiFlotaContextModelSnapshot : ModelSnapshot
+    [Migration("20221030061444_StartEndTripTimeStamp")]
+    partial class StartEndTripTimeStamp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -187,7 +189,7 @@ namespace AmiFlota.Migrations
 
                     b.Property<DateTime>("EndTimestampUTC")
                         .HasColumnType("datetime2")
-                        .HasColumnName("End UTC Time");
+                        .HasColumnName("End Timestamp");
 
                     b.Property<long>("StartKm")
                         .HasColumnType("bigint")
@@ -195,7 +197,7 @@ namespace AmiFlota.Migrations
 
                     b.Property<DateTime>("StartTimestampUTC")
                         .HasColumnType("datetime2")
-                        .HasColumnName("Start UTC Time");
+                        .HasColumnName("Start Timestamp");
 
                     b.HasKey("Id");
 

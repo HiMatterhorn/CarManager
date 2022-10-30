@@ -41,7 +41,8 @@ namespace AmiFlota.Services
                 EndKm = tripVM.EndKm,
                 Cost = tripVM.Cost,
                 CostRemarks = tripVM.CostRemarks,
-                BookingRefId = tripVM.BookingId
+                BookingRefId = tripVM.BookingId,
+                StartTimestampUTC = DateTime.UtcNow,
             };
 
             //Validate data
@@ -68,6 +69,7 @@ namespace AmiFlota.Services
             tripModel.EndKm = tripVM.EndKm;
             tripModel.Cost = tripVM.Cost;
             tripModel.CostRemarks = tripVM.CostRemarks;
+            tripModel.EndTimestampUTC = DateTime.UtcNow;
 
             return  _db.SaveChanges();
         }

@@ -14,17 +14,23 @@ namespace AmiFlota.Models
         [Column("Start Mileage")]
         public uint StartKm { get; set; }
 
-/*        [Column("Start Inspection")]
-        [ForeignKey("InspectionModels")]
-        public InspectionModel StartInspectionId { get; set; }*/
+        /*        [Column("Start Inspection")]
+                [ForeignKey("InspectionModels")]
+                public InspectionModel StartInspectionId { get; set; }*/
+
+        [Column("Start UTC Time")]
+        public DateTime StartTimestampUTC { get; set; }
 
         [Required]
         [Column("End Mileage")]
         public uint EndKm { get; set; }
 
-/*        [Column("End Inspection")]
-        [ForeignKey("InspectionModels")]
-        public InspectionModel EndInspectionId { get; set; }*/
+        /*        [Column("End Inspection")]
+                [ForeignKey("InspectionModels")]
+                public InspectionModel EndInspectionId { get; set; }*/
+
+        [Column("End UTC Time")]
+        public DateTime EndTimestampUTC { get; set; }
 
         public float Cost { get; set; }
         [Column("Costs remarks")]
@@ -36,7 +42,7 @@ namespace AmiFlota.Models
         public int BookingRefId { get; set; }
 
         public virtual BookingModel BookingModels { get; set; }
-/*        public virtual InspectionModel InspectionModels { get; set; }*/
+        /*        public virtual InspectionModel InspectionModels { get; set; }*/
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using static AmiFlota.Utilities.Enums;
+﻿using System;
+using static AmiFlota.Utilities.Enums;
 
 namespace AmiFlota.Models.ViewModels
 {
@@ -8,11 +9,11 @@ namespace AmiFlota.Models.ViewModels
         public int BookingId { get; set; }
         public uint StartKm { get; set; }
 
-        /*        public InspectionModel StartInspectionId { get; set; }*/
+/*        public DateTime StartTimestamp { get; set; }*/
 
         public uint EndKm { get; set; }
 
-        /*        public InspectionModel EndInspectionId { get; set; }*/
+/*        public DateTime EndTimestamp { get; set; }*/
 
         public float Cost { get; set; }
         public string CostRemarks { get; set; }

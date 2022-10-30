@@ -2,6 +2,7 @@
 using AmiFlota.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using static AmiFlota.Utilities.Enums;
@@ -35,7 +36,6 @@ namespace AmiFlota.Controllers
             TripVM viewModel = new TripVM()
             {
                 BookingId = bookingId,
-            /*    BookingStatus = bookingstatus,*/
             };
             return PartialView("_TripStartModal", viewModel);
         }
@@ -56,7 +56,7 @@ namespace AmiFlota.Controllers
             if (ModelState.IsValid)
             {
                 _tripService.StartTrip(viewModel);
-               // _tripService.ChangeBookingStatus(viewModel.BookingId, viewModel.BookingStatus);
+                // _tripService.ChangeBookingStatus(viewModel.BookingId, viewModel.BookingStatus);
                 return RedirectToAction("UserDashboard", "Booking");
             }
             return View(viewModel);
