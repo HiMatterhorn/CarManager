@@ -236,16 +236,18 @@ namespace AmiFlota.Services
             }
         }
 
-        public List<BookingVM> BookingsByCarVinList(List<string> selectedCars)
+        public List<CalendarVM> BookingsByCarVinList(List<string> selectedCars)
         {
             try
             {
                 // NOTE var result = lista.Where(a => listb.Any(b => string.Compare(a,b,true) == 0));
 
                 return _db.Bookings.ToList()
-                    .Where(a => selectedCars.Any(b => string.Compare(a.CarVIN, b, true) == 0)).ToList()
+                    .Where(a => selectedCars.Any(b => string.Compare(a.CarVIN, b, true) == 0))
+                    .Where(x => !x.BookingStatus.Equals(BookingStatus.Finished)) //TODO Test
+                    .ToList()
 
-                    .Select(c => new BookingVM()
+                    .Select(c => new CalendarVM()
                     {
                         Id = c.Id,
                         UserName = GetUserNameById(c.UserId),

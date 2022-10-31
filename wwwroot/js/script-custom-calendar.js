@@ -1,4 +1,5 @@
 ﻿var routeURL = location.protocol + "//" + location.host;
+var events = [];
 var checkedvalues;
 var dtoVIN;
 
@@ -80,46 +81,14 @@ function InitializeCalendar() {
 
                 events: function (fetchInfo, successCallback, failureCallback) {
                     updateSelectedCarsList();
+                    
+                    let urlBookings = routeURL + '/api/Booking/GetCalendarDataForCarList';
+                    let urlTrips = routeURL + '/api/Trip/GetCalendarDataForCarList';
 
-                    $.ajax({
-                        url: routeURL + '/api/Booking/GetCalendarDataForCarList',
-                        contentType: 'application/json',
-                        datatype: JSON,
-                        data: JSON.stringify(dtoVIN),
-                        method: 'POST',
+                    getCalendarData(urlBookings);
+                    getCalendarData(urlTrips);
 
-                        success: function (response) {
-                            var events = [];
-                            if (response.status === 1) {
-                                $.each(response.dataenum, function (i, data) {
-
-                                    let inStartDateTime = new Date(data.startDate);
-                                    let StartTime = inStartDateTime.toLocaleString("en-us", { hour: '2-digit', minute: '2-digit', hour12: false }); //year: 'numeric', month: 'numeric', day: 'numeric',
-
-                                    let inEndDateTime = new Date(data.endDate);
-                                    let EndTime = inEndDateTime.toLocaleString("en-us", { hour: '2-digit', minute: '2-digit', hour12: false }); //year: 'numeric', month: 'numeric', day: 'numeric',
-
-                                    events.push({
-                                        title: StartTime + ' ' + data.registrationNumber + ' ' + EndTime,
-                                        description: data.destination,
-                                        start: data.startDate,
-                                        end: data.endDate,
-                                        backgroundColor: backgroundEventColor(data.bookingStatus),
-                                        /*data.isApproved ? "#28a745" : "#dc3545",*/
-                                        borderColor: "#162466",
-                                        textColor: fontEventColor(data.bookingStatus),
-                                        id: data.id
-                                    });
-
-                                })
-                            }
-                            successCallback(events);
-                        },
-                        error: function (xhr) {
-                            $.notify("Error", "error");
-                            alert(xhr.responseText);
-                        }
-                    });
+                    successCallback(events);
                 },
                 eventClick: function (info) {
                     getEventDetailsByEventId(info.event)
@@ -132,6 +101,47 @@ function InitializeCalendar() {
     catch (e) {
         alert(e);
     }
+}
+
+function getCalendarData (url) {
+    $.ajax({
+        url: url,
+        contentType: 'application/json',
+        datatype: JSON,
+        data: JSON.stringify(dtoVIN),
+        method: 'POST',
+
+        success: function (response) {
+            if (response.status === 1) {
+                $.each(response.dataenum, function (i, data) {
+
+                    let inStartDateTime = new Date(data.startDate);
+                    let StartTime = inStartDateTime.toLocaleString("en-us", { hour: '2-digit', minute: '2-digit', hour12: false }); //year: 'numeric', month: 'numeric', day: 'numeric',
+
+                    let inEndDateTime = new Date(data.endDate);
+                    let EndTime = inEndDateTime.toLocaleString("en-us", { hour: '2-digit', minute: '2-digit', hour12: false }); //year: 'numeric', month: 'numeric', day: 'numeric',
+
+                    events.push({
+                        title: StartTime + ' ' + data.registrationNumber + ' ' + EndTime,
+                        description: data.destination,
+                        start: data.startDate,
+                        end: data.endDate,
+                        backgroundColor: backgroundEventColor(data.bookingStatus),
+                        borderColor: "#162466",
+                        textColor: fontEventColor(data.bookingStatus),
+                        id: data.id
+                    });
+
+                })
+            }
+        },
+        error: function (xhr) {
+            $.notify("Error", "error");
+            alert(xhr.responseText);
+            alert(xhr.statusText);
+            alert(xhr.statusText);
+        }
+    });
 }
 
 function backgroundEventColor(eventStatus) {

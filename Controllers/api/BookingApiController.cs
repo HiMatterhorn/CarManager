@@ -27,7 +27,8 @@ namespace AmiFlota.Controllers.api
             _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpGet]
+        //TODO Delete if won't be used
+/*        [HttpGet]
         [Route("GetCalendarDataForCar")]
         public IActionResult GetCalendarDataForCar(string carVIN)
         {
@@ -45,7 +46,7 @@ namespace AmiFlota.Controllers.api
             }
 
             return Ok(commonResponse);
-        }
+        }*/
 
         //TODO Test method overload for checkboxes in calendar view
         [HttpPost]
@@ -54,7 +55,7 @@ namespace AmiFlota.Controllers.api
         {
 
 
-            CommonResponse<List<BookingVM>> commonResponse = new CommonResponse<List<BookingVM>>();
+            CommonResponse<List<CalendarVM>> commonResponse = new CommonResponse<List<CalendarVM>>();
             try
             {
                 commonResponse.dataenum = _bookingService.BookingsByCarVinList(dtoSelectedCars.Selected);

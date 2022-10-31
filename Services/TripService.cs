@@ -71,7 +71,7 @@ namespace AmiFlota.Services
             tripModel.CostRemarks = tripVM.CostRemarks;
             tripModel.EndTimestampUTC = DateTime.UtcNow;
 
-            return  _db.SaveChanges();
+            return _db.SaveChanges();
         }
 
 
@@ -98,6 +98,40 @@ namespace AmiFlota.Services
                 Cost = m.Cost,
                 CostRemarks = m.CostRemarks,
             }).SingleOrDefault();
+        }
+
+        public List<CalendarVM> TripsByCarVinList(List<string> selectedCars)
+        {
+            try
+            {
+                // NOTE var result = lista.Where(a => listb.Any(b => string.Compare(a,b,true) == 0));
+                var results = (from b in _db.Bookings
+                                .ToList()
+                                .Where(a => selectedCars.Any(y => string.Compare(a.CarVIN, y, true) == 0))
+                                .Where(x => x.BookingStatus.Equals(BookingStatus.Finished))
+                               from c in _db.Cars
+                               from u in _db.Users
+                               from t in _db.Trips
+                               where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id) && (t.BookingRefId == b.Id)
+                               select new CalendarVM()
+                               {
+                                   Id = b.Id,
+                                   UserName = u.UserName,
+                                   RegistrationNumber = c.RegistrationNumber,
+                                   StartDate = t.StartTimestampUTC,
+                                   EndDate = t.EndTimestampUTC,
+                                   Destination = b.Destination,
+                                   ProjectCost = b.ProjectCost,
+                                   BookingStatus = b.BookingStatus,
+                               }).ToList();
+
+                return results;
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
 
