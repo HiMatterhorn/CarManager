@@ -44,10 +44,7 @@
 @* //TODO Relocate script to separate file*@
 <script>
 
-    let getDateTime = getRoundedSearchDateTime();
-
-    let startDateTime = getDateTime.startDateTime,
-        endDateTime = getDateTime.endDateTime;
+    let DateTime = getRoundedSearchDateTime();
 
     //TODO Do not take / return car during the weekends
     $('input[name="datetimerange"]').daterangepicker({
@@ -89,8 +86,8 @@
             ],
             "firstDay": 1
         },
-        "startDate": startDateTime,
-        "endDate": endDateTime,
+        "startDate": DateTime.startDateTime,
+        "endDate": DateTime.endDateTime,
         "opens": "center"
     });
 </script>

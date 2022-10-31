@@ -8,6 +8,8 @@
     <title>Bookings list</title>
 </head>
 <body>
+    @if(Model.Count()>0){
+    <h2>Active bookings</h2>
     <div class="row row-cols-1 row-cols-md-1">
         @foreach (var booking in Model)
         {
@@ -28,6 +30,7 @@
 
         }
     </div>
+    }
 </body>
 </html>
 
@@ -40,7 +43,7 @@
             $.ajax({
                 url: UrlRequest,
                 datatype: 'html',
-                data: { bookingId: BookingId},
+                data: { bookingId: BookingId },
                 method: 'GET',
 
                 success: function(result) {

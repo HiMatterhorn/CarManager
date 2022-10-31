@@ -104,10 +104,10 @@ function InitializeCalendar() {
                                         description: data.destination,
                                         start: data.startDate,
                                         end: data.endDate,
-
-                                        backgroundColor: data.isApproved ? "#28a745" : "#dc3545",
+                                        backgroundColor: backgroundEventColor(data.bookingStatus),
+                                        /*data.isApproved ? "#28a745" : "#dc3545",*/
                                         borderColor: "#162466",
-                                        textColor: "white",
+                                        textColor: fontEventColor(data.bookingStatus),
                                         id: data.id
                                     });
 
@@ -131,6 +131,48 @@ function InitializeCalendar() {
     }
     catch (e) {
         alert(e);
+    }
+}
+
+function backgroundEventColor(eventStatus) {
+    switch (eventStatus) {
+        case 0: {
+            return "#DCE3F8";
+            break;
+        }
+        case 1: {
+            return "#A9BCF5";
+            break;
+        }
+        case 2: {
+            return "#5167A8";
+            break;
+        }
+        case 3: {
+            return "#F5E0A9";
+            break;
+        }
+    }
+}
+
+function fontEventColor(eventStatus) {
+    switch (eventStatus) {
+        case 0: {
+            return "black";
+            break;
+        }
+        case 1: {
+            return "black";
+            break;
+        }
+        case 2: {
+            return "white";
+            break;
+        }
+        case 3: {
+            return "black";
+            break;
+        }
     }
 }
 
