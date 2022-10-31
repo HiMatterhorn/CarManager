@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AmiFlota.Data;
+using AmiFlota.Utilities;
 
 namespace AmiFlota.Models
 {
@@ -55,13 +56,13 @@ namespace AmiFlota.Models
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VIN,RegistrationNumber,Brand,Model,SeatsNumber,Trunk")] CarModel carModel)
+        public async Task<IActionResult> Create([Bind("VIN,RegistrationNumber,Brand,Model,SeatsNumber,Trunk")] CarModel carModel, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(carModel);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("CarList", "Car");
             }
             return View(carModel);
         }
