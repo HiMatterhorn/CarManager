@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static AmiFlota.Utilities.Enums;
 
 namespace AmiFlota.Services
 {
@@ -59,7 +60,9 @@ namespace AmiFlota.Services
                 var bookings = _db.Bookings
                     .Where(x => x.CarVIN.Equals(car.VIN))
                     .Where(s => s.StartDate <= endDate)
-                    .Where(e => e.EndDate >= startDate).ToList();
+                    .Where(e => e.EndDate >= startDate)
+                    .Where(b => !b.BookingStatus.Equals(BookingStatus.Finished)) //To test
+                    .ToList();
 
 
                 if (bookings.Count() == 0)
@@ -110,13 +113,15 @@ namespace AmiFlota.Services
             var bookings = _db.Bookings
     .Where(x => x.CarVIN.Equals(bookingModel.CarVIN))
     .Where(s => s.StartDate <= bookingModel.StartDate)
-    .Where(e => e.EndDate >= bookingModel.StartDate).ToList();
+    .Where(e => e.EndDate >= bookingModel.StartDate)
+    .Where(b => !b.BookingStatus.Equals(BookingStatus.Finished))
+    .ToList();
 
             if (bookings.Count() == 0)
             {
                 return true;
             }
-            return false;
+            return false; //TODO Notify about error
         }
 
         public async Task<IEnumerable<BookingVM>> GetPendingBookingsByUserId(string userId)
@@ -237,17 +242,20 @@ namespace AmiFlota.Services
             {
                 // NOTE var result = lista.Where(a => listb.Any(b => string.Compare(a,b,true) == 0));
 
-                return _db.Bookings.ToList().Where(a => selectedCars.Any(b => string.Compare(a.CarVIN, b, true) == 0)).ToList().Select(c => new BookingVM()
-                {
-                    Id = c.Id,
-                    UserName = GetUserNameById(c.UserId),
-                    RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
-                    StartDate = c.StartDate,
-                    EndDate = c.EndDate,
-                    Destination = c.Destination,
-                    ProjectCost = c.ProjectCost,
-                    BookingStatus = c.BookingStatus,
-                }).ToList();
+                return _db.Bookings.ToList()
+                    .Where(a => selectedCars.Any(b => string.Compare(a.CarVIN, b, true) == 0)).ToList()
+
+                    .Select(c => new BookingVM()
+                    {
+                        Id = c.Id,
+                        UserName = GetUserNameById(c.UserId),
+                        RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
+                        StartDate = c.StartDate,
+                        EndDate = c.EndDate,
+                        Destination = c.Destination,
+                        ProjectCost = c.ProjectCost,
+                        BookingStatus = c.BookingStatus,
+                    }).ToList();
             }
 
             catch (Exception)
