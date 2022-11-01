@@ -1,10 +1,13 @@
 ﻿using AmiFlota.Data;
 using AmiFlota.Models;
+using AmiFlota.Models.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AmiFlota.Services
@@ -35,5 +38,37 @@ namespace AmiFlota.Services
             await photoPath.CopyToAsync(new FileStream(serverPath, FileMode.Create));
             return fileName;
         }
+
+        public async Task<CarModel> GetCarByVIN(string vin)
+        {
+            return await _db.Cars.FirstOrDefaultAsync(c => c.VIN.Equals(vin));
+        }
+
+        public async Task<int> AddCar(CarModel carModel)
+        {
+            _db.Cars.Add(carModel);
+            return await _db.SaveChangesAsync();
+        }
+
+        public async Task<int> UpdateCar(CarModel newData)
+        {
+            CarModel car = await _db.Cars.FirstOrDefaultAsync(c => c.VIN.Equals(vin));
+            car.RegistrationNumber = newData.RegistrationNumber;
+            car.SeatsNumber = newData.SeatsNumber;
+            car.Trunk = newData.Trunk;
+            car.Brand = newData.Brand;
+            car.Model = newData.Model;
+            car.PhotoPath = newData.PhotoPath;
+            
+            return await _db.SaveChangesAsync();
+        }
+
+        public async Task<int> DeleteCar(string vin)
+        {
+            var deleteCar = await _db.Cars.FirstOrDefaultAsync(c => c.VIN.Equals(vin));
+            _db.Cars.Remove(deleteCar);
+            return await _db.SaveChangesAsync();
+        }
+
     }
 }
