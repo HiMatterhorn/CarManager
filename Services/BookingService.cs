@@ -373,6 +373,15 @@ namespace AmiFlota.Services
             return 0;
         }
 
+        public async Task<int> AutoConfirmBooking(double hours)
+        {
+            var autoConfirmDateTime = DateTime.UtcNow.AddHours(hours);
+            _db.Bookings.Where(x => x.StartDate < autoConfirmDateTime && x.BookingStatus.Equals(BookingStatus.Pending)).ToList()
+            .ForEach(b =>{b.BookingStatus = BookingStatus.Approved;});
+
+            return await _db.SaveChangesAsync();
+        }
+
 
     }
 }

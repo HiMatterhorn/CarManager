@@ -84,14 +84,16 @@ namespace AmiFlota.Controllers
 
 
 
-        public IActionResult UserDashboard()
+        public async Task<IActionResult> UserDashboard()
         {
+            await _bookingService.AutoConfirmBooking(3);
             return View();
         }
 
 
         public async Task<IActionResult> Calendar()
         {
+            await _bookingService.AutoConfirmBooking(3);
             List<CarModel> viewModel = await _bookingService.GetAllCars();
 
             return View(viewModel);
