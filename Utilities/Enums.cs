@@ -16,5 +16,10 @@
         {
             Pending, Approved, Active, Finished
         }
+
+        public enum Fuel
+        {
+            Gasoline, Diesel, LPG, Electric
+        }
     }
 }
