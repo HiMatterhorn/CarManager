@@ -7,22 +7,30 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AmiFlota.Data;
 using AmiFlota.Utilities;
+using AmiFlota.Models.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using AmiFlota.Services;
 
 namespace AmiFlota.Models
 {
     public class CarController : Controller
     {
         private readonly AmiFlotaContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ICarService _carService;
 
-        public CarController(AmiFlotaContext context)
+        public CarController(AmiFlotaContext context, IWebHostEnvironment webHostEnvironment, ICarService carService)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
+            _carService = carService;
         }
 
         // GET: CarModels
         public async Task<IActionResult> CarList()
         {
-            IEnumerable<CarModel> cars = await _context.Cars.ToListAsync(); 
+            IEnumerable<CarModel> cars = await _context.Cars.ToListAsync();
 
             return View(cars);
         }
@@ -56,15 +64,32 @@ namespace AmiFlota.Models
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VIN,RegistrationNumber,Brand,Model,SeatsNumber,Trunk")] CarModel carModel, HttpPostedFileBase file)
+        public async Task<IActionResult> Create(CarVM viewModel)
         {
             if (ModelState.IsValid)
             {
+                string photoName = "default.jpg";
+
+                if (viewModel.PhotoPath != null)
+                {
+                    photoName = await _carService.UploadPhoto(viewModel.PhotoPath);
+                }
+                
+                CarModel carModel = new CarModel()
+                {
+                    VIN = viewModel.VIN,
+                    RegistrationNumber = viewModel.RegistrationNumber,
+                    Brand = viewModel.Brand,
+                    Model = viewModel.Model,
+                    SeatsNumber = viewModel.SeatsNumber,
+                    Trunk = viewModel.Trunk,
+                    PhotoPath = photoName
+                };
                 _context.Add(carModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("CarList", "Car");
             }
-            return View(carModel);
+            return View(viewModel);
         }
 
         // GET: CarModels/Edit/5

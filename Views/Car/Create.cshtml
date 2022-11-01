@@ -1,5 +1,5 @@
 ﻿@using AmiFlota.Utilities
-@model AmiFlota.Models.CarModel
+@model AmiFlota.Models.ViewModels.CarVM
 
 @{
     ViewBag.Title = "Create";
@@ -18,7 +18,7 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="Create" asp-controller="Car">
+            <form asp-action="Create" asp-controller="Car" enctype = "multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="VIN" class="control-label"></label>
@@ -28,36 +28,46 @@
                 <div class="form-group">
                     <label asp-for="RegistrationNumber" class="control-label"></label>
                     <input asp-for="RegistrationNumber" class="form-control" />
-                    <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+@*                    <span asp-validation-for="RegistrationNumber" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
                     <label asp-for="Brand" class="control-label"></label>
                     <input asp-for="Brand" class="form-control" />
-                    <span asp-validation-for="Brand" class="text-danger"></span>
+@*                    <span asp-validation-for="Brand" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
                     <label asp-for="Model" class="control-label"></label>
                     <input asp-for="Model" class="form-control" />
-                    <span asp-validation-for="Model" class="text-danger"></span>
+@*                    <span asp-validation-for="Model" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
                     <label asp-for="SeatsNumber" class="control-label"></label>
                     <input asp-for="SeatsNumber" class="form-control" />
-                    <span asp-validation-for="SeatsNumber" class="text-danger"></span>
+@*                    <span asp-validation-for="SeatsNumber" class="text-danger"></span>*@
                 </div>
 
                 <div class="form-group">
                     <select asp-for="Trunk" class="btn btn-secondary dropdown-toggle" asp-items="Html.GetEnumSelectList<Enums.TrunkType>()"></select>
                 </div>
 
-                <div class="container col-md-6">
+                <div class="form-group">
+                    <label asp-for="PhotoPath" class="control-label"></label>
+                    <div class="custom-file">
+                        <input asp-for="PhotoPath" class="custom-file-input" id="customFile" />
+                    </div>
+@*                    <span asp-validation-for="PhotoPath" class="text-danger"></span>*@
+                </div>
+
+@*                
+    //Upload photo with preview
+<div class="container col-md-6">
                     <div class="mb-5">
                         <label for="Image" class="form-label">Load car image</label>
-                        <input class="form-control" type="file" id="formFile" onchange="preview()"> @*multiple*@
+                        <input class="form-control" type="file" id="formFile" onchange="preview()"> multiple
                         <button onclick="clearImage()" class="btn btn-primary mt-3">Upload</button>
                     </div>
                     <img id="frame" src="" class="img-fluid" />
-                </div>
+                </div>*@
 
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
@@ -75,7 +85,9 @@
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }
 
-        <script>
+@*        
+    //Upload photo with preview
+    <script>
             function preview() {
                 frame.src = URL.createObjectURL(event.target.files[0]);
             }
@@ -83,7 +95,7 @@
                 document.getElementById('formFile').value = null;
                 frame.src = "";
             }
-        </script>
+        </script>*@
     }
     </body>
     </html>
