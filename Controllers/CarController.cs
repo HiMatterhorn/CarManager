@@ -32,10 +32,16 @@ namespace AmiFlota.Models
             return View(cars);
         }
 
-        public async Task<IActionResult> Details(string vin)
+        /*        public async Task<IActionResult> Details(string vin)
+                {
+                    var car = await _carService.GetCarByVIN(vin);
+                    return View(car);
+                }*/
+
+        public async Task<IActionResult> _CarDetailsModal(string vin)
         {
             var car = await _carService.GetCarByVIN(vin);
-            return View(car);
+            return PartialView("_CarDetailsModal", car);
         }
 
         public IActionResult Create()

@@ -1,6 +1,6 @@
 ﻿@model AmiFlota.Models.CarModel
 @{
-    var photoPath = "/images/cars/" + (Model.PhotoPath ?? "default.jpg") ;//+ ".jpg"
+    var photoPath = "/images/cars/" + (Model.PhotoPath ?? "default.jpg");//+ ".jpg"
 }
 <div class="col">
     <div class="card h-100">
@@ -16,24 +16,16 @@
             @*<a class="btn btn-primary" asp-action="Details" asp-route-id="@Model.VIN">Show details</a>*@
 
             <button type="button" name="btnDetails"
-                   class="btn btn-outline-secondary btn-details"
-                   id="@Model.VIN"
-                   data-vin = "@Model.VIN"> 
-                   Details </button> @*onclick="onClickDetails(this)"*@
+                    class="btn btn-outline-secondary btn-details"
+                    id="@Model.VIN"
+                    data-vin="@Model.VIN">
+                Details
+            </button> @*onclick="onClickDetails(this)"*@
         </div>
     </div>
 </div>
 
-@*<script>
 
-//TODO Redirect to another view
-    function onClickDetails(btn) {
-    var VIN = btn.id;
-    var DataAttribute = btn.getAttribute('data-vin');
 
-        console.log("ID: " + VIN);
-        console.log("Data-attribute: " + DataAttribute);
-}
-</script>*@
 
 
