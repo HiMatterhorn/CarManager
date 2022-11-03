@@ -58,7 +58,7 @@ namespace AmiFlota.Controllers.api
             CommonResponse<List<CalendarVM>> commonResponse = new CommonResponse<List<CalendarVM>>();
             try
             {
-                commonResponse.dataenum = _bookingService.BookingsByCarVinList(dtoSelectedCars.Selected);
+                commonResponse.dataenum = _bookingService.AllBookingsByCarVinList(dtoSelectedCars.Selected);
                 commonResponse.status = ApiResponses.success_code;
             }
             catch (Exception e)
@@ -158,6 +158,44 @@ namespace AmiFlota.Controllers.api
             {
                 commonResponse.status = await _bookingService.DeleteEvent(id);
                 commonResponse.message = commonResponse.status == 1 ? ApiResponses.bookingDeleted : ApiResponses.bookingDeleteError;
+            }
+            catch (Exception e)
+            {
+                commonResponse.message = e.Message;
+                commonResponse.status = ApiResponses.failure_code;
+            }
+
+            return Ok(commonResponse);
+        }
+
+        [HttpGet]
+        [Route("TakeCar")]
+        public async Task<IActionResult> TakeCar(int bookingId)
+        {
+            CommonResponse<int> commonResponse = new CommonResponse<int>();
+            try
+            {
+                commonResponse.status = await _bookingService.TakeCar(bookingId);
+                commonResponse.message = commonResponse.status == 1 ? ApiResponses.carTaken : ApiResponses.carTakingError;
+            }
+            catch (Exception e)
+            {
+                commonResponse.message = e.Message;
+                commonResponse.status = ApiResponses.failure_code;
+            }
+
+            return Ok(commonResponse);
+        }
+
+        [HttpGet]
+        [Route("ReturnCar")]
+        public async Task<IActionResult> ReturnCar(int bookingId)
+        {
+            CommonResponse<int> commonResponse = new CommonResponse<int>();
+            try
+            {
+                commonResponse.status = await _bookingService.ReturnCar(bookingId);
+                commonResponse.message = commonResponse.status == 1 ? ApiResponses.carReturn : ApiResponses.carReturningError;
             }
             catch (Exception e)
             {

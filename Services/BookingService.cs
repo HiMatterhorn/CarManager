@@ -18,6 +18,8 @@ namespace AmiFlota.Services
         private readonly AmiFlotaContext _db;
         private readonly UserManager<ApplicationUserModel> _userManager;
 
+        private readonly DateTime nowDateTime = DateTime.UtcNow;
+
         public BookingService(AmiFlotaContext db, UserManager<ApplicationUserModel> userManager)
         {
             _db = db;
@@ -87,8 +89,8 @@ namespace AmiFlota.Services
                 EndDate = bookingVM.EndDate,
                 CarVIN = GetVinByRegistrationNumber(bookingVM.RegistrationNumber),
                 ProjectCost = bookingVM.ProjectCost,
-                Destination = bookingVM.Destination,
-                BookingStatus = Utilities.Enums.BookingStatus.Pending
+                Description = bookingVM.Description,
+                BookingStatus = BookingStatus.Pending
             };
 
             //Validate booking
@@ -129,7 +131,7 @@ namespace AmiFlota.Services
             try
             {
                 var results = await
-                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.BookingStatus.Equals(Utilities.Enums.BookingStatus.Pending))
+                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.BookingStatus.Equals(BookingStatus.Pending))
                      from c in _db.Cars
                      from u in _db.Users
                      where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
@@ -141,7 +143,7 @@ namespace AmiFlota.Services
                          PhotoPath = c.PhotoPath,
                          StartDate = b.StartDate,
                          EndDate = b.EndDate,
-                         Destination = b.Destination,
+                         Description = b.Description,
                          ProjectCost = b.ProjectCost,
                          BookingStatus = b.BookingStatus,
                      }).ToListAsync();
@@ -159,7 +161,7 @@ namespace AmiFlota.Services
             try
             {
                 var results = await
-                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.BookingStatus.Equals(Utilities.Enums.BookingStatus.Approved))
+                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.BookingStatus.Equals(BookingStatus.Approved))
                      from c in _db.Cars
                      from u in _db.Users
                      where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
@@ -171,7 +173,7 @@ namespace AmiFlota.Services
                          PhotoPath = c.PhotoPath,
                          StartDate = b.StartDate,
                          EndDate = b.EndDate,
-                         Destination = b.Destination,
+                         Description = b.Description,
                          ProjectCost = b.ProjectCost,
                          BookingStatus = b.BookingStatus,
                      }).ToListAsync();
@@ -189,7 +191,7 @@ namespace AmiFlota.Services
             try
             {
                 var results = await
-                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.BookingStatus.Equals(Utilities.Enums.BookingStatus.Active))
+                    (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.BookingStatus.Equals(BookingStatus.Active) || a.BookingStatus.Equals(BookingStatus.OnTheWay))
                      from c in _db.Cars
                      from u in _db.Users
                      where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
@@ -201,7 +203,7 @@ namespace AmiFlota.Services
                          PhotoPath = c.PhotoPath,
                          StartDate = b.StartDate,
                          EndDate = b.EndDate,
-                         Destination = b.Destination,
+                         Description = b.Description,
                          ProjectCost = b.ProjectCost,
                          BookingStatus = b.BookingStatus,
                      }).ToListAsync();
@@ -225,7 +227,7 @@ namespace AmiFlota.Services
                     RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
                     StartDate = c.StartDate,
                     EndDate = c.EndDate,
-                    Destination = c.Destination,
+                    Description = c.Description,
                     ProjectCost = c.ProjectCost,
                     BookingStatus = c.BookingStatus,
                 }).ToList();
@@ -236,28 +238,84 @@ namespace AmiFlota.Services
             }
         }
 
-        public List<CalendarVM> BookingsByCarVinList(List<string> selectedCars)
+        public List<CalendarVM> AllBookingsByCarVinList(List<string> selectedCars)
+        {
+            try
+            {
+                var currentBookings = CurrentBookingsByCarVinList(selectedCars);
+                var finishedBookings = FinishedBookingsByCarVinList(selectedCars);
+                var mergedLists = currentBookings.Concat(finishedBookings).ToList();
+                return mergedLists;
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<CalendarVM> CurrentBookingsByCarVinList(List<string> selectedCars)
         {
             try
             {
                 // NOTE var result = lista.Where(a => listb.Any(b => string.Compare(a,b,true) == 0));
 
-                return _db.Bookings.ToList()
-                    .Where(a => selectedCars.Any(b => string.Compare(a.CarVIN, b, true) == 0))
-                    .Where(x => !x.BookingStatus.Equals(BookingStatus.Finished)) //TODO Test
-                    .ToList()
+                var results = (from b in _db.Bookings
+                                .ToList()
+                                .Where(a => selectedCars.Any(y => string.Compare(a.CarVIN, y, true) == 0))
+                                .Where(x => !x.BookingStatus.Equals(BookingStatus.Finished))
+                               from c in _db.Cars
+                               from u in _db.Users
+                               where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
+                               select new CalendarVM()
+                               {
+                                   Id = b.Id,
+                                   UserName = u.UserName,
+                                   RegistrationNumber = c.RegistrationNumber,
+                                   StartDate = b.StartDate,
+                                   EndDate = b.EndDate,
+                                   Description = b.Description,
+                                   ProjectCost = b.ProjectCost,
+                                   BookingStatus = b.BookingStatus,
+                               }).ToList();
 
-                    .Select(c => new CalendarVM()
-                    {
-                        Id = c.Id,
-                        UserName = GetUserNameById(c.UserId),
-                        RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
-                        StartDate = c.StartDate,
-                        EndDate = c.EndDate,
-                        Destination = c.Destination,
-                        ProjectCost = c.ProjectCost,
-                        BookingStatus = c.BookingStatus,
-                    }).ToList();
+                return results;
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<CalendarVM> FinishedBookingsByCarVinList(List<string> selectedCars)
+        {
+            try
+            {
+                // NOTE var result = lista.Where(a => listb.Any(b => string.Compare(a,b,true) == 0));
+
+                var results = (from b in _db.Bookings
+                                .ToList()
+                                .Where(a => selectedCars.Any(y => string.Compare(a.CarVIN, y, true) == 0))
+                                .Where(x => x.BookingStatus.Equals(BookingStatus.Finished))
+                               from c in _db.Cars
+                               from u in _db.Users
+                               //from t in _db.Trips
+                               //TODO pass trips information to calendar events
+                               where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id) //&& (t.BookingRefId == b.Id)
+                               select new CalendarVM()
+                               {
+                                   Id = b.Id,
+                                   UserName = u.UserName,
+                                   RegistrationNumber = c.RegistrationNumber,
+                                   StartDate = b.CarTakenUTC,
+                                   EndDate = b.CarReturnedUTC, 
+                                   Description = b.Description,
+                                   ProjectCost = b.ProjectCost,
+                                   BookingStatus = b.BookingStatus,
+                               }).ToList();
+
+                return results;
             }
 
             catch (Exception)
@@ -330,7 +388,7 @@ namespace AmiFlota.Services
                 RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
                 StartDate = c.StartDate,
                 EndDate = c.EndDate,
-                Destination = c.Destination,
+                Description = c.Description,
                 ProjectCost = c.ProjectCost,
                 BookingStatus = c.BookingStatus,
             }).SingleOrDefault();
@@ -342,7 +400,7 @@ namespace AmiFlota.Services
             var booking = await _db.Bookings.FirstOrDefaultAsync(x => x.Id == id);
             if (booking != null)
             {
-                booking.BookingStatus = Utilities.Enums.BookingStatus.Approved;
+                booking.BookingStatus = BookingStatus.Approved;
                 return await _db.SaveChangesAsync();
             }
 
@@ -354,7 +412,7 @@ namespace AmiFlota.Services
             var booking = await _db.Bookings.FirstOrDefaultAsync(x => x.Id == id);
             if (booking != null)
             {
-                booking.BookingStatus = Utilities.Enums.BookingStatus.Pending;
+                booking.BookingStatus = BookingStatus.Pending;
                 return await _db.SaveChangesAsync();
             }
 
@@ -375,13 +433,38 @@ namespace AmiFlota.Services
 
         public async Task<int> AutoConfirmBooking(double hours)
         {
+            
             var autoConfirmDateTime = DateTime.UtcNow.AddHours(hours);
-            _db.Bookings.Where(x => x.StartDate < autoConfirmDateTime && x.BookingStatus.Equals(BookingStatus.Pending)).ToList()
-            .ForEach(b =>{b.BookingStatus = BookingStatus.Approved;});
-
+            _db.Bookings.Where(x => x.StartDate < autoConfirmDateTime && x.StartDate > nowDateTime && x.BookingStatus.Equals(BookingStatus.Pending)).ToList()
+            .ForEach(b => { b.BookingStatus = BookingStatus.Approved; });
+            //TODO And not on rejected list
             return await _db.SaveChangesAsync();
         }
 
+        public async Task<int> TakeCar(int bookingId)
+        {
+            var booking = await _db.Bookings.FirstOrDefaultAsync(x => x.Id == bookingId);
+            if (booking != null)
+            {
+                booking.CarTakenUTC = nowDateTime;
+                booking.BookingStatus = BookingStatus.Active;
+                return await _db.SaveChangesAsync();
+            }
+
+            return 0;
+        }
+        public async Task<int> ReturnCar(int bookingId)
+        {
+            var booking = await _db.Bookings.FirstOrDefaultAsync(x => x.Id == bookingId);
+            if (booking != null)
+            {
+                booking.CarReturnedUTC = nowDateTime;
+                booking.BookingStatus = BookingStatus.Finished;
+                return await _db.SaveChangesAsync();
+            }
+
+            return 0;
+        }
 
     }
 }

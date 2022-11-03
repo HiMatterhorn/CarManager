@@ -4,6 +4,7 @@ using AmiFlota.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmiFlota.Migrations
 {
     [DbContext(typeof(AmiFlotaContext))]
-    partial class AmiFlotaContextModelSnapshot : ModelSnapshot
+    [Migration("20221101192255_OneToManyRelationBookingToTrip")]
+    partial class OneToManyRelationBookingToTrip
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,12 +102,6 @@ namespace AmiFlota.Migrations
 
                     b.Property<int>("BookingStatus")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("CarReturnedUTC")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CarTakenUTC")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("CarVIN")
                         .IsRequired()

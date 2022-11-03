@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using static AmiFlota.Utilities.Enums;
 
 namespace AmiFlota.Models.ViewModels
@@ -9,11 +10,17 @@ namespace AmiFlota.Models.ViewModels
         public int BookingId { get; set; }
         public uint StartKm { get; set; }
 
-/*        public DateTime StartTimestamp { get; set; }*/
+        [DisplayName("Start Location")]
+        public string StartLocation { get; set; }
+
+        /*        public DateTime StartTimestamp { get; set; }*/
 
         public uint EndKm { get; set; }
 
-/*        public DateTime EndTimestamp { get; set; }*/
+        [DisplayName("End Location")]
+        public string EndLocation { get; set; }
+
+        /*        public DateTime EndTimestamp { get; set; }*/
 
         public float Cost { get; set; }
         public string CostRemarks { get; set; }

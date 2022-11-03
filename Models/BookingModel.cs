@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static AmiFlota.Utilities.Enums;
@@ -21,16 +22,20 @@ namespace AmiFlota.Models
         [Required]
         public DateTime EndDate { get; set; }
 
-        public string Destination { get; set; }
+        public string Description { get; set; }
         [Required]
         public string ProjectCost { get; set; }
+
+        public DateTime CarTakenUTC { get; set; }
+
+        public DateTime CarReturnedUTC { get; set; }
 
         public BookingStatus BookingStatus { get; set; }
 
         public virtual ApplicationUserModel ApplicationUserModels { get; set; }
         public virtual CarModel CarModels { get; set; }
 
-        public virtual TripModel Trips { get; set; }
+        public virtual List<TripModel> Trips { get; set; }
 
     }
 }

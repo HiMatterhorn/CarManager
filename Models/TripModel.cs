@@ -17,6 +17,9 @@ namespace AmiFlota.Models
         /*        [Column("Start Inspection")]
                 [ForeignKey("InspectionModels")]
                 public InspectionModel StartInspectionId { get; set; }*/
+        
+        [Column("Start Location")]
+        public string StartLocation { get; set; }
 
         [Column("Start UTC Time")]
         public DateTime StartTimestampUTC { get; set; }
@@ -24,6 +27,9 @@ namespace AmiFlota.Models
         [Required]
         [Column("End Mileage")]
         public uint EndKm { get; set; }
+
+        [Column("End Location")]
+        public string EndLocation { get; set; }
 
         /*        [Column("End Inspection")]
                 [ForeignKey("InspectionModels")]

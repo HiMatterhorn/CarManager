@@ -14,7 +14,7 @@
 
         public enum BookingStatus
         {
-            Pending, Approved, Active, Finished
+            Pending = 0, Approved = 10, Active = 20, OnTheWay = 30, Finished = 50
         }
 
         public enum Fuel

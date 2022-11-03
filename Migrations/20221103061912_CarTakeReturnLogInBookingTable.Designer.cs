@@ -4,6 +4,7 @@ using AmiFlota.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmiFlota.Migrations
 {
     [DbContext(typeof(AmiFlotaContext))]
-    partial class AmiFlotaContextModelSnapshot : ModelSnapshot
+    [Migration("20221103061912_CarTakeReturnLogInBookingTable")]
+    partial class CarTakeReturnLogInBookingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

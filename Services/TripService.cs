@@ -26,7 +26,7 @@ namespace AmiFlota.Services
         public int StartTrip(TripVM tripVM) //ASYNC return?
         {
             CreateTrip(tripVM);
-            ChangeBookingStatus(tripVM.BookingId, BookingStatus.Active);
+            ChangeBookingStatus(tripVM.BookingId, BookingStatus.OnTheWay);
 
             //TODO ???
             return 1;
@@ -57,7 +57,7 @@ namespace AmiFlota.Services
         public int FinishTrip(TripVM tripVM) //ASYNC return?
         {
             UpdateTrip(tripVM);
-            ChangeBookingStatus(tripVM.BookingId, BookingStatus.Finished);
+            ChangeBookingStatus(tripVM.BookingId, BookingStatus.Active);
 
             //TODO ???
             return 1;
@@ -105,6 +105,8 @@ namespace AmiFlota.Services
             try
             {
                 // NOTE var result = lista.Where(a => listb.Any(b => string.Compare(a,b,true) == 0));
+
+                //TODO Show start and final destination
                 var results = (from b in _db.Bookings
                                 .ToList()
                                 .Where(a => selectedCars.Any(y => string.Compare(a.CarVIN, y, true) == 0))
@@ -120,7 +122,7 @@ namespace AmiFlota.Services
                                    RegistrationNumber = c.RegistrationNumber,
                                    StartDate = t.StartTimestampUTC,
                                    EndDate = t.EndTimestampUTC,
-                                   Destination = b.Destination,
+                                   Description = b.Description,
                                    ProjectCost = b.ProjectCost,
                                    BookingStatus = b.BookingStatus,
                                }).ToList();

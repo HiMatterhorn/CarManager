@@ -24,7 +24,7 @@ namespace AmiFlota.Controllers.api
             _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpPost]
+/*        [HttpPost]
         [Route("GetCalendarDataForCarList")]
         public IActionResult GetCalendarDataForCarList([FromBody] dtoVIN dtoSelectedCars)
         {
@@ -44,7 +44,7 @@ namespace AmiFlota.Controllers.api
             }
 
             return Ok(commonResponse);
-        }
+        }*/
 
 
 

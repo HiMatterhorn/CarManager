@@ -1,6 +1,6 @@
 ﻿var routeURL = location.protocol + "//" + location.host;
 var urlBookings = routeURL + '/api/Booking/GetCalendarDataForCarList';
-var urlTrips = routeURL + '/api/Trip/GetCalendarDataForCarList';
+/*var urlTrips = routeURL + '/api/Trip/GetCalendarDataForCarList';*/
 var checkedvalues;
 var dtoVIN;
 
@@ -36,45 +36,7 @@ function getEventsSelectedCars() {
 
                         CalendarEvents.push({
                             title: StartTime + ' ' + data.registrationNumber + ' ' + EndTime,
-                            description: data.destination,
-                            start: data.startDate,
-                            end: data.endDate,
-                            backgroundColor: backgroundEventColor(data.bookingStatus),
-                            borderColor: "#162466",
-                            textColor: fontEventColor(data.bookingStatus),
-                            id: data.id
-                        });
-
-                    })
-                    //successCallback(CalendarEvents);
-                }
-            },
-            error: function (xhr) {
-                $.notify("Error", "error");
-            }
-        });
-
-        //Trips
-        $.ajax({
-            url: urlTrips,
-            contentType: 'application/json',
-            datatype: JSON,
-            data: JSON.stringify(dtoVIN),
-            method: 'POST',
-
-            success: function (response) {
-                if (response.status === 1) {
-                    $.each(response.dataenum, function (i, data) {
-
-                        let inStartDateTime = new Date(data.startDate);
-                        let StartTime = inStartDateTime.toLocaleString("en-us", { hour: '2-digit', minute: '2-digit', hour12: false }); //year: 'numeric', month: 'numeric', day: 'numeric',
-
-                        let inEndDateTime = new Date(data.endDate);
-                        let EndTime = inEndDateTime.toLocaleString("en-us", { hour: '2-digit', minute: '2-digit', hour12: false }); //year: 'numeric', month: 'numeric', day: 'numeric',
-
-                        CalendarEvents.push({
-                            title: StartTime + ' ' + data.registrationNumber + ' ' + EndTime,
-                            description: data.destination,
+                            description: data.description,
                             start: data.startDate,
                             end: data.endDate,
                             backgroundColor: backgroundEventColor(data.bookingStatus),
@@ -91,7 +53,6 @@ function getEventsSelectedCars() {
                 $.notify("Error", "error");
             }
         });
-
         calendar.refetchEvents();
     });
 }
@@ -163,45 +124,7 @@ function InitializeCalendar() {
 
                                     CalendarEvents.push({
                                         title: StartTime + ' ' + data.registrationNumber + ' ' + EndTime,
-                                        description: data.destination,
-                                        start: data.startDate,
-                                        end: data.endDate,
-                                        backgroundColor: backgroundEventColor(data.bookingStatus),
-                                        borderColor: "#162466",
-                                        textColor: fontEventColor(data.bookingStatus),
-                                        id: data.id
-                                    });
-
-                                })
-                                //successCallback(CalendarEvents);
-                            }
-                        },
-                        error: function (xhr) {
-                            $.notify("Error", "error");
-                        }
-                    });
-
-                    //Trips
-                    $.ajax({
-                        url: urlTrips,
-                        contentType: 'application/json',
-                        datatype: JSON,
-                        data: JSON.stringify(dtoVIN),
-                        method: 'POST',
-
-                        success: function (response) {
-                            if (response.status === 1) {
-                                $.each(response.dataenum, function (i, data) {
-
-                                    let inStartDateTime = new Date(data.startDate);
-                                    let StartTime = inStartDateTime.toLocaleString("en-us", { hour: '2-digit', minute: '2-digit', hour12: false }); //year: 'numeric', month: 'numeric', day: 'numeric',
-
-                                    let inEndDateTime = new Date(data.endDate);
-                                    let EndTime = inEndDateTime.toLocaleString("en-us", { hour: '2-digit', minute: '2-digit', hour12: false }); //year: 'numeric', month: 'numeric', day: 'numeric',
-
-                                    CalendarEvents.push({
-                                        title: StartTime + ' ' + data.registrationNumber + ' ' + EndTime,
-                                        description: data.destination,
+                                        description: data.description,
                                         start: data.startDate,
                                         end: data.endDate,
                                         backgroundColor: backgroundEventColor(data.bookingStatus),
@@ -236,19 +159,23 @@ function InitializeCalendar() {
 function backgroundEventColor(eventStatus) {
     switch (eventStatus) {
         case 0: {
-            return "#DCE3F8";
+            return "white";
             break;
         }
-        case 1: {
-            return "#A9BCF5";
+        case 10: {
+            return "#9DC0D7";
             break;
         }
-        case 2: {
-            return "#5167A8";
+        case 20: {
+            return "#81C38A";
             break;
         }
-        case 3: {
-            return "#F5E0A9";
+        case 30: {
+            return "green";
+            break;
+        }
+        case 50: {
+            return "#A3A196";
             break;
         }
     }
@@ -260,16 +187,20 @@ function fontEventColor(eventStatus) {
             return "black";
             break;
         }
-        case 1: {
-            return "black";
-            break;
-        }
-        case 2: {
+        case 10: {
             return "white";
             break;
         }
-        case 3: {
-            return "black";
+        case 20: {
+            return "white";
+            break;
+        }
+        case 30: {
+            return "white";
+            break;
+        }
+        case 50: {
+            return "white";
             break;
         }
     }
@@ -298,7 +229,7 @@ function onCalendarEventShowModal(obj, isEventDetail) {
         $("#id").val(obj.id);
         $("#userName").html(obj.userName);
         $("#registrationNumber").html(obj.registrationNumber);
-        $("#destination").html(obj.destination);
+        $("#description").html(obj.description);
         $("#projectCost").html(obj.projectCost);
 
         $("#calendarEvent").modal("show");
@@ -309,7 +240,7 @@ function onCalendarEventCloseModal() {
     $("#calendarEventForm")[0].reset();
     $("#userName").val(' ');
     $("#registrationNumber").val(' ');
-    $("#destination").val(' ');
+    $("#description").val(' ');
     $("#projectCost").val(' ');
     $("#calendarEvent").modal("hide");
 }
