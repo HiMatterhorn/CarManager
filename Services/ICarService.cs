@@ -14,5 +14,6 @@ namespace AmiFlota.Services
 
         public Task<int> UpdateCar(CarModel newData);
         public Task<int> DeleteCar(string vin);
+
     }
 }

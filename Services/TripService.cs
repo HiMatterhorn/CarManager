@@ -43,7 +43,8 @@ namespace AmiFlota.Services
                 CostRemarks = tripVM.CostRemarks,
                 BookingRefId = tripVM.BookingId,
                 StartTimestampUTC = DateTime.UtcNow,
-            };
+                Active = true
+        };
 
             //Validate data
 
@@ -70,6 +71,7 @@ namespace AmiFlota.Services
             tripModel.Cost = tripVM.Cost;
             tripModel.CostRemarks = tripVM.CostRemarks;
             tripModel.EndTimestampUTC = DateTime.UtcNow;
+            tripModel.Active = false;
 
             return _db.SaveChanges();
         }
@@ -87,9 +89,9 @@ namespace AmiFlota.Services
             return 0;
         }
 
-        public TripVM GetTripByBookingId(int bookingId)
+        public TripVM GetActiveTripByBookingId(int bookingId)
         {
-            return _db.Trips.Where(x => x.BookingRefId == bookingId).ToList().Select(m => new TripVM()
+            return _db.Trips.Where(x => x.BookingRefId == bookingId && x.Active == true).ToList().Select(m => new TripVM()
             {
                 Id = m.Id,
                 BookingId = m.BookingRefId,
@@ -127,6 +129,42 @@ namespace AmiFlota.Services
                                    BookingStatus = b.BookingStatus,
                                }).ToList();
 
+                return results;
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<TripHistoryVM> TripsHistoryByCarVin(string vin)
+        {
+            try
+            {
+                var results = (from b in _db.Bookings
+                               .Where(x => x.CarVIN.Equals(vin))
+                               from u in _db.Users
+                               where b.UserId.Equals(u.Id)
+                               select new TripHistoryVM()
+                               {
+                                   Data = (from t in _db.Trips
+                                           where t.BookingRefId == b.Id
+                                           select new TripVM()
+                                           {
+                                               Id = t.Id,
+                                               Active = t.Active,
+                                               StartKm = t.StartKm,
+                                               StartLocation = t.StartLocation,
+                                               EndKm = t.EndKm,
+                                               EndLocation = t.EndLocation,
+                                               Project = t.Project,
+                                               Cost = t.Cost,
+                                               CostRemarks = t.CostRemarks
+
+                                           }).ToList(),
+                                   User = u.UserName,
+                               }).ToList();
                 return results;
             }
 

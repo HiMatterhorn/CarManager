@@ -8,6 +8,8 @@ namespace AmiFlota.Models.ViewModels
     {
         public int Id { get; set; }
         public int BookingId { get; set; }
+        [DisplayName("Active")]
+        public bool Active { get; set; }
         public uint StartKm { get; set; }
 
         [DisplayName("Start Location")]
@@ -21,6 +23,8 @@ namespace AmiFlota.Models.ViewModels
         public string EndLocation { get; set; }
 
         /*        public DateTime EndTimestamp { get; set; }*/
+
+        public string Project { get; set; }
 
         public float Cost { get; set; }
         public string CostRemarks { get; set; }

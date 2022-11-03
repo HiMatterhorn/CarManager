@@ -59,7 +59,7 @@ namespace AmiFlota.Services
             car.Brand = newData.Brand;
             car.Model = newData.Model;
             car.PhotoPath = newData.PhotoPath;
-            
+
             return await _db.SaveChangesAsync();
         }
 
@@ -69,6 +69,7 @@ namespace AmiFlota.Services
             _db.Cars.Remove(deleteCar);
             return await _db.SaveChangesAsync();
         }
+
 
     }
 }

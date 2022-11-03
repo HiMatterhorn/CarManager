@@ -18,10 +18,12 @@ namespace AmiFlota.Models
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ICarService _carService;
+        private readonly ITripService _tripService;
 
-        public CarController(ICarService carService, IWebHostEnvironment webHostEnvironment)
+        public CarController(ICarService carService, ITripService tripService, IWebHostEnvironment webHostEnvironment)
         {
             _carService = carService;
+            _tripService = tripService;
             _webHostEnvironment = webHostEnvironment;
         }
 
@@ -41,7 +43,14 @@ namespace AmiFlota.Models
         public async Task<IActionResult> _CarDetailsModal(string vin)
         {
             var car = await _carService.GetCarByVIN(vin);
-            return PartialView("_CarDetailsModal", car);
+            /*from t in _db.Trips.OrderByDescending(y => y.StartTimestampUTC).ToList()*/
+            var trips = _tripService.TripsHistoryByCarVin(vin);
+            CarDetailsVM viewModel = new CarDetailsVM
+            {
+                Car = car,
+                TripsHistory = trips
+            };
+            return PartialView("_CarDetailsModal", viewModel);
         }
 
         public IActionResult Create()

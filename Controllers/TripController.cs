@@ -43,7 +43,7 @@ namespace AmiFlota.Controllers
         [HttpGet]
         public PartialViewResult _TripEndModal(int bookingId) // Boking status not needed?
         {
-            TripVM viewModel = _tripService.GetTripByBookingId(bookingId);
+            TripVM viewModel = _tripService.GetActiveTripByBookingId(bookingId);
 
             return PartialView("_TripEndModal", viewModel);
         }
@@ -56,7 +56,6 @@ namespace AmiFlota.Controllers
             if (ModelState.IsValid)
             {
                 _tripService.StartTrip(viewModel);
-                // _tripService.ChangeBookingStatus(viewModel.BookingId, viewModel.BookingStatus);
                 return RedirectToAction("UserDashboard", "Booking");
             }
             return View(viewModel);

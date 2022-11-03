@@ -10,6 +10,9 @@ namespace AmiFlota.Models
         [Required]
         public int Id { get; set; }
 
+        [Column("Active")]
+        public bool Active { get; set; }
+
         [Required]
         [Column("Start Mileage")]
         public uint StartKm { get; set; }
@@ -38,6 +41,7 @@ namespace AmiFlota.Models
         [Column("End UTC Time")]
         public DateTime EndTimestampUTC { get; set; }
 
+        public string Project { get; set; }
         public float Cost { get; set; }
         [Column("Costs remarks")]
         public string CostRemarks { get; set; }
