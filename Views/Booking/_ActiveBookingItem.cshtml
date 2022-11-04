@@ -1,0 +1,101 @@
+﻿@model AmiFlota.Models.ViewModels.ActiveBookingVM
+
+@{
+    //TODO pass the car photo path
+    var photoPath = "/images/cars/" + (Model.BookingViewModel.PhotoPath ?? "default.jpg"); //+ ".jpg";
+}
+
+<div class="card border-0 h-100">
+    <div class="row g-0">
+        <div class="col-2">
+            <img src="@photoPath" class="img-fluid img-heigt-width-small" alt="Unable to load car photo">
+        </div>
+
+
+        <div class="col-10">
+            <div class="row card-title text-center">
+                <h5 class="card-title text-uppercase">@Model.BookingViewModel.RegistrationNumber @Model.BookingViewModel.Description</h5>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <p class="card-text">
+                                User: @Model.BookingViewModel.UserName <br>
+                                Destination: @Model.BookingViewModel.Description <br>
+                                Project Cost: @Model.BookingViewModel.ProjectCost
+                            </p>
+                        </div>
+                        <div class="col-6 text-center">
+                            <p class="card-text">
+                                Start Date: @Model.BookingViewModel.StartDate <br>
+                                End Date: @Model.BookingViewModel.EndDate
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-1">
+            <p>Active</p>
+        </div>
+        <div class="col-1">
+            <p>Start KM</p>
+        </div>
+        <div class="col-2">
+            <p>Start location</p>
+        </div>
+        <div class="col-1">
+            <p>End KM</p>
+        </div>
+        <div class="col-2">
+            <p>End location</p>
+        </div>
+        <div class="col-2">
+            <p>Project</p>
+        </div>
+        <div class="col-1">
+            <p>Cost</p>
+        </div>
+        <div class="col-2">
+            <p>Cost Remarks</p>
+        </div>
+    </div>
+    @foreach (var trip in @Model.TripViewModel)
+    {
+        <div class="row">
+            <div class="col-1">
+                <p>@trip.Active</p>
+            </div>
+            <div class="col-1">
+                <p>@trip.StartKm</p>
+            </div>
+            <div class="col-2">
+                <p>@trip.StartLocation</p>
+            </div>
+            <div class="col-1">
+                <p>@trip.EndKm</p>
+            </div>
+            <div class="col-2">
+                <p>@trip.EndLocation</p>
+            </div>
+            <div class="col-2">
+                <p>@trip.Project</p>
+            </div>
+            <div class="col-1">
+                <p>@trip.Cost</p>
+            </div>
+            <div class="col-2">
+                <p>@trip.CostRemarks</p>
+            </div>
+        </div>
+    }
+</div>
+</div>

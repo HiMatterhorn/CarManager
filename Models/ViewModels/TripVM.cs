@@ -29,6 +29,8 @@ namespace AmiFlota.Models.ViewModels
         public float Cost { get; set; }
         public string CostRemarks { get; set; }
 
+        public string User { get; set; }
+
         public BookingStatus BookingStatus { get; set; }
     }
 }

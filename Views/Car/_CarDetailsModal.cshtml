@@ -11,10 +11,9 @@
             {
                 <h2>New Booking</h2>
                 <h2>@historyTrip.User</h2>
-                @foreach (var trip in historyTrip.Data)
-                {
-                    <h2>@trip.StartKm</h2>
-                }
+                <h2>@historyTrip.StartKm</h2>
+                <h2>@historyTrip.EndKm</h2>
+
             }
 
             @*<form method="post" asp-controller="Trip" asp-action="StartTrip" id="tripStartModalForm">

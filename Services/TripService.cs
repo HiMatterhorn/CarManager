@@ -138,31 +138,26 @@ namespace AmiFlota.Services
             }
         }
 
-        public List<TripHistoryVM> TripsHistoryByCarVin(string vin)
+        public List<TripVM> TripsHistoryByCarVin(string vin)
         {
             try
             {
                 var results = (from b in _db.Bookings
                                .Where(x => x.CarVIN.Equals(vin))
                                from u in _db.Users
-                               where b.UserId.Equals(u.Id)
-                               select new TripHistoryVM()
+                               from t in _db.Trips
+                               where b.UserId.Equals(u.Id) && t.BookingRefId == b.Id
+                               select new TripVM()
                                {
-                                   Data = (from t in _db.Trips
-                                           where t.BookingRefId == b.Id
-                                           select new TripVM()
-                                           {
-                                               Id = t.Id,
-                                               Active = t.Active,
-                                               StartKm = t.StartKm,
-                                               StartLocation = t.StartLocation,
-                                               EndKm = t.EndKm,
-                                               EndLocation = t.EndLocation,
-                                               Project = t.Project,
-                                               Cost = t.Cost,
-                                               CostRemarks = t.CostRemarks
-
-                                           }).ToList(),
+                                   Id = t.Id,
+                                   Active = t.Active,
+                                   StartKm = t.StartKm,
+                                   StartLocation = t.StartLocation,
+                                   EndKm = t.EndKm,
+                                   EndLocation = t.EndLocation,
+                                   Project = t.Project,
+                                   Cost = t.Cost,
+                                   CostRemarks = t.CostRemarks,
                                    User = u.UserName,
                                }).ToList();
                 return results;

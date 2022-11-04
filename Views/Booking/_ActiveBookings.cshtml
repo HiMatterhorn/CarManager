@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AmiFlota.Models.ViewModels.BookingVM>
+﻿@model IEnumerable<AmiFlota.Models.ViewModels.ActiveBookingVM>
 
 <!DOCTYPE html>
 
@@ -11,28 +11,29 @@
     @if (Model.Count() > 0)
     {
         <h2>Active bookings</h2>
-        <div class="row row-cols-1 row-cols-md-1">
-            @foreach (var booking in Model)
-            {
-                <div class="row mt-4 border border-dark border-opacity-25">
 
-                    <div class="col-10">
-                        <partial name="_BookingListItem" model=booking />
-                    </div>
+        @foreach (var booking in Model)
+        {
+            <div class="row mt-4 border border-dark border-opacity-25">
+                <partial name="_ActiveBookingItem" model=booking />
+            </div>
+
+            <div class="row border-0 mr-0 pr-0 justify-content-end">
+                <div class="col-6 border-0 mr-0 pr-0 d-grid gap-2 d- justify-content-md-end" role="group">
+                    @*align-self-end float-right*@
 
 
-                    <div class="col-2">
-                        @if (User.IsInRole(AmiFlota.Utilities.Enums.UserRole.admin.ToString()))
-                        {
-                            <button type="button" id="btnDashboardStartTrip" class="btn btn-secondary btn-active-start-trip" data-id="@booking.Id" data-url="@Url.Action("_TripStartModal", "Trip")">Start trip</button>
-                            <button type="button" id="btnDashboardEndTrip" class="btn btn-info btn-active-end-trip" data-id="@booking.Id" data-url="@Url.Action("_TripEndModal", "Trip")">End trip</button>
-                            <button type="button" id="btnDashboardReturnCar" class="btn btn-warning btn-active-return-car" data-id="@booking.Id" data-url="@Url.Action("_TripEndModal", "Trip")">Return the car</button>
-                        }
-                    </div>
+                    @if (User.IsInRole(AmiFlota.Utilities.Enums.UserRole.admin.ToString()))
+                    {
+                        <button type="button" id="btnDashboardStartTrip" class="btn btn-secondary btn-active-start-trip" data-id="@booking.BookingViewModel.Id" data-url="@Url.Action("_TripStartModal", "Trip")">Start trip</button>
+                        <button type="button" id="btnDashboardEndTrip" class="btn btn-info btn-active-end-trip" data-id="@booking.BookingViewModel.Id" data-url="@Url.Action("_TripEndModal", "Trip")">End trip</button>
+                        <button type="button" id="btnDashboardReturnCar" class="btn btn-warning btn-active-return-car" data-id="@booking.BookingViewModel.Id" data-url="@Url.Action("_TripEndModal", "Trip")">Return the car</button>
+                    }
                 </div>
+            </div>
 
-            }
-        </div>
+        }
+
     }
 </body>
 </html>

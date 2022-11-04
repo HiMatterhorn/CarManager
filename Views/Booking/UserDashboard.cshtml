@@ -1,11 +1,22 @@
 ﻿<div id="_TripStartModal"> </div>
 <div id="_TripEndModal"> </div>
 
-<div id="_ActiveBookings"> </div>
 
-<div id="_ApprovedBookings"> </div>
+<div class="container-fluid">
+    <div class="row">
 
-<div id="_PendingBookings"> </div>
+        <div class="col-6">
+            <div id="_ActiveBookings"> </div>
+        </div>
+        <div class="col-6">
+            <div id="_ApprovedBookings"> </div>
+
+            <div id="_PendingBookings"> </div>
+        </div>
+    </div>
+
+</div>
+
 
 
 
@@ -57,7 +68,7 @@
                 success: function(result) {
                     $('#_PendingBookings').html('').html(result);
     @*$('#_PendingBookings').load('<%= Url.Action("Booking", "PendingBookingsCurrentUser") %>');*@
-                },
+                            },
 
                 error: function(error) {
                     console.log(error);

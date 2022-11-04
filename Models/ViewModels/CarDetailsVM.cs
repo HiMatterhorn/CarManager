@@ -10,6 +10,6 @@ namespace AmiFlota.Models.ViewModels
     {
         public CarModel Car { get; set; }
 
-        public List<TripHistoryVM> TripsHistory { get; set; }
+        public List<TripVM> TripsHistory { get; set; }
     }
 }

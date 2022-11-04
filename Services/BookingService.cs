@@ -186,28 +186,46 @@ namespace AmiFlota.Services
             }
         }
 
-        public async Task<IEnumerable<BookingVM>> GetActiveBookingsByUserId(string userId)
+        public IEnumerable<ActiveBookingVM> GetActiveBookingsByUserId(string userId)
         {
             try
             {
-                var results = await
+                var results =
                     (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.BookingStatus.Equals(BookingStatus.Active) || a.BookingStatus.Equals(BookingStatus.OnTheWay))
-                     from c in _db.Cars
-                     from u in _db.Users
-                     where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
-                     select new BookingVM
+                     
+                     select new ActiveBookingVM
                      {
-                         Id = b.Id,
-                         UserName = u.UserName,
-                         RegistrationNumber = c.RegistrationNumber,
-                         PhotoPath = c.PhotoPath,
-                         StartDate = b.StartDate,
-                         EndDate = b.EndDate,
-                         Description = b.Description,
-                         ProjectCost = b.ProjectCost,
-                         BookingStatus = b.BookingStatus,
-                     }).ToListAsync();
-
+                         BookingViewModel = (from c in _db.Cars
+                                             from u in _db.Users
+                                             where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
+                                             select new BookingVM()
+                                             {
+                                                 Id = b.Id,
+                                                 UserName = u.UserName,
+                                                 RegistrationNumber = c.RegistrationNumber,
+                                                 PhotoPath = c.PhotoPath,
+                                                 StartDate = b.StartDate,
+                                                 EndDate = b.EndDate,
+                                                 Description = b.Description,
+                                                 ProjectCost = b.ProjectCost,
+                                                 BookingStatus = b.BookingStatus,
+                                             }).FirstOrDefault(),
+                         TripViewModel = (from t in _db.Trips
+                                          where t.BookingRefId == b.Id
+                                          select new TripVM()
+                                          {
+                                              Id = t.Id,
+                                              Active = t.Active,
+                                              StartKm = t.StartKm,
+                                              StartLocation = t.StartLocation,
+                                              EndKm = t.EndKm,
+                                              EndLocation = t.EndLocation,
+                                              Project = t.Project,
+                                              Cost = t.Cost,
+                                              CostRemarks = t.CostRemarks
+                                          }).ToList()
+                     }).ToList();
+                
                 return results;
             }
             catch (Exception)
