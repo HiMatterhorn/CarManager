@@ -159,7 +159,7 @@ namespace AmiFlota.Services
                                    Cost = t.Cost,
                                    CostRemarks = t.CostRemarks,
                                    User = u.UserName,
-                               }).ToList();
+                               }).OrderByDescending(y=>y.StartKm).ToList();
                 return results;
             }
 

@@ -1,20 +1,70 @@
 ﻿@model AmiFlota.Models.ViewModels.CarDetailsVM
 
+@{
+    var photoPath = "/images/cars/" + (Model.Car.PhotoPath ?? "default.jpg"); //+ ".jpg";
+}
 
 <div class="modal fade" id="carDetailsModal" tabindex="-1" role="dialog" aria-labelledby="carDetailsModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <h4>Car Details Modal</h4>
 
-            <h2>@Model.Car.RegistrationNumber</h2>
-            @foreach (var historyTrip in @Model.TripsHistory)
-            {
-                <h2>New Booking</h2>
-                <h2>@historyTrip.User</h2>
-                <h2>@historyTrip.StartKm</h2>
-                <h2>@historyTrip.EndKm</h2>
+            @*//CAR*@
+            <div class="row">
+                <div class="row text-center">
+                    <h4>@Model.Car.Brand @Model.Car.Model @Model.Car.RegistrationNumber</h4>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <img src="@photoPath" class="img-fluid img-heigt-width-small" alt="Unable to load car photo">
+                    </div>
+                    <div class="col-4">
+                        <p>Card PIN: @Model.Car.CardPin</p>
+                        <p>Trunk: @Model.Car.Trunk</p>
+                        <p>Seats: @Model.Car.SeatsNumber</p>
+                        <p>Doors: @Model.Car.Doors</p>
+                    </div>
+                    <div class="col-4">
+                        <p>Engine: @Model.Car.Engine</p>
+                        <p>Horse Power [KM]: @Model.Car.HorsePower</p>
+                        <p>Fuel: @Model.Car.Fuel</p>
+                        <p>Tyres: @Model.Car.TyreSize</p>
+                    </div>
+                </div>
+            </div>
 
-            }
+
+            @*//TRIPS*@
+            <div class="row">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Start km</th>
+                            <th scope="col">Start location</th>
+                            <th scope="col">End km</th>
+                            <th scope="col">End location</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Project</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var historyTrip in @Model.TripsHistory)
+                        {
+                            <tr class="@(historyTrip.Active ? "table-active table-success" : "")">
+                                <th scope="col">@historyTrip.StartKm</th>
+                                <th scope="col">@historyTrip.StartLocation</th>
+                                <th scope="col">@historyTrip.EndKm</th>
+                                <th scope="col">@historyTrip.EndLocation</th>
+                                <th scope="col">@historyTrip.User</th>
+                                <th scope="col">@historyTrip.Project</th>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
 
             @*<form method="post" asp-controller="Trip" asp-action="StartTrip" id="tripStartModalForm">
             <div class="modal-header">

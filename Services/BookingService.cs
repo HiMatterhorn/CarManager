@@ -47,7 +47,7 @@ namespace AmiFlota.Services
 
         public async Task<List<CarModel>> GetAllCars()
         {
-            List<CarModel> cars = await _db.Cars.ToListAsync();
+            List<CarModel> cars = await _db.Cars.OrderBy(x=>x.Brand).ThenBy(x=>x.Model).ThenBy(x=>x.RegistrationNumber).ToListAsync();
 
             return cars;
         }
