@@ -6,22 +6,25 @@
     <div class="card h-100">
         <img src="@photoPath" class="card-img-top img-fluid img-heigt-width" alt="Unable to load car photo">
         <div class="card-body">
-            <h4 class="card-title text-center text-uppercase">@Model.Brand @Model.Model</h4>
-            <h5 class="card-title text-center text-uppercase">@Model.RegistrationNumber</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <h4 class="card-title text-center text-uppercase text-dark">@Model.Brand @Model.Model</h4>
+            <h5 class="card-title text-center text-uppercase text-dark">@Model.RegistrationNumber</h5>
         </div>
-        <div class="card-footer">
+        <div class="card-footer clearfix text-end">
 
-            @*WITHOUT Ajax*@
-            @*<a class="btn btn-primary" asp-action="Details" asp-route-id="@Model.VIN">Show details</a>*@
 
             <button type="button" name="btnDetails"
-                    class="btn btn-outline-secondary btn-details"
+                    class="btn btn-light btn-details"
                     id="@Model.VIN"
                     data-vin="@Model.VIN">
                 Details
             </button> @*onclick="onClickDetails(this)"*@
+
+            @*WITHOUT Ajax*@
+            @*<a class="btn btn-primary" asp-action="Details" asp-route-id="@Model.VIN">Show details</a>*@
+
+
         </div>
+
     </div>
 </div>
 

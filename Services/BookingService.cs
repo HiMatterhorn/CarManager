@@ -47,6 +47,8 @@ namespace AmiFlota.Services
 
         public async Task<List<CarModel>> GetAllCars()
         {
+
+            //TODO Group by Trunk type
             List<CarModel> cars = await _db.Cars.OrderBy(x=>x.Brand).ThenBy(x=>x.Model).ThenBy(x=>x.RegistrationNumber).ToListAsync();
 
             return cars;
@@ -210,7 +212,7 @@ namespace AmiFlota.Services
                                                  ProjectCost = b.ProjectCost,
                                                  BookingStatus = b.BookingStatus,
                                              }).FirstOrDefault(),
-                         TripViewModel = (from t in _db.Trips
+                         TripsHistory = (from t in _db.Trips
                                           where t.BookingRefId == b.Id
                                           select new TripVM()
                                           {
@@ -223,7 +225,7 @@ namespace AmiFlota.Services
                                               Project = t.Project,
                                               Cost = t.Cost,
                                               CostRemarks = t.CostRemarks
-                                          }).ToList()
+                                          }).OrderByDescending(y => y.StartKm).ToList()
                      }).ToList();
                 
                 return results;

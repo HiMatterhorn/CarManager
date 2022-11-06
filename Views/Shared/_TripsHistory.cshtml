@@ -1,0 +1,27 @@
+﻿@model List<AmiFlota.Models.ViewModels.TripVM>
+
+<table class="table table-hover allign-middle caption-top text-center">
+    <thead class="table-dark align-middle">
+        <tr>
+            <th scope="col">Start km</th>
+            <th scope="col">Start location</th>
+            <th scope="col">End km</th>
+            <th scope="col">End location</th>
+            <th scope="col">User</th>
+            <th scope="col">Project</th>
+        </tr>
+    </thead>
+    <tbody class="allign-middle">
+        @foreach (var historyTrip in @Model)
+        {
+            <tr class="@(historyTrip.Active ? "table-active table-success" : "")">
+                <th scope="col">@historyTrip.StartKm</th>
+                <th scope="col">@historyTrip.StartLocation</th>
+                <th scope="col">@historyTrip.EndKm</th>
+                <th scope="col">@historyTrip.EndLocation</th>
+                <th scope="col">@historyTrip.User</th>
+                <th scope="col">@historyTrip.Project</th>
+            </tr>
+        }
+    </tbody>
+</table>

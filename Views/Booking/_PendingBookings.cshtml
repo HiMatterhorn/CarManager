@@ -11,27 +11,32 @@
     @if (Model.Count() > 0)
     {
         <h2>Pending bookings</h2>
-        <div class="row row-cols-1 row-cols-md-1">
-            @foreach (var booking in Model)
-            {
-                <div class="row mt-4 border border-dark border-opacity-25">
 
-                    <div class="col-10">
-                        <partial name="_BookingListItem" model=booking />
-                    </div>
+        @foreach (var booking in Model)
+        {
+            <div class="row mt-4 border border-dark border-opacity-25">
+                <partial name="_BookingListItem" model=booking />
+            </div>
 
 
-                    <div class="col-2">
-                        @if (User.IsInRole(AmiFlota.Utilities.Enums.UserRole.admin.ToString()))
-                        {
-                            <button type="button" id="btnPendingConfirm" class="btn btn-success btn-pending-confirm" data-id="@booking.Id">Confirm</button>
-                            <button type="button" id="btnPendingDelete" class="btn btn-danger btn-pending-delete" data-id="@booking.Id">Delete</button>
-                        }
-                    </div>
+            <div class="row border-0 mr-0 pr-0 text-end">
+                <div class="col-12 border-0 mr-0 pr-0" role="group">
+                    @* @if (User.IsInRole(AmiFlota.Utilities.Enums.UserRole.admin.ToString()))*@
+
+                    <button type="button" id="btnPendingConfirm"
+                    class="btn btn-success btn-pending-confirm"
+                    data-id="@booking.Id">
+                        Confirm
+                    </button>
+                    <button type="button" id="btnPendingDelete"
+                    class="btn btn-danger btn-pending-delete"
+                    data-id="@booking.Id">
+                        Delete
+                    </button>
                 </div>
+            </div>
 
-            }
-        </div>
+        }
     }
 </body>
 </html>
@@ -50,7 +55,7 @@
                     if (response.status === 1) {
                         location.reload();
     @* $.notify(response.message, "success");*@
-                    }
+                            }
                     else {
                         $.notify(response.message, "error");
                     }

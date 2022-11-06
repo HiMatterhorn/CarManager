@@ -9,7 +9,7 @@ namespace AmiFlota.Models.ViewModels
     {
 
         public BookingVM BookingViewModel { get; set; }
-        public List<TripVM> TripViewModel { get; set; }
+        public List<TripVM> TripsHistory { get; set; }
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -35,6 +36,10 @@ namespace AmiFlota.Models
         public Fuel Fuel { get; set; }
         [DisplayName("Card PIN")]
         public ushort CardPin { get; set; }
+
+        public DateTime Insurance {get;set;}
+
+        public DateTime TechnicalReview { get; set; }
 
         public string PhotoPath { get; set; }
         public virtual ICollection<BookingModel> Bookings { get; set; }

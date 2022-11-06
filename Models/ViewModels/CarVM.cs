@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using static AmiFlota.Utilities.Enums;
@@ -27,6 +28,10 @@ namespace AmiFlota.Models.ViewModels
         public Fuel Fuel { get; set; }
         [DisplayName("Card PIN")]
         public ushort CardPin { get; set; }
+
+        public DateOnly Insurance { get; set; }
+
+        public DateOnly TechnicalReview { get; set; }
         public IFormFile PhotoPath { get; set; }
     }
 }
