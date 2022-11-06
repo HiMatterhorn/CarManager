@@ -169,6 +169,37 @@ namespace AmiFlota.Services
             }
         }
 
+        public List<TripVM> TripsHistoryByBookingId(int id)
+        {
+            try
+            {
+                var results = (from b in _db.Bookings
+                               .Where(x => x.Id == id)
+                               from u in _db.Users
+                               from t in _db.Trips
+                               where b.UserId.Equals(u.Id) && t.BookingRefId == b.Id
+                               select new TripVM()
+                               {
+                                   Id = t.Id,
+                                   Active = t.Active,
+                                   StartKm = t.StartKm,
+                                   StartLocation = t.StartLocation,
+                                   EndKm = t.EndKm,
+                                   EndLocation = t.EndLocation,
+                                   Project = t.Project,
+                                   Cost = t.Cost,
+                                   CostRemarks = t.CostRemarks,
+                                   User = u.UserName,
+                               }).OrderByDescending(y => y.StartKm).ToList();
+                return results;
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
     }
 }

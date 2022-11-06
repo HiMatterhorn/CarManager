@@ -16,13 +16,15 @@ namespace AmiFlota.Controllers
     {
 
         private readonly IBookingService _bookingService;
+        private readonly ITripService _tripService;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly string userId;
         private readonly string userName;
-        public BookingController(IBookingService bookingService, IHttpContextAccessor httpContextAccessor)
+        public BookingController(IBookingService bookingService, ITripService tripService, IHttpContextAccessor httpContextAccessor)
         {
             _bookingService = bookingService;
+            _tripService = tripService;
             _httpContextAccessor = httpContextAccessor;
             userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             userName = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
@@ -98,6 +100,21 @@ namespace AmiFlota.Controllers
             List<CarModel> viewModel = await _bookingService.GetAllCars();
 
             return View(viewModel);
+        }
+
+        [HttpGet]
+        [Route("GetCalendarDataById")]
+        public IActionResult GetCalendarDataById(int id)
+        {
+            var booking = _bookingService.GetBookingById(id);
+            var trips = _tripService.TripsHistoryByBookingId(id);
+            ActiveBookingVM viewModel = new ActiveBookingVM
+            {
+                BookingViewModel = booking,
+                TripsHistory = trips,
+            };
+
+            return PartialView("_CalendarEvent", viewModel);
         }
 
     }

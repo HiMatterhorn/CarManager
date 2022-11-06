@@ -34,5 +34,6 @@ namespace AmiFlota.Services
 
         public Task<int> TakeCar(int bookingId);
         public Task<int> ReturnCar(int bookingId);
+        public BookingVM GetBookingById(int id);
     }
 }

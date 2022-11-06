@@ -3,10 +3,18 @@ var urlBookings = routeURL + '/api/Booking/GetCalendarDataForCarList';
 /*var urlTrips = routeURL + '/api/Trip/GetCalendarDataForCarList';*/
 var checkedvalues;
 var dtoVIN;
+var urlCalendarEvent;
 
-
+/*$(function () {
+    $('#loader').click(function () {
+        var url = $(#loader).data('request-url');
+        alert(url);
+    });
+});*/
 
 $(document).ready(function () {
+    urlCalendarEvent = $('#loader').data('request-url');
+    console.log(urlCalendarEvent);
     InitializeCalendar();
     getEventsSelectedCars();
 });
@@ -206,9 +214,10 @@ function fontEventColor(eventStatus) {
     }
 }
 
-function getEventDetailsByEventId(info) {
+/*function getEventDetailsByEventId(info) {
     $.ajax({
-        url: routeURL + '/api/Booking/GetCalendarDataById/' + info.id,
+        url: routeURL + '/api/Booking/GetCalendarDataById',
+        data: { id: Number(info.id)},
         type: 'GET',
         dataType: 'JSON',
 
@@ -222,9 +231,28 @@ function getEventDetailsByEventId(info) {
             $.notify("Error", "error");
         }
     });
+}*/
+
+function getEventDetailsByEventId(info) {
+    $.ajax({
+        url: urlCalendarEvent,
+        data: { id: Number(info.id)},
+        type: 'GET',
+        dataType: 'html',
+
+
+        success: function (response) {
+            if (response.status === 1 && response.dataenum != undefined) {
+                onCalendarEventShowModal()
+            }
+        },
+        error: function (xhr) {
+            $.notify("Error", "error");
+        }
+    });
 }
 
-function onCalendarEventShowModal(obj, isEventDetail) {
+/*function onCalendarEventShowModal(obj, isEventDetail) {
     if (isEventDetail != null) {
         $("#id").val(obj.id);
         $("#userName").html(obj.userName);
@@ -234,6 +262,10 @@ function onCalendarEventShowModal(obj, isEventDetail) {
 
         $("#calendarEvent").modal("show");
     }
+}*/
+
+function onCalendarEventShowModal() {
+        $("#calendarEvent").modal("show");
 }
 
 function onCalendarEventCloseModal() {

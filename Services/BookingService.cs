@@ -258,6 +258,30 @@ namespace AmiFlota.Services
             }
         }
 
+        public BookingVM GetBookingById(int id)
+        {
+
+            //TODO Join table
+            try
+            {
+                return _db.Bookings.Where(x => x.Id == id).Select(c => new BookingVM()
+                {
+                    Id = c.Id,
+                   /* UserName = GetUserNameById(c.UserId),*/
+                   /* RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),*/
+                    StartDate = c.StartDate,
+                    EndDate = c.EndDate,
+                    Description = c.Description,
+                    ProjectCost = c.ProjectCost,
+                    BookingStatus = c.BookingStatus,
+                }).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public List<CalendarVM> AllBookingsByCarVinList(List<string> selectedCars)
         {
             try

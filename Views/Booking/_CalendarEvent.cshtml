@@ -1,7 +1,9 @@
-﻿<div class="modal fade" role="dialog" id="calendarEvent" data-backdrop="false" data-keyboard="false">
+﻿@model AmiFlota.Models.ViewModels.ActiveBookingVM
+
+<div class="modal fade" role="dialog" id="calendarEvent" data-backdrop="false" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="calendarEventForm" autocomplete="off" novalidate="novalidate">
+            @*<form id="calendarEventForm" autocomplete="off" novalidate="novalidate">
                 <div class="modal-header">
                     <h4 class="modal-title">Booking event details</h4>
                 </div>
@@ -26,19 +28,13 @@
                         <label class="text-center" disabled id="projectCost" />
                     </div>
 
-                    @*                                             
-                    <div class="form-group">
-                    <label for="title">Approved</label>
-                    <label class="text-center" disabled id="isApproved" />
-                    </div>*@
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="btnCalendarEventDelete" class="btn btn-danger" onclick="onCalendarEventDelete();">Delete</button> &nbsp
                     <button type="button" id="btnCalendarEventConfirm" class="btn btn-success" onclick="onCalendarEventConfirm();">Confirm</button> &nbsp
                     <button type="button" id="btnCalendarEventClose" class="btn btn-secondary" onclick="onCalendarEventCloseModal();">Close</button>
                 </div>
-            </form>
+            </form>*@
         </div>
     </div>
 </div>

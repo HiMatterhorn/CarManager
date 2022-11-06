@@ -73,7 +73,7 @@ namespace AmiFlota.Controllers.api
 
 
         [HttpGet]
-        [Route("GetCalendarDataById/{id}")]
+        [Route("GetCalendarDataById")]
         public IActionResult GetCalendarDataById(int id)
         {
             CommonResponse<BookingVM> commonResponse = new CommonResponse<BookingVM>();

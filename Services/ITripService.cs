@@ -17,6 +17,7 @@ namespace AmiFlota.Services
         public TripVM GetActiveTripByBookingId(int bookingId);
 
         public int ChangeBookingStatus(int bookingId, BookingStatus newBookingStatus);
+        public List<TripVM> TripsHistoryByBookingId(int id);
 
 
     }
