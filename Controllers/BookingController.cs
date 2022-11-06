@@ -97,7 +97,8 @@ namespace AmiFlota.Controllers
         public async Task<IActionResult> Calendar()
         {
             await _bookingService.AutoConfirmBooking(3);
-            List<CarModel> viewModel = await _bookingService.GetAllCars();
+            CalendarVM viewModel = new CalendarVM();
+                viewModel.Cars = await _bookingService.GetAllCars();
 
             return View(viewModel);
         }
@@ -108,9 +109,9 @@ namespace AmiFlota.Controllers
         {
             var booking = _bookingService.GetBookingById(id);
             var trips = _tripService.TripsHistoryByBookingId(id);
-            ActiveBookingVM viewModel = new ActiveBookingVM
+            CalendarVM viewModel = new CalendarVM
             {
-                BookingViewModel = booking,
+                Booking = booking,
                 TripsHistory = trips,
             };
 

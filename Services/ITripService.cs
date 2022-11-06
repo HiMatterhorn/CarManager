@@ -13,7 +13,7 @@ namespace AmiFlota.Services
         public int FinishTrip(TripVM tripVM);
 
         public List<TripVM> TripsHistoryByCarVin(string vin);
-        public List<CalendarVM> TripsByCarVinList(List<string> selectedCars);
+/*        public List<BookingVM> TripsByCarVinList(List<string> selectedCars);*/
         public TripVM GetActiveTripByBookingId(int bookingId);
 
         public int ChangeBookingStatus(int bookingId, BookingStatus newBookingStatus);

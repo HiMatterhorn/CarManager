@@ -124,21 +124,21 @@ function InitializeCalendar() {
                             if (response.status === 1) {
                                 $.each(response.dataenum, function (i, data) {
 
-                                    let inStartDateTime = new Date(data.startDate);
+                                    let inStartDateTime = new Date(data.booking.startDate);
                                     let StartTime = inStartDateTime.toLocaleString("en-us", { hour: '2-digit', minute: '2-digit', hour12: false }); //year: 'numeric', month: 'numeric', day: 'numeric',
 
-                                    let inEndDateTime = new Date(data.endDate);
+                                    let inEndDateTime = new Date(data.booking.endDate);
                                     let EndTime = inEndDateTime.toLocaleString("en-us", { hour: '2-digit', minute: '2-digit', hour12: false }); //year: 'numeric', month: 'numeric', day: 'numeric',
 
                                     CalendarEvents.push({
-                                        title: StartTime + ' ' + data.registrationNumber + ' ' + EndTime,
-                                        description: data.description,
-                                        start: data.startDate,
-                                        end: data.endDate,
-                                        backgroundColor: backgroundEventColor(data.bookingStatus),
+                                        title: StartTime + ' ' + data.booking.registrationNumber + ' ' + EndTime,
+                                        description: data.booking.description,
+                                        start: data.booking.startDate,
+                                        end: data.booking.endDate,
+                                        backgroundColor: backgroundEventColor(data.booking.bookingStatus),
                                         borderColor: "#162466",
-                                        textColor: fontEventColor(data.bookingStatus),
-                                        id: data.id
+                                        textColor: fontEventColor(data.booking.bookingStatus),
+                                        id: data.booking.id
                                     });
 
                                 })

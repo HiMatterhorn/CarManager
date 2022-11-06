@@ -102,7 +102,8 @@ namespace AmiFlota.Services
             }).SingleOrDefault();
         }
 
-        public List<CalendarVM> TripsByCarVinList(List<string> selectedCars)
+        //TODO DELETE
+/*        public List<BookingVM> TripsByCarVinList(List<string> selectedCars)
         {
             try
             {
@@ -117,7 +118,7 @@ namespace AmiFlota.Services
                                from u in _db.Users
                                from t in _db.Trips
                                where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id) && (t.BookingRefId == b.Id)
-                               select new CalendarVM()
+                               select new BookingVM()
                                {
                                    Id = b.Id,
                                    UserName = u.UserName,
@@ -136,7 +137,7 @@ namespace AmiFlota.Services
             {
                 throw;
             }
-        }
+        }*/
 
         public List<TripVM> TripsHistoryByCarVin(string vin)
         {
