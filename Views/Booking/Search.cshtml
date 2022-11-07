@@ -39,16 +39,20 @@
 </body>
 </html>
 
-    <script src="~/js/current-date-time.js"></script>
+<script src="~/js/current-date-time.js"></script>
 
 @* //TODO Relocate script to separate file*@
 <script>
 
     let DateTime = getRoundedSearchDateTime();
+    let Limits = getLimitDates();
 
     //TODO Do not take / return car during the weekends
     $('input[name="datetimerange"]').daterangepicker({
         "showISOWeekNumbers": true,
+        "minYear": Limits.YearMin,
+        "maxYear": Limits.YearMax,
+        "showDropdowns": true,
         "timePicker": true,
         "timePicker24Hour": true,
         "timePickerIncrement": 15,
@@ -88,6 +92,8 @@
         },
         "startDate": DateTime.startDateTime,
         "endDate": DateTime.endDateTime,
+        "minDate": Limits.DateMin,
+        "maxDate": Limits.DateMax,
         "opens": "center"
     });
 </script>

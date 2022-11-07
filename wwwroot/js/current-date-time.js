@@ -4,15 +4,32 @@ function getRoundedSearchDateTime() {
     let startDateTime = getDateTime(objToday);
     let endDateTime = getDateTime(objToday, 3, '18:00');
 
-    /*    let startDate = curDay + "/" + curMonth + "/" + curYear;
-        let startTime = roundTimeQuarterHour(objToday).getHours() + ":" + roundTimeQuarterHour(objToday).getMinutes();
-        let startDateTime = startDate + " " + startTime;
-    
-        let endDate = (curDay + 1) + "/" + curMonth + "/" + curYear;
-        let endTime = "18:00";
-        let endDateTime = endDate + " " + endTime;*/
-
     return { startDateTime, endDateTime }
+}
+
+function getLimitDates() {
+
+    let minDate = new Date();
+    minDate.setFullYear((minDate.getFullYear() - 3));
+
+    let maxDate = new Date();
+    maxDate.setFullYear((maxDate.getFullYear() + 3));
+
+    let DateMin = formatDate(minDate);
+    let DateMax = formatDate(maxDate);
+    let YearMin = minDate.getFullYear();
+    let YearMax = maxDate.getFullYear();
+
+    return {DateMin, DateMax, YearMin, YearMax }
+}
+
+function getNextYear() {
+    let nextYear = new Date();
+    nextYear.setFullYear((nextYear.getFullYear() + 1));
+
+    let NextYear = formatDate(nextYear);
+
+    return NextYear
 }
 
 function roundTimeQuarterHour(time) {
@@ -29,10 +46,10 @@ function roundTimeQuarterHour(time) {
     return timeToReturn
 }
 
-function getDateTime(date, offset = 0, hour = 0) {
-    let dayOffset = Number(offset);
+function getDateTime(date, offsetDays = 0, hour = 0) {
+    let dayOffset = Number(offsetDays);
     let objDay = date;
-        objDay.setDate(date.getDate() + dayOffset);
+    objDay.setDate(date.getDate() + dayOffset);
 
     let Day = objDay.getDate(),
         Month = objDay.getMonth() + 1,
@@ -54,4 +71,15 @@ function getDateTime(date, offset = 0, hour = 0) {
 
     let DateTime = Date + " " + Time;
     return DateTime
+}
+
+function formatDate(date) {
+    let objDay = date;
+
+    let Day = objDay.getDate(),
+        Month = objDay.getMonth() + 1,
+        Year = objDay.getFullYear(),
+        Date = Day + "/" + Month + "/" + Year;
+
+    return Date
 }

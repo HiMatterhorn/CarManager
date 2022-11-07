@@ -88,7 +88,7 @@
 
                 <div class="form-group">
                     <label asp-for="Insurance" class="control-label"></label>
-                    <input asp-for="Insurance" class="form-control" />
+                    <input asp-for="Insurance" class="form-control" type="text" name="insurance" />
                     <span asp-validation-for="Insurance" class="text-danger"></span>
                 </div>
 
@@ -133,8 +133,9 @@
         @{
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }
+        <script src="~/js/current-date-time.js"></script>
 
-@*//Upload photo with preview*@
+        @*//Upload photo with preview*@
         <script>
             function preview() {
                 frame.src = URL.createObjectURL(event.target.files[0]);
@@ -143,6 +144,55 @@
                 document.getElementById('customFile').value = null;
                 frame.src = "";
             }
+        </script>
+
+        <script>
+
+            let NextYear = getNextYear();
+            let Limits = getLimitDates();
+
+            $('input[name="insurance"]').daterangepicker({
+                "singleDatePicker": true,
+                "showDropdowns": true,
+                "minYear": Limits.YearMin,
+                "maxYear": Limits.YearMax,
+                "autoApply": true,
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "CW",
+                    "daysOfWeek": [
+                        "Su",
+                        "Mo",
+                        "Tu",
+                        "We",
+                        "Th",
+                        "Fr",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"
+                    ],
+                    "firstDay": 1
+                },
+                "startDate": NextYear,
+                "minDate": Limits.DateMin,
+                "maxDate": Limits.DateMax,
+                "opens": "center"
+            });
+
         </script>
     }
     </body>
