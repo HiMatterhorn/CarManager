@@ -10,7 +10,6 @@ namespace AmiFlota.Services
     public interface IBookingService
     {
         public Task<List<CarModel>> GetAllCars();
-        public IEnumerable<CarModel> GetCarByVIN(string VIN);
         public Task<AvailableCarsVM> GetAvailableCars(string startDate, string endDate);
         public void BookCar(BookingVM bookingVM);
         //public Task<IEnumerable<BookingModel>> GetPendingBookingsByUserId(string userId);
@@ -24,8 +23,6 @@ namespace AmiFlota.Services
         public List<CalendarVM> FinishedBookingsByCarVinList(List<string> carVIN);
         public string GetRegistrationNumberByCarVin(string carVIN);
         public string GetUserIdByName(string userName);
-
-        public BookingVM GetById(int id);
 
         public Task<int> ConfirmEvent(int id);
         public Task<int> RejectEvent(int id);

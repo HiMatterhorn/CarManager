@@ -26,6 +26,14 @@ namespace AmiFlota.Services
             _userManager = userManager;
         }
 
+        public async Task<List<CarModel>> GetAllCars()
+        {
+
+            //TODO Group by Trunk type
+            List<CarModel> cars = await _db.Cars.OrderBy(x => x.Brand).ThenBy(x => x.Model).ThenBy(x => x.RegistrationNumber).ToListAsync();
+
+            return cars;
+        }
 
         public async Task<AvailableCarsVM> GetAvailableCars(string startDate, string endDate)
         {
@@ -43,15 +51,6 @@ namespace AmiFlota.Services
             };
 
             return availableCarsVM;
-        }
-
-        public async Task<List<CarModel>> GetAllCars()
-        {
-
-            //TODO Group by Trunk type
-            List<CarModel> cars = await _db.Cars.OrderBy(x => x.Brand).ThenBy(x => x.Model).ThenBy(x => x.RegistrationNumber).ToListAsync();
-
-            return cars;
         }
 
         public async Task<List<CarModel>> GetCarsInDates(DateTime startDate, DateTime endDate)
@@ -77,11 +76,7 @@ namespace AmiFlota.Services
             return availableCars;
         }
 
-        public IEnumerable<CarModel> GetCarByVIN(string VIN)
-        {
-            return _db.Cars.Where(x => x.VIN.Equals(VIN));
-        }
-
+        //TODO Rework it ot ViewBags?
         public void BookCar(BookingVM bookingVM)
         {
             BookingModel bookingModel = new BookingModel()
@@ -240,17 +235,23 @@ namespace AmiFlota.Services
         {
             try
             {
-                return _db.Bookings.Where(x => x.CarVIN == carVIN).ToList().Select(c => new BookingVM()
-                {
-                    Id = c.Id,
-                    UserName = GetUserNameById(c.UserId),
-                    RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
-                    StartDate = c.StartDate,
-                    EndDate = c.EndDate,
-                    Description = c.Description,
-                    ProjectCost = c.ProjectCost,
-                    BookingStatus = c.BookingStatus,
-                }).ToList();
+                var result = (from b in _db.Bookings
+                              .Where(x => x.CarVIN == carVIN)
+                              from u in _db.Users
+                              from c in _db.Cars
+                              where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
+                              select new BookingVM()
+                              {
+                                  Id = b.Id,
+                                  UserName = u.UserName,
+                                  RegistrationNumber = c.RegistrationNumber,
+                                  StartDate = b.StartDate,
+                                  EndDate = b.EndDate,
+                                  Description = b.Description,
+                                  ProjectCost = b.ProjectCost,
+                                  BookingStatus = b.BookingStatus,
+                              }).ToList();
+                return result;
             }
             catch (Exception)
             {
@@ -260,21 +261,26 @@ namespace AmiFlota.Services
 
         public BookingVM GetBookingById(int id)
         {
-
-            //TODO Join table
             try
             {
-                return _db.Bookings.Where(x => x.Id == id).Select(c => new BookingVM()
-                {
-                    Id = c.Id,
-                    /* UserName = GetUserNameById(c.UserId),*/
-                    /* RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),*/
-                    StartDate = c.StartDate,
-                    EndDate = c.EndDate,
-                    Description = c.Description,
-                    ProjectCost = c.ProjectCost,
-                    BookingStatus = c.BookingStatus,
-                }).FirstOrDefault();
+                var result = (from b in _db.Bookings
+                              .Where(x => x.Id == id)
+                              from u in _db.Users
+                              from c in _db.Cars
+                              where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
+                              select new BookingVM()
+                              {
+                                  Id = b.Id,
+                                  UserName = u.UserName,
+                                  RegistrationNumber = c.RegistrationNumber,
+                                  StartDate = b.StartDate,
+                                  EndDate = b.EndDate,
+                                  Description = b.Description,
+                                  ProjectCost = b.ProjectCost,
+                                  BookingStatus = b.BookingStatus,
+                              }).FirstOrDefault();
+
+                return result;
             }
             catch (Exception)
             {
@@ -304,65 +310,43 @@ namespace AmiFlota.Services
             {
                 // NOTE var result = lista.Where(a => listb.Any(b => string.Compare(a,b,true) == 0));
 
-                /*                var results = (from b in _db.Bookings
-                                                .ToList()
-                                                .Where(a => selectedCars.Any(y => string.Compare(a.CarVIN, y, true) == 0))
-                                                .Where(x => !x.BookingStatus.Equals(BookingStatus.Finished))
-                                               from c in _db.Cars
-                                               from u in _db.Users
-                                               where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
-                                               select new CalendarVM()
-                                               {
-                                                   Id = b.Id,
-                                                   UserName = u.UserName,
-                                                   RegistrationNumber = c.RegistrationNumber,
-                                                   StartDate = b.StartDate,
-                                                   EndDate = b.EndDate,
-                                                   Description = b.Description,
-                                                   ProjectCost = b.ProjectCost,
-                                                   BookingStatus = b.BookingStatus,
-                                               }).ToList();
-
-                                return results;*/
-
-                var results =
-                    (from b in _db.Bookings
+                var results = (from b in _db.Bookings
                                    .ToList()
                                    .Where(a => selectedCars.Any(y => string.Compare(a.CarVIN, y, true) == 0))
                                    .Where(x => !x.BookingStatus.Equals(BookingStatus.Finished))
 
-                     select new CalendarVM
-                     {
-                         Booking = (from c in _db.Cars
-                                    from u in _db.Users
-                                    where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
-                                    select new BookingVM()
-                                    {
-                                        Id = b.Id,
-                                        UserName = u.UserName,
-                                        RegistrationNumber = c.RegistrationNumber,
-                                        PhotoPath = c.PhotoPath,
-                                        StartDate = b.StartDate,
-                                        EndDate = b.EndDate,
-                                        Description = b.Description,
-                                        ProjectCost = b.ProjectCost,
-                                        BookingStatus = b.BookingStatus,
-                                    }).FirstOrDefault(),
-                         TripsHistory = (from t in _db.Trips
-                                         where t.BookingRefId == b.Id
-                                         select new TripVM()
-                                         {
-                                             Id = t.Id,
-                                             Active = t.Active,
-                                             StartKm = t.StartKm,
-                                             StartLocation = t.StartLocation,
-                                             EndKm = t.EndKm,
-                                             EndLocation = t.EndLocation,
-                                             Project = t.Project,
-                                             Cost = t.Cost,
-                                             CostRemarks = t.CostRemarks
-                                         }).OrderByDescending(y => y.StartKm).ToList()
-                     }).ToList();
+                               select new CalendarVM
+                               {
+                                   Booking = (from c in _db.Cars
+                                              from u in _db.Users
+                                              where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
+                                              select new BookingVM()
+                                              {
+                                                  Id = b.Id,
+                                                  UserName = u.UserName,
+                                                  RegistrationNumber = c.RegistrationNumber,
+                                                  PhotoPath = c.PhotoPath,
+                                                  StartDate = b.StartDate,
+                                                  EndDate = b.EndDate,
+                                                  Description = b.Description,
+                                                  ProjectCost = b.ProjectCost,
+                                                  BookingStatus = b.BookingStatus,
+                                              }).FirstOrDefault(),
+                                   TripsHistory = (from t in _db.Trips
+                                                   where t.BookingRefId == b.Id
+                                                   select new TripVM()
+                                                   {
+                                                       Id = t.Id,
+                                                       Active = t.Active,
+                                                       StartKm = t.StartKm,
+                                                       StartLocation = t.StartLocation,
+                                                       EndKm = t.EndKm,
+                                                       EndLocation = t.EndLocation,
+                                                       Project = t.Project,
+                                                       Cost = t.Cost,
+                                                       CostRemarks = t.CostRemarks
+                                                   }).OrderByDescending(y => y.StartKm).ToList()
+                               }).ToList();
                 return results;
             }
 
@@ -376,69 +360,43 @@ namespace AmiFlota.Services
         {
             try
             {
-                // NOTE var result = lista.Where(a => listb.Any(b => string.Compare(a,b,true) == 0));
-
-                /*                var results = (from b in _db.Bookings
-                                                .ToList()
-                                                .Where(a => selectedCars.Any(y => string.Compare(a.CarVIN, y, true) == 0))
-                                                .Where(x => x.BookingStatus.Equals(BookingStatus.Finished))
-                                               from c in _db.Cars
-                                               from u in _db.Users
-                                                   //from t in _db.Trips
-                                                   //TODO pass trips information to calendar events
-                                               where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id) //&& (t.BookingRefId == b.Id)
-                                               select new CalendarVM()
-                                               {
-                                                   Id = b.Id,
-                                                   UserName = u.UserName,
-                                                   RegistrationNumber = c.RegistrationNumber,
-                                                   StartDate = b.CarTakenUTC,
-                                                   EndDate = b.CarReturnedUTC,
-                                                   Description = b.Description,
-                                                   ProjectCost = b.ProjectCost,
-                                                   BookingStatus = b.BookingStatus,
-                                               }).ToList();
-
-                                return results;*/
-
-                var results =
-    (from b in _db.Bookings
+                var results = (from b in _db.Bookings
                    .ToList()
                    .Where(a => selectedCars.Any(y => string.Compare(a.CarVIN, y, true) == 0))
                    .Where(x => x.BookingStatus.Equals(BookingStatus.Finished))
 
-     select new CalendarVM
-     {
-         Booking = (from c in _db.Cars
-                    from u in _db.Users
-                    where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
-                    select new BookingVM()
-                    {
-                        Id = b.Id,
-                        UserName = u.UserName,
-                        RegistrationNumber = c.RegistrationNumber,
-                        PhotoPath = c.PhotoPath,
-                        StartDate = b.StartDate,
-                        EndDate = b.EndDate,
-                        Description = b.Description,
-                        ProjectCost = b.ProjectCost,
-                        BookingStatus = b.BookingStatus,
-                    }).FirstOrDefault(),
-         TripsHistory = (from t in _db.Trips
-                         where t.BookingRefId == b.Id
-                         select new TripVM()
-                         {
-                             Id = t.Id,
-                             Active = t.Active,
-                             StartKm = t.StartKm,
-                             StartLocation = t.StartLocation,
-                             EndKm = t.EndKm,
-                             EndLocation = t.EndLocation,
-                             Project = t.Project,
-                             Cost = t.Cost,
-                             CostRemarks = t.CostRemarks
-                         }).OrderByDescending(y => y.StartKm).ToList()
-     }).ToList();
+                               select new CalendarVM
+                               {
+                                   Booking = (from c in _db.Cars
+                                              from u in _db.Users
+                                              where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
+                                              select new BookingVM()
+                                              {
+                                                  Id = b.Id,
+                                                  UserName = u.UserName,
+                                                  RegistrationNumber = c.RegistrationNumber,
+                                                  PhotoPath = c.PhotoPath,
+                                                  StartDate = b.StartDate,
+                                                  EndDate = b.EndDate,
+                                                  Description = b.Description,
+                                                  ProjectCost = b.ProjectCost,
+                                                  BookingStatus = b.BookingStatus,
+                                              }).FirstOrDefault(),
+                                   TripsHistory = (from t in _db.Trips
+                                                   where t.BookingRefId == b.Id
+                                                   select new TripVM()
+                                                   {
+                                                       Id = t.Id,
+                                                       Active = t.Active,
+                                                       StartKm = t.StartKm,
+                                                       StartLocation = t.StartLocation,
+                                                       EndKm = t.EndKm,
+                                                       EndLocation = t.EndLocation,
+                                                       Project = t.Project,
+                                                       Cost = t.Cost,
+                                                       CostRemarks = t.CostRemarks
+                                                   }).OrderByDescending(y => y.StartKm).ToList()
+                               }).ToList();
                 return results;
             }
 
@@ -448,9 +406,7 @@ namespace AmiFlota.Services
             }
         }
 
-
-
-        //TODO Use tables join instead of this method
+        //TODO Used in creating BookingViewModal
         public string GetRegistrationNumberByCarVin(string carVIN)
         {
             try
@@ -463,7 +419,7 @@ namespace AmiFlota.Services
                 throw;
             }
         }
-        //TODO Use tables join instead of this method
+        //TODO Used to create booking
         public string GetVinByRegistrationNumber(string registrationNumber)
         {
             try
@@ -476,7 +432,7 @@ namespace AmiFlota.Services
                 throw;
             }
         }
-        //TODO Use tables join instead of this method
+        //TODO Used to create booking
         public string GetUserIdByName(string userName)
         {
             try
@@ -489,35 +445,6 @@ namespace AmiFlota.Services
                 throw;
             }
         }
-        //TODO Use tables join instead of this method
-        public string GetUserNameById(string userId)
-        {
-            try
-            {
-                var result = _db.Users.FirstOrDefault(x => x.Id == userId);
-                return result.UserName;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public BookingVM GetById(int id)
-        {
-            return _db.Bookings.Where(x => x.Id == id).ToList().Select(c => new BookingVM()
-            {
-                Id = c.Id,
-                UserName = GetUserNameById(c.UserId),
-                RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
-                StartDate = c.StartDate,
-                EndDate = c.EndDate,
-                Description = c.Description,
-                ProjectCost = c.ProjectCost,
-                BookingStatus = c.BookingStatus,
-            }).SingleOrDefault();
-        }
-
 
         public async Task<int> ConfirmEvent(int id)
         {
@@ -530,7 +457,6 @@ namespace AmiFlota.Services
 
             return 0;
         }
-
         public async Task<int> RejectEvent(int id)
         {
             var booking = await _db.Bookings.FirstOrDefaultAsync(x => x.Id == id);
@@ -542,7 +468,6 @@ namespace AmiFlota.Services
 
             return 0;
         }
-
         public async Task<int> DeleteEvent(int id)
         {
             var booking = await _db.Bookings.FirstOrDefaultAsync(x => x.Id == id);
@@ -554,17 +479,6 @@ namespace AmiFlota.Services
 
             return 0;
         }
-
-        public async Task<int> AutoConfirmBooking(double hours)
-        {
-
-            var autoConfirmDateTime = DateTime.UtcNow.AddHours(hours);
-            _db.Bookings.Where(x => x.StartDate < autoConfirmDateTime && x.StartDate > nowDateTime && x.BookingStatus.Equals(BookingStatus.Pending)).ToList()
-            .ForEach(b => { b.BookingStatus = BookingStatus.Approved; });
-            //TODO And not on rejected list
-            return await _db.SaveChangesAsync();
-        }
-
         public async Task<int> TakeCar(int bookingId)
         {
             var booking = await _db.Bookings.FirstOrDefaultAsync(x => x.Id == bookingId);
@@ -588,6 +502,15 @@ namespace AmiFlota.Services
             }
 
             return 0;
+        }
+        public async Task<int> AutoConfirmBooking(double hours)
+        {
+
+            var autoConfirmDateTime = DateTime.UtcNow.AddHours(hours);
+            _db.Bookings.Where(x => x.StartDate < autoConfirmDateTime && x.StartDate > nowDateTime && x.BookingStatus.Equals(BookingStatus.Pending)).ToList()
+            .ForEach(b => { b.BookingStatus = BookingStatus.Approved; });
+            //TODO And not on rejected list
+            return await _db.SaveChangesAsync();
         }
 
     }
