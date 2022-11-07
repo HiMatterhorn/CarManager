@@ -20,7 +20,8 @@ namespace AmiFlota.Models.ViewModels
         public TrunkType Trunk { get; set; }
         [DisplayName("Horse Power")]
         public ushort HorsePower { get; set; }
-        public ushort Engine { get; set; }
+        [MaxLength(12)]
+        public string Engine { get; set; }
         [DisplayName("Tyres")]
         [MaxLength(10)]
         public string TyreSize { get; set; }

@@ -18,7 +18,7 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="Create" asp-controller="Car" enctype = "multipart/form-data">
+            <form asp-action="Create" asp-controller="Car" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="VIN" class="control-label"></label>
@@ -28,51 +28,100 @@
                 <div class="form-group">
                     <label asp-for="RegistrationNumber" class="control-label"></label>
                     <input asp-for="RegistrationNumber" class="form-control" />
-@*                    <span asp-validation-for="RegistrationNumber" class="text-danger"></span>*@
+                    <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Brand" class="control-label"></label>
                     <input asp-for="Brand" class="form-control" />
-@*                    <span asp-validation-for="Brand" class="text-danger"></span>*@
+                    <span asp-validation-for="Brand" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Model" class="control-label"></label>
                     <input asp-for="Model" class="form-control" />
-@*                    <span asp-validation-for="Model" class="text-danger"></span>*@
+                    <span asp-validation-for="Model" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="SeatsNumber" class="control-label"></label>
                     <input asp-for="SeatsNumber" class="form-control" />
-@*                    <span asp-validation-for="SeatsNumber" class="text-danger"></span>*@
+                    <span asp-validation-for="SeatsNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Doors" class="control-label"></label>
+                    <input asp-for="Doors" class="form-control" />
+                    <span asp-validation-for="Doors" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
+                    <label asp-for="Trunk" class="control-label"></label>
                     <select asp-for="Trunk" class="btn btn-secondary dropdown-toggle" asp-items="Html.GetEnumSelectList<Enums.TrunkType>()"></select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="HorsePower" class="control-label"></label>
+                    <input asp-for="HorsePower" class="form-control" />
+                    <span asp-validation-for="HorsePower" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Engine" class="control-label"></label>
+                    <input asp-for="Engine" class="form-control" />
+                    <span asp-validation-for="Engine" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TyreSize" class="control-label"></label>
+                    <input asp-for="TyreSize" class="form-control" />
+                    <span asp-validation-for="TyreSize" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Fuel" class="control-label"></label>
+                    <select asp-for="Fuel" class="btn btn-secondary dropdown-toggle" asp-items="Html.GetEnumSelectList<Enums.Fuel>()"></select>
+                    <span asp-validation-for="Fuel" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CardPin" class="control-label"></label>
+                    <input asp-for="CardPin" class="form-control" />
+                    <span asp-validation-for="CardPin" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Insurance" class="control-label"></label>
+                    <input asp-for="Insurance" class="form-control" />
+                    <span asp-validation-for="Insurance" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TechnicalReview" class="control-label"></label>
+                    <input asp-for="TechnicalReview" class="form-control" />
+                    <span asp-validation-for="TechnicalReview" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="PhotoPath" class="control-label"></label>
                     <div class="custom-file">
-                        <input asp-for="PhotoPath" class="custom-file-input" id="customFile" />
+                        <input asp-for="PhotoPath" class="custom-file-input form-control" type="file" id="customFile" onchange="preview()" />
                     </div>
-@*                    <span asp-validation-for="PhotoPath" class="text-danger"></span>*@
                 </div>
 
-@*                
-    //Upload photo with preview
-<div class="container col-md-6">
-                    <div class="mb-5">
-                        <label for="Image" class="form-label">Load car image</label>
-                        <input class="form-control" type="file" id="formFile" onchange="preview()"> multiple
-                        <button onclick="clearImage()" class="btn btn-primary mt-3">Upload</button>
-                    </div>
-                    <img id="frame" src="" class="img-fluid" />
-                </div>*@
+                @*
+                //Upload photo with preview
+                <div class="container col-md-6">
+                <div class="mb-5">
+                <label for="Image" class="form-label">Load car image</label>
+                <input class="form-control" type="file" id="formFile" onchange="preview()"> multiple
+                <button onclick="clearImage()" class="btn btn-primary mt-3">Upload</button>*@
+
 
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
             </form>
+
+
+            <img id="frame" src="" class="img-fluid" />
+
         </div>
     </div>
 
@@ -85,17 +134,16 @@
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }
 
-@*        
-    //Upload photo with preview
-    <script>
+@*//Upload photo with preview*@
+        <script>
             function preview() {
                 frame.src = URL.createObjectURL(event.target.files[0]);
             }
             function clearImage() {
-                document.getElementById('formFile').value = null;
+                document.getElementById('customFile').value = null;
                 frame.src = "";
             }
-        </script>*@
+        </script>
     }
     </body>
     </html>

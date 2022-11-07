@@ -10,20 +10,22 @@
     <title>List of the available cars</title>
 </head>
 <body>
-    <div class="row">
+    <div class="container">
         @foreach (var car in Model.AvailableCars)
         {
             <div class="row border border-dark border-opacity-25 m-2">
-                    <partial name="_CarListItem" model=car />
+                <partial name="_CarListItem" model=car />
             </div>
 
-            <div class="row justify-content-end">
+            <div class="row clearfix text-end">
+                <div class="col-12 border-0 mr-0 pr-0">
                     <button type="button" class="btn btn-success btn-continue" id="@car.VIN"
                         data-startDate="@Model.StartDate"
                         data-endDate="@Model.EndDate"
                         data-vin="@car.VIN">
                         Continue
                     </button>
+                </div>
             </div>
         }
     </div>

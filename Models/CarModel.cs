@@ -27,7 +27,8 @@ namespace AmiFlota.Models
         public TrunkType Trunk { get; set; }
         [DisplayName("Horse Power")]
         public ushort HorsePower { get; set; }
-        public ushort Engine { get; set; }
+        [MaxLength(12)]
+        public string Engine { get; set; }
 
         [DisplayName("Tyres")]
         [MaxLength(10)]
@@ -37,7 +38,7 @@ namespace AmiFlota.Models
         [DisplayName("Card PIN")]
         public ushort CardPin { get; set; }
 
-        public DateTime Insurance {get;set;}
+        public DateTime Insurance { get; set; }
 
         public DateTime TechnicalReview { get; set; }
 
