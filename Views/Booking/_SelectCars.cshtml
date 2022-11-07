@@ -1,10 +1,12 @@
 ﻿@model List<AmiFlota.Models.CarModel>
 
 @foreach (var car in Model)
-                {
+{
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="@car.VIN" id="@car.VIN" checked="checked" />
-                        <label class="form-check-label">@car.Brand @car.Model @car.RegistrationNumber</label>
-                    </div>
-                }
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="@car.VIN" id="@car.VIN" checked="checked" />
+        <label class="form-check-label">@car.Brand @car.Model @car.RegistrationNumber</label>
+    </div>
+}
+
+<script src="~/js/script-custom-calendar.js"></script>

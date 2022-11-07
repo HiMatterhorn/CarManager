@@ -1,77 +1,29 @@
 ﻿@model AmiFlota.Models.ViewModels.CalendarVM
 
-<div class="modal fade" role="dialog" id="calendarEvent" data-backdrop="false" data-keyboard="false">
+<div class="modal fade modal-lg" role="dialog" id="calendarEvent" data-backdrop="false" data-keyboard="false">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <h2>hellooo</h2>
-            <h2>@Model.Booking.BookingStatus</h2>
+        <div class="modal-content ">
 
-            @*          <form method="post" asp-controller="Booking" asp-action="_BookingDetailsModal" id="bookingDetailsModalForm">
+
             <div class="modal-header">
-            <h5 class="modal-title" id="bookingDetailsModalTitle">Booking details</h5>
-            </div>*@
-            @*  <div asp-validation-summary="ModelOnly" class="text-danger">*@
+                @*                <h5 class="modal-title w-100 text-center">@Model.Car.Brand @Model.Car.Model @Model.Car.RegistrationNumber</h5>*@
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body m-2">
 
-@*            @foreach(var car in @Model.Cars)
-            {
-                <h2>@car.RegistrationNumber</h2>
-            };*@
+                <div class="row">
+                    <partial name="_BookingListItem" model=@Model.Booking class="mx-0 px-0" />
+                </div>
 
-@*                <h2>
-                    @Model.Booking.StartDate
-                </h2>*@
-@*            <div class="form-group">
-                <label asp-for="Booking.StartDate">Start Date: @Model.Booking.StartDate</label>
-                <input asp-for="Booking.StartDate" type="hidden"></>
-            </div>*@
+                <h2>hellooo</h2>
+                <h2>@Model.Booking.BookingStatus</h2>
 
-
-
-            @*                <div class="modal-body">
-            <input type="hidden" asp-for="BookingStatus" value="@AmiFlota.Utilities.Enums.BookingStatus.Pending" />
-
-
-            <div class="form-group row">
-            <div class="col-6 text-right">
-            <label for="lblUserName">User Name: </label>
+                @*//TRIPS*@
+                <div class="row">
+                    <partial name="_TripsHistory" model=@Model.TripsHistory class="mx-0 px-0" />
+                </div>
             </div>
 
-            <div class="col-6 text-left">
-            <label asp-for="UserName">@Model.UserName</label>
-            <input asp-for="UserName" type="hidden"></>
-            </div>
-            </div>
-
-            <div class="form-group">
-            <label asp-for="RegistrationNumber">Registration Number: @Model.RegistrationNumber</label>
-            <input asp-for="RegistrationNumber" type="hidden"></>
-            </div>
-
-            <div class="form-group">
-            <label asp-for="StartDate">Start date: @Model.StartDate</label>
-            <input asp-for="StartDate" type="hidden"></>
-            </div>
-
-            <div class="form-group">
-            <label asp-for="EndDate">End date: @Model.EndDate</label>
-            <input asp-for="EndDate" type="hidden"></>
-            </div>
-
-
-            <div class="form-group">
-            <label asp-for="Description">Destination</label>
-            <input asp-for="Description" class="form-control" id="Booking.Destination"></>
-            <span asp-validation-for="Description"></span>
-            </div>
-            <div class="form-group">
-            <label asp-for="ProjectCost">Project:</label>
-            <input asp-for="ProjectCost" class="form-control" id="Booking.ProjectCost"></>
-            <span asp-validation-for="ProjectCost"></span>
-            </div>
-            </div>*@
-
-
-            @*            </form>*@
         </div>
     </div>
 </div>
