@@ -1,4 +1,4 @@
-﻿@model AmiFlota.Models.ViewModels.CalendarVM
+﻿@*@model AmiFlota.Models.ViewModels.CalendarVM*@
 <!DOCTYPE html>
 
 <html>
@@ -7,29 +7,46 @@
     <title>Calendar</title>
 </head>
 <body>
+    <div id="_CalendarEventModal"> </div>
 
-@*    <div class="container">*@
-        <div class="row">
-            <div class="col-xl-4 col-lg-4 col-md-2 col-sm-6 col-12 order-1">
-                @foreach (var car in Model.Cars)
-                {
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="@car.VIN" id="@car.VIN" checked="checked" />
-                        <label class="form-check-label">@car.Brand @car.Model @car.RegistrationNumber</label>
-                    </div>
-                }
+    <div class="row">
 
-            </div>
-            <div class="col-xl-8 col-lg-8 col-md-10 col-sm-6 col-12 order-2">
-                <div id="calendar"> </div>
-            </div>
+        <div class="col-xl-4 col-lg-4 col-md-2 col-sm-6 col-12 order-1">
+            <div id="_selectCars"> </div>
         </div>
-@*    </div>*@
+        <div class="col-xl-8 col-lg-8 col-md-10 col-sm-6 col-12 order-2">
+            <div id="calendar"> </div>
+        </div>
+    </div>
 
-    <partial name="_CalendarEvent" />
+
     <div id="loader" data-request-url="@Url.Action("GetCalendarDataById", "Booking")"></div>
 </body>
 
 </html>
 
+<script>
+
+    $(document).ready(function() {
+
+        $.ajax({
+            url: '@Url.Action("SelectCars", "Booking")',
+            datatype: 'html',
+            method: 'GET',
+
+            success: function(result) {
+
+                $('#_selectCars').html('').html(result);
+                InitializeCalendar();
+
+            },
+
+            error: function(error) {
+                console.log(error);
+                console.log("Unable to load partial view - Active Bookings");
+            }
+        });
+    });
+
+</script>

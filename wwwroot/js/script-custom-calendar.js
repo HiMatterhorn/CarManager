@@ -14,8 +14,7 @@ var urlCalendarEvent;
 
 $(document).ready(function () {
     urlCalendarEvent = $('#loader').data('request-url');
-    console.log(urlCalendarEvent);
-    InitializeCalendar();
+/*    InitializeCalendar();*/
     getEventsSelectedCars();
 });
 
@@ -236,15 +235,17 @@ function fontEventColor(eventStatus) {
 function getEventDetailsByEventId(info) {
     $.ajax({
         url: urlCalendarEvent,
-        data: { id: Number(info.id)},
-        type: 'GET',
         dataType: 'html',
+        data: { id: Number(info.id)},
+        method: 'GET',
 
-
-        success: function (response) {
-            if (response.status === 1 && response.dataenum != undefined) {
-                onCalendarEventShowModal()
-            }
+        success: function (result) {
+            $('#_CalendarEventModal').html('').html(result);
+            onCalendarEventShowModal()
+            console.log("ajax call success");
+/*            if (response.status === 1 && response.dataenum != undefined) {
+                
+            }*/
         },
         error: function (xhr) {
             $.notify("Error", "error");
@@ -265,7 +266,8 @@ function getEventDetailsByEventId(info) {
 }*/
 
 function onCalendarEventShowModal() {
-        $("#calendarEvent").modal("show");
+    $("#calendarEvent").modal("show");
+    console.log("Show Modal!");
 }
 
 function onCalendarEventCloseModal() {

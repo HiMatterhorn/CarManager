@@ -4,40 +4,74 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <h2>hellooo</h2>
+            <h2>@Model.Booking.BookingStatus</h2>
 
-@*            <h2>@Model.Booking.BookingStatus</h2>*@
-            @*<form id="calendarEventForm" autocomplete="off" novalidate="novalidate">
-                <div class="modal-header">
-                    <h4 class="modal-title">Booking event details</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="id" />
+            @*          <form method="post" asp-controller="Booking" asp-action="_BookingDetailsModal" id="bookingDetailsModalForm">
+            <div class="modal-header">
+            <h5 class="modal-title" id="bookingDetailsModalTitle">Booking details</h5>
+            </div>*@
+            @*  <div asp-validation-summary="ModelOnly" class="text-danger">*@
 
-                    <div class="form-group">
-                        <label for="title">User Name</label>
-                        <label class="text-center" disabled id="userName" />
-                    </div>
-                    <div class="form-group">
-                        <label for="title">Registration Number</label>
-                        <label class="text-center" disabled id="registrationNumber" />
-                    </div>
-                    <div class="form-group">
-                        <label for="title">Destination</label>
-                        <label class="text-center" disabled id="destination" />
-                    </div>
+@*            @foreach(var car in @Model.Cars)
+            {
+                <h2>@car.RegistrationNumber</h2>
+            };*@
 
-                    <div class="form-group">
-                        <label for="title">Project Cost</label>
-                        <label class="text-center" disabled id="projectCost" />
-                    </div>
+@*                <h2>
+                    @Model.Booking.StartDate
+                </h2>*@
+@*            <div class="form-group">
+                <label asp-for="Booking.StartDate">Start Date: @Model.Booking.StartDate</label>
+                <input asp-for="Booking.StartDate" type="hidden"></>
+            </div>*@
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="btnCalendarEventDelete" class="btn btn-danger" onclick="onCalendarEventDelete();">Delete</button> &nbsp
-                    <button type="button" id="btnCalendarEventConfirm" class="btn btn-success" onclick="onCalendarEventConfirm();">Confirm</button> &nbsp
-                    <button type="button" id="btnCalendarEventClose" class="btn btn-secondary" onclick="onCalendarEventCloseModal();">Close</button>
-                </div>
-            </form>*@
+
+
+            @*                <div class="modal-body">
+            <input type="hidden" asp-for="BookingStatus" value="@AmiFlota.Utilities.Enums.BookingStatus.Pending" />
+
+
+            <div class="form-group row">
+            <div class="col-6 text-right">
+            <label for="lblUserName">User Name: </label>
+            </div>
+
+            <div class="col-6 text-left">
+            <label asp-for="UserName">@Model.UserName</label>
+            <input asp-for="UserName" type="hidden"></>
+            </div>
+            </div>
+
+            <div class="form-group">
+            <label asp-for="RegistrationNumber">Registration Number: @Model.RegistrationNumber</label>
+            <input asp-for="RegistrationNumber" type="hidden"></>
+            </div>
+
+            <div class="form-group">
+            <label asp-for="StartDate">Start date: @Model.StartDate</label>
+            <input asp-for="StartDate" type="hidden"></>
+            </div>
+
+            <div class="form-group">
+            <label asp-for="EndDate">End date: @Model.EndDate</label>
+            <input asp-for="EndDate" type="hidden"></>
+            </div>
+
+
+            <div class="form-group">
+            <label asp-for="Description">Destination</label>
+            <input asp-for="Description" class="form-control" id="Booking.Destination"></>
+            <span asp-validation-for="Description"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="ProjectCost">Project:</label>
+            <input asp-for="ProjectCost" class="form-control" id="Booking.ProjectCost"></>
+            <span asp-validation-for="ProjectCost"></span>
+            </div>
+            </div>*@
+
+
+            @*            </form>*@
         </div>
     </div>
 </div>

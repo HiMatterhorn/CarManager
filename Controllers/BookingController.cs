@@ -96,26 +96,36 @@ namespace AmiFlota.Controllers
 
         public async Task<IActionResult> Calendar()
         {
-            await _bookingService.AutoConfirmBooking(3);
-            CalendarVM viewModel = new CalendarVM();
-                viewModel.Cars = await _bookingService.GetAllCars();
+                        await _bookingService.AutoConfirmBooking(3);
+/*                        CalendarVM viewModel = new CalendarVM();
+                            viewModel.Cars = await _bookingService.GetAllCars();*/
 
-            return View(viewModel);
+            return View();
         }
 
-        [HttpGet]
-        [Route("GetCalendarDataById")]
-        public IActionResult GetCalendarDataById(int id)
+        public PartialViewResult GetCalendarDataById(int id)
         {
+            //TODO Update previous viewmodel with new fields
             var booking = _bookingService.GetBookingById(id);
             var trips = _tripService.TripsHistoryByBookingId(id);
             CalendarVM viewModel = new CalendarVM
             {
+                Cars = new List<CarModel>(),
                 Booking = booking,
                 TripsHistory = trips,
             };
 
+            /*return PartialView("_CalendarEvent", viewModel);*/
             return PartialView("_CalendarEvent", viewModel);
+        }
+
+        public async Task<IActionResult> SelectCars()
+        {
+            /*await _bookingService.AutoConfirmBooking(3);*/
+            List<CarModel> viewModel = new List<CarModel>();
+            viewModel = await _bookingService.GetAllCars();
+
+            return PartialView("_SelectCars", viewModel);
         }
 
     }

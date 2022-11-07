@@ -72,7 +72,7 @@ namespace AmiFlota.Controllers.api
         }
 
 
-        [HttpGet]
+/*        [HttpGet]
         [Route("GetCalendarDataById")]
         public IActionResult GetCalendarDataById(int id)
         {
@@ -89,7 +89,7 @@ namespace AmiFlota.Controllers.api
             }
 
             return Ok(commonResponse);
-        }
+        }*/
 
 
         [HttpGet]
