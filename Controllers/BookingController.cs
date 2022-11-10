@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using static AmiFlota.Utilities.Enums;
 
 namespace AmiFlota.Controllers
 {
@@ -21,6 +22,7 @@ namespace AmiFlota.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly string userId;
         private readonly string userName;
+        private readonly string userRole;
         public BookingController(IBookingService bookingService, ITripService tripService, IHttpContextAccessor httpContextAccessor)
         {
             _bookingService = bookingService;
@@ -28,6 +30,7 @@ namespace AmiFlota.Controllers
             _httpContextAccessor = httpContextAccessor;
             userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             userName = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            userRole = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
         }
 
         public IActionResult Search()
@@ -43,21 +46,45 @@ namespace AmiFlota.Controllers
 
         public async Task<PartialViewResult> PendingBookingsCurrentUser()
         {
-            var pendingBookingsList = await _bookingService.GetPendingBookingsByUserId(userId);
-            return PartialView("_PendingBookings", pendingBookingsList);
+            if (userRole.Equals(UserRole.admin.ToString()) || userRole.Equals(UserRole.manager.ToString()))
+            {
+                var pendingAllBookingsList = await _bookingService.GetAllPendingBookings();
+                return PartialView("_PendingBookings", pendingAllBookingsList);
+            }
+            else
+            {
+                var pendingBookingsList = await _bookingService.GetPendingBookingsByUserId(userId);
+                return PartialView("_PendingBookings", pendingBookingsList);
+            }
+
         }
 
         public async Task<PartialViewResult> ApprovedBookingsCurrentUser()
         {
-            var approvedBookingsList = await _bookingService.GetApprovedBookingsByUserId(userId);
-            return PartialView("_ApprovedBookings", approvedBookingsList);
+            if (userRole.Equals(UserRole.admin.ToString()) || userRole.Equals(UserRole.manager.ToString()))
+            {
+                var approvedAllBookingsList = await _bookingService.GetAllApprovedBookings();
+                return PartialView("_ApprovedBookings", approvedAllBookingsList);
+            }
+            else
+            {
+                var approvedBookingsList = await _bookingService.GetApprovedBookingsByUserId(userId);
+                return PartialView("_ApprovedBookings", approvedBookingsList);
+            }
         }
 
-        public PartialViewResult ActiveBookingsCurrentUser()
+        public async Task<PartialViewResult> ActiveBookingsCurrentUser()
         {
-            var activeBookingViewList = _bookingService.GetActiveBookingsByUserId(userId);
-
-            return PartialView("_ActiveBookings", activeBookingViewList);
+            if (userRole.Equals(UserRole.admin.ToString()) || userRole.Equals(UserRole.manager.ToString()))
+            {
+                var activeAllBookingsList = await _bookingService.GetAllActiveBookings();
+                return PartialView("_ActiveBookings", activeAllBookingsList);
+            }
+            else
+            {
+                var activeBookingsList = await _bookingService.GetActiveBookingsByUserId(userId);
+                return PartialView("_ActiveBookings", activeBookingsList);
+            }
         }
 
         //GET - create
@@ -96,9 +123,9 @@ namespace AmiFlota.Controllers
 
         public async Task<IActionResult> Calendar()
         {
-                        await _bookingService.AutoConfirmBooking(3);
-/*                        CalendarVM viewModel = new CalendarVM();
-                            viewModel.Cars = await _bookingService.GetAllCars();*/
+            await _bookingService.AutoConfirmBooking(3);
+            /*                        CalendarVM viewModel = new CalendarVM();
+                                        viewModel.Cars = await _bookingService.GetAllCars();*/
 
             return View();
         }

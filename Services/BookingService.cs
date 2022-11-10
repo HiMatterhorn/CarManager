@@ -31,7 +31,6 @@ namespace AmiFlota.Services
 
             //TODO Group by Trunk type
             List<CarModel> cars = await _db.Cars.OrderBy(x => x.Brand).ThenBy(x => x.Model).ThenBy(x => x.RegistrationNumber).ToListAsync();
-
             return cars;
         }
 
@@ -153,6 +152,36 @@ namespace AmiFlota.Services
             }
         }
 
+        public async Task<IEnumerable<BookingVM>> GetAllPendingBookings()
+        {
+            try
+            {
+                var results = await
+                    (from b in _db.Bookings.Where(a => a.BookingStatus.Equals(BookingStatus.Pending))
+                     from c in _db.Cars
+                     from u in _db.Users
+                     where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
+                     select new BookingVM
+                     {
+                         Id = b.Id,
+                         UserName = u.UserName,
+                         RegistrationNumber = c.RegistrationNumber,
+                         PhotoPath = c.PhotoPath,
+                         StartDate = b.StartDate,
+                         EndDate = b.EndDate,
+                         Description = b.Description,
+                         ProjectCost = b.ProjectCost,
+                         BookingStatus = b.BookingStatus,
+                     }).ToListAsync();
+
+                return results;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<BookingVM>> GetApprovedBookingsByUserId(string userId)
         {
             try
@@ -183,11 +212,41 @@ namespace AmiFlota.Services
             }
         }
 
-        public IEnumerable<ActiveBookingVM> GetActiveBookingsByUserId(string userId)
+        public async Task<IEnumerable<BookingVM>> GetAllApprovedBookings()
         {
             try
             {
-                var results =
+                var results = await
+                    (from b in _db.Bookings.Where(a => a.BookingStatus.Equals(BookingStatus.Approved))
+                     from c in _db.Cars
+                     from u in _db.Users
+                     where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
+                     select new BookingVM
+                     {
+                         Id = b.Id,
+                         UserName = u.UserName,
+                         RegistrationNumber = c.RegistrationNumber,
+                         PhotoPath = c.PhotoPath,
+                         StartDate = b.StartDate,
+                         EndDate = b.EndDate,
+                         Description = b.Description,
+                         ProjectCost = b.ProjectCost,
+                         BookingStatus = b.BookingStatus,
+                     }).ToListAsync();
+
+                return results;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<ActiveBookingVM>> GetActiveBookingsByUserId(string userId)
+        {
+            try
+            {
+                var results = await
                     (from b in _db.Bookings.Where(x => x.UserId == userId).Where(a => a.BookingStatus.Equals(BookingStatus.Active) || a.BookingStatus.Equals(BookingStatus.OnTheWay))
 
                      select new ActiveBookingVM
@@ -221,7 +280,55 @@ namespace AmiFlota.Services
                                              Cost = t.Cost,
                                              CostRemarks = t.CostRemarks
                                          }).OrderByDescending(y => y.StartKm).ToList()
-                     }).ToList();
+                     }).ToListAsync();
+
+                return results;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<ActiveBookingVM>> GetAllActiveBookings()
+        {
+            try
+            {
+                var results = await
+                    (from b in _db.Bookings.Where(a => a.BookingStatus.Equals(BookingStatus.Active) || a.BookingStatus.Equals(BookingStatus.OnTheWay))
+
+                     select new ActiveBookingVM
+                     {
+                         BookingViewModel = (from c in _db.Cars
+                                             from u in _db.Users
+                                             where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
+                                             select new BookingVM()
+                                             {
+                                                 Id = b.Id,
+                                                 UserName = u.UserName,
+                                                 RegistrationNumber = c.RegistrationNumber,
+                                                 PhotoPath = c.PhotoPath,
+                                                 StartDate = b.StartDate,
+                                                 EndDate = b.EndDate,
+                                                 Description = b.Description,
+                                                 ProjectCost = b.ProjectCost,
+                                                 BookingStatus = b.BookingStatus,
+                                             }).FirstOrDefault(),
+                         TripsHistory = (from t in _db.Trips
+                                         where t.BookingRefId == b.Id
+                                         select new TripVM()
+                                         {
+                                             Id = t.Id,
+                                             Active = t.Active,
+                                             StartKm = t.StartKm,
+                                             StartLocation = t.StartLocation,
+                                             EndKm = t.EndKm,
+                                             EndLocation = t.EndLocation,
+                                             Project = t.Project,
+                                             Cost = t.Cost,
+                                             CostRemarks = t.CostRemarks
+                                         }).OrderByDescending(y => y.StartKm).ToList()
+                     }).ToListAsync();
 
                 return results;
             }

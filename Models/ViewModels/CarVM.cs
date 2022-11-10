@@ -25,7 +25,7 @@ namespace AmiFlota.Models.ViewModels
         [DisplayName("Tyres")]
         [MaxLength(10)]
         public string TyreSize { get; set; }
-
+        [DisplayName("Fuel")]
         public Fuel Fuel { get; set; }
         [DisplayName("Card PIN")]
         public ushort CardPin { get; set; }

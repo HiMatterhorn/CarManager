@@ -2,9 +2,13 @@
 
 <!-- Button trigger modal -->
 <!-- Modal -->
-<div class="modal fade" id="bookingDetailsModal" tabindex="-1" role="dialog" aria-labelledby="bookingDetailsModal" aria-hidden="true">
+<div class="modal fade" id="bookingDetailsModal" role="dialog" aria-labelledby="bookingDetailsModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
+            <div class='exampleSearch'>
+                <select name="example" class="selectize-dropdown" placeholder="Choose booking user" id="search" "> @*multiple="multiple*@  </select>
+            </div>
+
             <form method="post" asp-controller="Booking" asp-action="_BookingDetailsModal" id="bookingDetailsModalForm">
                 <div class="modal-header">
                     <h5 class="modal-title" id="bookingDetailsModalTitle">Booking details</h5>
@@ -20,10 +24,11 @@
                             <label for="lblUserName">User Name: </label>
                         </div>
 
-                        <div class="col-6 text-left">
-                            <label asp-for="UserName">@Model.UserName</label>
-                            <input asp-for="UserName" type="hidden"></>
-                        </div>
+                        @*                        <div class="col-6 text-left">
+                        <label asp-for="UserName">@Model.UserName</label>
+                        <input asp-for="UserName" type="hidden"></>
+                        </div>*@
+
                     </div>
 
                     <div class="form-group">
@@ -66,3 +71,59 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    $(document).ready(function() {
+        @*        var optionsTest = [
+            { id: 1, title: 'Spectrometer', url: 'http://en.wikipedia.org/wiki/Spectrometers' },
+            { id: 2, title: 'Star Chart', url: 'http://en.wikipedia.org/wiki/Star_chart' },
+            { id: 3, title: 'Electrical Tape', url: 'http://en.wikipedia.org/wiki/Electrical_tape' }
+            ];*@
+
+                    var dtoUsers = [];
+
+        $.ajax({
+            url: routeURL + '/api/Users/GetAllUsers',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(response) {
+                if (response.status === 1) {
+                    console.log(response.dataenum);
+                    $.each(response.dataenum, function(i, data) {
+                        dtoUsers.push({
+                            id: data.id,
+                            name: data.name
+                        });
+                    });
+                    console.log(dtoUsers);
+                    $('#search').selectize({
+                        valueField: 'id',
+                        labelField: 'name',
+                        searchField: 'name',
+                        options: dtoUsers
+                    });
+                    @*$.notify(response.message, "success");*@
+                            }
+                else {
+                    $.notify(response.message, "error");
+                }
+
+            },
+            error: function(xhr) {
+                $.notify("Error", "error");
+            }
+        });
+
+
+        @*       $('#search').selectize({
+            valueField: 'id',
+            labelField: 'title',
+            searchField: 'title',
+            options: optionsTest
+            });*@
+
+
+
+            });
+</script>

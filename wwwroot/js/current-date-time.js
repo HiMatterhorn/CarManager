@@ -10,10 +10,10 @@ function getRoundedSearchDateTime() {
 function getLimitDates() {
 
     let minDate = new Date();
-    minDate.setFullYear((minDate.getFullYear() - 3));
+    minDate.setFullYear((minDate.getFullYear() - 1));
 
     let maxDate = new Date();
-    maxDate.setFullYear((maxDate.getFullYear() + 3));
+    maxDate.setFullYear((maxDate.getFullYear() + 2));
 
     let DateMin = formatDate(minDate);
     let DateMax = formatDate(maxDate);

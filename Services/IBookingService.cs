@@ -14,9 +14,12 @@ namespace AmiFlota.Services
         public void BookCar(BookingVM bookingVM);
         //public Task<IEnumerable<BookingModel>> GetPendingBookingsByUserId(string userId);
         public Task<IEnumerable<BookingVM>> GetPendingBookingsByUserId(string userId);
+        public Task<IEnumerable<BookingVM>> GetAllPendingBookings();
         // public Task<IEnumerable<BookingModel>> GetApprovedBookingsByUserId(string userId);
         public Task<IEnumerable<BookingVM>> GetApprovedBookingsByUserId(string userId);
-        public IEnumerable<ActiveBookingVM> GetActiveBookingsByUserId(string userId);
+        public Task<IEnumerable<BookingVM>> GetAllApprovedBookings();
+        public Task<IEnumerable<ActiveBookingVM>> GetActiveBookingsByUserId(string userId);
+        public Task<IEnumerable<ActiveBookingVM>> GetAllActiveBookings();
         /*        public List<BookingVM> BookingsByCarVIN(string carVIN);*/
         public List<CalendarVM> AllBookingsByCarVinList(List<string> selectedCars);
         public List<CalendarVM> CurrentBookingsByCarVinList(List<string> carVIN);

@@ -13,7 +13,6 @@ $(document).ready(function () {
 
 function getEventsSelectedCars() {
     $('input[type="checkbox"]').change(function () {
-        console.log(dtoVIN);
         updateSelectedCarsList();
 
         //Bookings

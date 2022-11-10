@@ -1,4 +1,5 @@
-﻿@model IEnumerable<AmiFlota.Models.ViewModels.BookingVM>
+﻿@using static AmiFlota.Utilities.Enums
+@model IEnumerable<AmiFlota.Models.ViewModels.BookingVM>
 
 <!DOCTYPE html>
 
@@ -8,34 +9,36 @@
     <title>Bookings list</title>
 </head>
 <body>
+
     @if (Model.Count() > 0)
     {
         <h2>Approved bookings</h2>
-            @foreach (var booking in Model)
-            {
-                <div class="row mt-4 border border-dark border-opacity-25">
-                    <partial name="_BookingListItem" model=booking />
-                </div>
+        @foreach (var booking in Model)
+        {
+            <div class="row mt-4 border border-dark border-opacity-25">
+                <partial name="_BookingListItem" model=booking />
+            </div>
 
-                <div class="row border-0 mr-0 pr-0 text-end">
-                    <div class="col-12 border-0 mr-0 pr-0" role="group">
+            <div class="row border-0 mr-0 pr-0 text-end">
+                <div class="col-12 border-0 mr-0 pr-0" role="group">
+                    @if (User.IsInRole(UserRole.admin.ToString())
+                   || User.IsInRole(UserRole.manager.ToString())
+                   || User.Identity.Name.Equals(booking.UserName))
+                    {
+                        @*//TODO Show the button only when booking start date is lower than now()*@
+                        <button type="button" id="btnDashboardTakeCar" class="btn btn-warning btn-approved-take-car" data - id="@booking.Id">Take the car</button>
+
                         <button type="button" id="btnDashboardReject" class="btn btn-warning btn-approved-reject" data-id="@booking.Id">Reject</button>
-
-                        <button type="button" id="btnDashboardTakeCar" class="btn btn-warning btn-approved-take-car" data-id="@booking.Id">Take the car</button>
-
                         <button type="button" id="btnDashboardDelete" class="btn btn-danger btn-approved-delete" data-id="@booking.Id">Delete</button>
+                    }
 
+                    @*                    @if (User.Identity.Name.Equals(booking.UserName))
+            {
 
-
-                @*                    @if (User.IsInRole(AmiFlota.Utilities.Enums.UserRole.admin.ToString()))
-                //TODO Show the button only when booking start date is lower than now()
-                //TODO When button is clicked -> create new record in Trips Database
-
-                }*@
-                    </div>
+            }*@
                 </div>
-
-            }
+            </div>
+        }
     }
 </body>
 </html>
@@ -46,7 +49,6 @@
     $(document).ready(function() {
         $(".btn-approved-take-car").click(function() {
             var BookingId = $(this).data("id");
-            console.log(BookingId);
 
             $.ajax({
                 url: routeURL + '/api/Booking/TakeCar',
@@ -67,38 +69,20 @@
                     $.notify("Error", "error");
                 }
             });
-
-    @*$.ajax({
-                url: UrlRequest,
-                datatype: 'html',
-                data: { bookingId: BookingId },
-                method: 'GET',
-
-                success: function(result) {
-                $('#_TripStartModal').html('').html(result);
-                onShowTripStartModal();
-                },
-
-                error: function(xhr, status, error) {
-                console.log("error");
-                }
-                });*@
-                    });
-
+        });
 
         $(".btn-approved-reject").click(function() {
-            var bookingId = $(this).data("id");
+            var BookingId = $(this).data("id");
 
             $.ajax({
                 url: routeURL + '/api/Booking/RejectEvent',
                 type: 'GET',
-                data: { id: bookingId },
+                data: { id: BookingId },
                 dataType: 'JSON',
                 success: function(response) {
                     if (response.status === 1) {
                         location.reload();
-    @* $.notify(response.message, "success");*@
-                                        }
+                    }
                     else {
                         $.notify(response.message, "error");
                     }
@@ -110,20 +94,18 @@
             });
         });
 
-
         $(".btn-approved-delete").click(function() {
-            var bookingId = $(this).data("id");
+            var BookingId = $(this).data("id");
 
             $.ajax({
                 url: routeURL + '/api/Booking/DeleteEvent',
                 type: 'GET',
-                data: { id: bookingId },
+                data: { id: BookingId },
                 dataType: 'JSON',
                 success: function(response) {
                     if (response.status === 1) {
                         location.reload();
-    @* $.notify(response.message, "success");*@
-                                        }
+                    }
                     else {
                         $.notify(response.message, "error");
                     }

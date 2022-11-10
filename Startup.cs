@@ -32,6 +32,7 @@ namespace AmiFlota
             services.AddTransient<IBookingService, BookingService>();
             services.AddTransient<ITripService, TripService>();
             services.AddTransient<ICarService, CarService>();
+            services.AddTransient<IUserService, UserService>();
 
             services.AddIdentity<ApplicationUserModel, IdentityRole>()
                 .AddEntityFrameworkStores<AmiFlotaContext>()

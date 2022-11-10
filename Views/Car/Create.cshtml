@@ -1,4 +1,5 @@
 ﻿@using AmiFlota.Utilities
+@using static AmiFlota.Utilities.Enums
 @model AmiFlota.Models.ViewModels.CarVM
 
 @{
@@ -14,119 +15,146 @@
 </head>
 <body>
 
-    <h4>CarModel</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Create" asp-controller="Car" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="VIN" class="control-label"></label>
-                    <input asp-for="VIN" class="form-control" />
-                    <span asp-validation-for="VIN" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RegistrationNumber" class="control-label"></label>
-                    <input asp-for="RegistrationNumber" class="form-control" />
-                    <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Brand" class="control-label"></label>
-                    <input asp-for="Brand" class="form-control" />
-                    <span asp-validation-for="Brand" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Model" class="control-label"></label>
-                    <input asp-for="Model" class="form-control" />
-                    <span asp-validation-for="Model" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="SeatsNumber" class="control-label"></label>
-                    <input asp-for="SeatsNumber" class="form-control" />
-                    <span asp-validation-for="SeatsNumber" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Doors" class="control-label"></label>
-                    <input asp-for="Doors" class="form-control" />
-                    <span asp-validation-for="Doors" class="text-danger"></span>
-                </div>
+    <div class="container">
 
-                <div class="form-group">
-                    <label asp-for="Trunk" class="control-label"></label>
-                    <select asp-for="Trunk" class="btn btn-secondary dropdown-toggle" asp-items="Html.GetEnumSelectList<Enums.TrunkType>()"></select>
-                </div>
+        <h4>Add a new car</h4>
 
-                <div class="form-group">
-                    <label asp-for="HorsePower" class="control-label"></label>
-                    <input asp-for="HorsePower" class="form-control" />
-                    <span asp-validation-for="HorsePower" class="text-danger"></span>
-                </div>
+        <form asp-action="Create" asp-controller="Car" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-row row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2">
+                <div class="col">
+                    <div class="form-group">
+                        <label>Add car photos</label>
+                        <div class="custom-file">
+                            <input asp-for="PhotoPath" class="custom-file-input form-control" type="file" id="customFile" onchange="preview()" /> @*multiple*@
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label asp-for="Engine" class="control-label"></label>
-                    <input asp-for="Engine" class="form-control" />
-                    <span asp-validation-for="Engine" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="TyreSize" class="control-label"></label>
-                    <input asp-for="TyreSize" class="form-control" />
-                    <span asp-validation-for="TyreSize" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Fuel" class="control-label"></label>
-                    <select asp-for="Fuel" class="btn btn-secondary dropdown-toggle" asp-items="Html.GetEnumSelectList<Enums.Fuel>()"></select>
-                    <span asp-validation-for="Fuel" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="CardPin" class="control-label"></label>
-                    <input asp-for="CardPin" class="form-control" />
-                    <span asp-validation-for="CardPin" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Insurance" class="control-label"></label>
-                    <input asp-for="Insurance" class="form-control" type="text" name="insurance" />
-                    <span asp-validation-for="Insurance" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="TechnicalReview" class="control-label"></label>
-                    <input asp-for="TechnicalReview" class="form-control" />
-                    <span asp-validation-for="TechnicalReview" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="PhotoPath" class="control-label"></label>
-                    <div class="custom-file">
-                        <input asp-for="PhotoPath" class="custom-file-input form-control" type="file" id="customFile" onchange="preview()" />
+                    <div class="col">
+                        <div class="form-row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
+                            <img id="frame1" src="" class="col img-fluid img-heigt-width-small" />
+@*                          <img id="frame2" src="" class="col img-fluid img-heigt-width-small" />
+                            <img id="frame3" src="" class="col img-fluid img-heigt-width-small" />
+                            <img id="frame4" src="" class="col img-fluid img-heigt-width-small" />
+                            <img id="frame5" src="" class="col img-fluid img-heigt-width-small" />
+                            <img id="frame6" src="" class="col img-fluid img-heigt-width-small" />*@
+                        </div>
                     </div>
                 </div>
 
-                @*
-                //Upload photo with preview
-                <div class="container col-md-6">
-                <div class="mb-5">
-                <label for="Image" class="form-label">Load car image</label>
-                <input class="form-control" type="file" id="formFile" onchange="preview()"> multiple
-                <button onclick="clearImage()" class="btn btn-primary mt-3">Upload</button>*@
 
+                <div class="col">
+                    <div class="form-row row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2">
 
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                        <div class="col form-group">
+                            <label asp-for="VIN" class="control-label"></label>
+                            <input asp-for="VIN" class="form-control" />
+                            <span asp-validation-for="VIN" class="text-danger"></span>
+                        </div>
+                        <div class="col form-group">
+                            <label asp-for="RegistrationNumber" class="control-label"></label>
+                            <input asp-for="RegistrationNumber" class="form-control" />
+                            <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="col form-group">
+                            <label asp-for="Brand" class="control-label"></label>
+                            <input asp-for="Brand" class="form-control" />
+                            <span asp-validation-for="Brand" class="text-danger"></span>
+                        </div>
+                        <div class="col form-group">
+                            <label asp-for="Model" class="control-label"></label>
+                            <input asp-for="Model" class="form-control" />
+                            <span asp-validation-for="Model" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row row row-cols-1 row-cols-sm-1 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
+                        <div class="col form-group">
+                            <label asp-for="SeatsNumber" class="control-label"></label>
+                            <input asp-for="SeatsNumber" class="form-control" />
+                            <span asp-validation-for="SeatsNumber" class="text-danger"></span>
+                        </div>
+                        <div class="col form-group">
+                            <label asp-for="Doors" class="control-label"></label>
+                            <input asp-for="Doors" class="form-control" />
+                            <span asp-validation-for="Doors" class="text-danger"></span>
+                        </div>
+                        <div class="col form-group">
+                            <div class="row m-0 p-0">
+                                <label asp-for="Fuel" class="control-label mx-0"></label>
+                            </div>
+                            <div class="row m-0 p-0">
+                                <select asp-for="Fuel" class="btn btn-outline-dark dropdown-toggle" asp-items="Html.GetEnumSelectList<Enums.Fuel>()"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row row row-cols-1 row-cols-sm-1 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
+                        <div class="col form-group">
+                            <label asp-for="CardPin" class="control-label"></label>
+                            <input asp-for="CardPin" class="form-control" />
+                            <span asp-validation-for="CardPin" class="text-danger"></span>
+                        </div>
+
+                        <div class="col form-group">
+                            <label asp-for="TyreSize" class="control-label"></label>
+                            <input asp-for="TyreSize" class="form-control" />
+                            <span asp-validation-for="TyreSize" class="text-danger"></span>
+                        </div>
+
+                        <div class="col form-group">
+                            <div class="row m-0 p-0">
+                                <label asp-for="Trunk" class="control-label mx-0"></label>
+                            </div>
+                            <div class="row m-0 p-0">
+                                <select asp-for="Trunk" class="btn btn-outline-dark dropdown-toggle" asp-items="Html.GetEnumSelectList<Enums.TrunkType>()"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2">
+                        <div class="col form-group">
+                            <label asp-for="Engine" class="control-label"></label>
+                            <input asp-for="Engine" class="form-control" />
+                            <span asp-validation-for="Engine" class="text-danger"></span>
+                        </div>
+
+                        <div class="col form-group">
+                            <label asp-for="HorsePower" class="control-label"></label>
+                            <input asp-for="HorsePower" class="form-control" />
+                            <span asp-validation-for="HorsePower" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2">
+                        <div class="col form-group">
+                            <label asp-for="Insurance" class="control-label"></label>
+                            <input asp-for="Insurance" class="form-control" type="text" name="insurance" />
+                            <span asp-validation-for="Insurance" class="text-danger"></span>
+                        </div>
+
+                        <div class="col form-group">
+                            <label asp-for="TechnicalReview" class="control-label"></label>
+                            <input asp-for="TechnicalReview" class="form-control" type="text" name="technicalReview" />
+                            <span asp-validation-for="TechnicalReview" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </div>
 
 
-            <img id="frame" src="" class="img-fluid" />
+            <div class="row text-end mx-0 px-0">
+                <div col-12>
+                    <a asp-action="CarList">Back to List</a>
+                    @if(User.IsInRole(UserRole.admin.ToString())){
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    }
+                    
+                </div>
 
-        </div>
-    </div>
-
-    <div>
-        <a asp-action="CarList">Back to List</a>
+            </div>
+        </form>
     </div>
 
     @section Scripts {
@@ -138,16 +166,25 @@
         @*//Upload photo with preview*@
         <script>
             function preview() {
-                frame.src = URL.createObjectURL(event.target.files[0]);
+                frame1.src = URL.createObjectURL(event.target.files[0]);
+ @*             frame2.src = URL.createObjectURL(event.target.files[1]);
+                frame3.src = URL.createObjectURL(event.target.files[2]);
+                frame4.src = URL.createObjectURL(event.target.files[3]);
+                frame5.src = URL.createObjectURL(event.target.files[4]);
+                frame6.src = URL.createObjectURL(event.target.files[5]);*@
             }
             function clearImage() {
                 document.getElementById('customFile').value = null;
-                frame.src = "";
+                frame1.src = "";
+ @*               frame2.src = "";
+                frame3.src = "";
+                frame4.src = "";
+                frame5.src = "";
+                frame6.src = "";*@
             }
         </script>
 
         <script>
-
             let NextYear = getNextYear();
             let Limits = getLimitDates();
 
@@ -194,6 +231,54 @@
             });
 
         </script>
+
+        <script>
+
+            $('input[name="technicalReview"]').daterangepicker({
+                "singleDatePicker": true,
+                "showDropdowns": true,
+                "minYear": Limits.YearMin,
+                "maxYear": Limits.YearMax,
+                "autoApply": true,
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "CW",
+                    "daysOfWeek": [
+                        "Su",
+                        "Mo",
+                        "Tu",
+                        "We",
+                        "Th",
+                        "Fr",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"
+                    ],
+                    "firstDay": 1
+                },
+                "startDate": NextYear,
+                "minDate": Limits.DateMin,
+                "maxDate": Limits.DateMax,
+                "opens": "center"
+            });
+
+        </script>
+
+
     }
     </body>
     </html>
