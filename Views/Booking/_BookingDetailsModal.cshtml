@@ -1,13 +1,12 @@
-﻿@model AmiFlota.Models.ViewModels.BookingVM
+﻿@using static AmiFlota.Utilities.Enums
+@model AmiFlota.Models.ViewModels.BookingVM
 
 <!-- Button trigger modal -->
 <!-- Modal -->
 <div class="modal fade" id="bookingDetailsModal" role="dialog" aria-labelledby="bookingDetailsModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class='exampleSearch'>
-                <select name="example" class="selectize-dropdown" placeholder="Choose booking user" id="search" "> @*multiple="multiple*@  </select>
-            </div>
+
 
             <form method="post" asp-controller="Booking" asp-action="_BookingDetailsModal" id="bookingDetailsModalForm">
                 <div class="modal-header">
@@ -20,17 +19,27 @@
 
                     @*  <div asp-validation-summary="ModelOnly" class="text-danger">*@
                     <div class="form-group row">
-                        <div class="col-6 text-right">
+                        <div class="col-4 text-right">
                             <label for="lblUserName">User Name: </label>
                         </div>
 
-                        @*                        <div class="col-6 text-left">
-                        <label asp-for="UserName">@Model.UserName</label>
-                        <input asp-for="UserName" type="hidden"></>
-                        </div>*@
-
                     </div>
 
+                    @if (User.IsInRole(UserRole.admin.ToString())
+                    || User.IsInRole(UserRole.manager.ToString()))
+                    {
+                        <div class="row m-0 p-0 exampleSearch">
+                            <select asp-for="UserId" class="selectize-dropdown" placeholder="Choose booking user" id="search"></select>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-6 text-left">
+                            <label asp-for="UserName">@Model.UserName</label>
+                            <input asp-for="UserName" type="hidden" />
+                            <input asp-for="UserId" type="hidden" value="@Model.UserId">
+                        </div>
+                    }
                     <div class="form-group">
                         <label asp-for="RegistrationNumber">Registration Number: @Model.RegistrationNumber</label>
                         <input asp-for="RegistrationNumber" type="hidden"></>
@@ -75,13 +84,20 @@
 <script>
 
     $(document).ready(function() {
-        @*        var optionsTest = [
+
+    @*  $('#search').onchange(function() {
+            var SelectedValue = ('#search').getValue();
+            }); *@
+
+
+
+    @*        var optionsTest = [
             { id: 1, title: 'Spectrometer', url: 'http://en.wikipedia.org/wiki/Spectrometers' },
             { id: 2, title: 'Star Chart', url: 'http://en.wikipedia.org/wiki/Star_chart' },
             { id: 3, title: 'Electrical Tape', url: 'http://en.wikipedia.org/wiki/Electrical_tape' }
             ];*@
 
-                    var dtoUsers = [];
+                                        var dtoUsers = [];
 
         $.ajax({
             url: routeURL + '/api/Users/GetAllUsers',
@@ -103,8 +119,8 @@
                         searchField: 'name',
                         options: dtoUsers
                     });
-                    @*$.notify(response.message, "success");*@
-                            }
+    @*$.notify(response.message, "success");*@
+                                                }
                 else {
                     $.notify(response.message, "error");
                 }
@@ -116,7 +132,7 @@
         });
 
 
-        @*       $('#search').selectize({
+    @*       $('#search').selectize({
             valueField: 'id',
             labelField: 'title',
             searchField: 'title',
@@ -125,5 +141,5 @@
 
 
 
-            });
+                                });
 </script>

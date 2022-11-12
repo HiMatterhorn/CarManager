@@ -80,7 +80,7 @@ namespace AmiFlota.Services
         {
             BookingModel bookingModel = new BookingModel()
             {
-                UserId = GetUserIdByName(bookingVM.UserName),
+                UserId = bookingVM.UserId,
                 StartDate = bookingVM.StartDate,
                 EndDate = bookingVM.EndDate,
                 CarVIN = GetVinByRegistrationNumber(bookingVM.RegistrationNumber),
@@ -135,6 +135,7 @@ namespace AmiFlota.Services
                      {
                          Id = b.Id,
                          UserName = u.UserName,
+                         UserId = u.Id,
                          RegistrationNumber = c.RegistrationNumber,
                          PhotoPath = c.PhotoPath,
                          StartDate = b.StartDate,
@@ -165,6 +166,7 @@ namespace AmiFlota.Services
                      {
                          Id = b.Id,
                          UserName = u.UserName,
+                         UserId=u.Id,
                          RegistrationNumber = c.RegistrationNumber,
                          PhotoPath = c.PhotoPath,
                          StartDate = b.StartDate,
@@ -195,6 +197,7 @@ namespace AmiFlota.Services
                      {
                          Id = b.Id,
                          UserName = u.UserName,
+                         UserId = u.Id,
                          RegistrationNumber = c.RegistrationNumber,
                          PhotoPath = c.PhotoPath,
                          StartDate = b.StartDate,
@@ -225,6 +228,7 @@ namespace AmiFlota.Services
                      {
                          Id = b.Id,
                          UserName = u.UserName,
+                         UserId=u.Id,
                          RegistrationNumber = c.RegistrationNumber,
                          PhotoPath = c.PhotoPath,
                          StartDate = b.StartDate,
@@ -258,6 +262,7 @@ namespace AmiFlota.Services
                                              {
                                                  Id = b.Id,
                                                  UserName = u.UserName,
+                                                 UserId = u.Id,
                                                  RegistrationNumber = c.RegistrationNumber,
                                                  PhotoPath = c.PhotoPath,
                                                  StartDate = b.StartDate,
@@ -306,6 +311,7 @@ namespace AmiFlota.Services
                                              {
                                                  Id = b.Id,
                                                  UserName = u.UserName,
+                                                 UserId = u.Id,
                                                  RegistrationNumber = c.RegistrationNumber,
                                                  PhotoPath = c.PhotoPath,
                                                  StartDate = b.StartDate,
@@ -351,6 +357,7 @@ namespace AmiFlota.Services
                               {
                                   Id = b.Id,
                                   UserName = u.UserName,
+                                  UserId = u.Id,
                                   RegistrationNumber = c.RegistrationNumber,
                                   StartDate = b.StartDate,
                                   EndDate = b.EndDate,
@@ -379,6 +386,7 @@ namespace AmiFlota.Services
                               {
                                   Id = b.Id,
                                   UserName = u.UserName,
+                                  UserId = u.Id,
                                   RegistrationNumber = c.RegistrationNumber,
                                   StartDate = b.StartDate,
                                   EndDate = b.EndDate,
@@ -431,6 +439,7 @@ namespace AmiFlota.Services
                                               {
                                                   Id = b.Id,
                                                   UserName = u.UserName,
+                                                  UserId = u.Id,
                                                   RegistrationNumber = c.RegistrationNumber,
                                                   PhotoPath = c.PhotoPath,
                                                   StartDate = b.StartDate,
@@ -481,6 +490,7 @@ namespace AmiFlota.Services
                                               {
                                                   Id = b.Id,
                                                   UserName = u.UserName,
+                                                  UserId = u.Id,
                                                   RegistrationNumber = c.RegistrationNumber,
                                                   PhotoPath = c.PhotoPath,
                                                   StartDate = b.StartDate,
@@ -617,6 +627,15 @@ namespace AmiFlota.Services
             _db.Bookings.Where(x => x.StartDate < autoConfirmDateTime && x.StartDate > nowDateTime && x.BookingStatus.Equals(BookingStatus.Pending)).ToList()
             .ForEach(b => { b.BookingStatus = BookingStatus.Approved; });
             //TODO And not on rejected list
+            return await _db.SaveChangesAsync();
+        }
+
+        public async Task<int> AutoCancelBooking()
+        {
+            var list = _db.Bookings.Where(x => (x.EndDate < DateTime.Now) && (x.BookingStatus.Equals(BookingStatus.Pending) || x.BookingStatus.Equals(BookingStatus.Approved))).ToList();
+            list.ForEach(b => { b.BookingStatus = BookingStatus.Cancelled;});
+
+            //TODO Notify about cancelled bookings
             return await _db.SaveChangesAsync();
         }
 

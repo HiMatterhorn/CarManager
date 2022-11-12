@@ -93,6 +93,7 @@ namespace AmiFlota.Controllers
             BookingVM viewModel = new BookingVM()
             {
                 UserName = userName,
+                UserId = userId,
                 RegistrationNumber = _bookingService.GetRegistrationNumberByCarVin(VIN),
                 StartDate = DateTime.Parse(startDate),
                 EndDate = DateTime.Parse(endDate),
@@ -117,6 +118,7 @@ namespace AmiFlota.Controllers
         public async Task<IActionResult> UserDashboard()
         {
             await _bookingService.AutoConfirmBooking(3);
+            await _bookingService.AutoCancelBooking();
             return View();
         }
 
@@ -124,6 +126,7 @@ namespace AmiFlota.Controllers
         public async Task<IActionResult> Calendar()
         {
             await _bookingService.AutoConfirmBooking(3);
+            await _bookingService.AutoCancelBooking();
             /*                        CalendarVM viewModel = new CalendarVM();
                                         viewModel.Cars = await _bookingService.GetAllCars();*/
 

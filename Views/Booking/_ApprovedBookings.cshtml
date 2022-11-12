@@ -25,8 +25,10 @@
                    || User.IsInRole(UserRole.manager.ToString())
                    || User.Identity.Name.Equals(booking.UserName))
                     {
-                        @*//TODO Show the button only when booking start date is lower than now()*@
-                        <button type="button" id="btnDashboardTakeCar" class="btn btn-warning btn-approved-take-car" data - id="@booking.Id">Take the car</button>
+                        @if (DateTime.Now >= booking.StartDate && DateTime.Now <= booking.EndDate)
+                        {
+                            <button type="button" id="btnDashboardTakeCar" class="btn btn-warning btn-approved-take-car" data - id="@booking.Id">Take the car</button>
+                        }
 
                         <button type="button" id="btnDashboardReject" class="btn btn-warning btn-approved-reject" data-id="@booking.Id">Reject</button>
                         <button type="button" id="btnDashboardDelete" class="btn btn-danger btn-approved-delete" data-id="@booking.Id">Delete</button>
@@ -45,8 +47,32 @@
 
 <script src="~/js/current-date-time.js"></script>
 
+@*<script>
+    $(document).ready(function() {
+        $(".btn-approved-take-car").hide();
+    });
+</script>*@
+
+@*<script>
+    $(document).ready(function() {
+        $(".btn-approved-take-car").click(function() {
+            $(this).hide();
+        });
+    });
+</script>*@
+
+@*<script>
+
+    $("#btnDashboardTakeCar").hide();
+
+</script>*@
+
 <script>
     $(document).ready(function() {
+
+
+
+
         $(".btn-approved-take-car").click(function() {
             var BookingId = $(this).data("id");
 

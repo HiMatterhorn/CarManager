@@ -31,6 +31,7 @@ namespace AmiFlota.Services
         public Task<int> RejectEvent(int id);
         public Task<int> DeleteEvent(int id);
         public Task<int> AutoConfirmBooking(double hours);
+        public Task<int> AutoCancelBooking();
 
         public Task<int> TakeCar(int bookingId);
         public Task<int> ReturnCar(int bookingId);

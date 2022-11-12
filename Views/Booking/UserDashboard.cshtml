@@ -27,6 +27,7 @@
 <script>
     $(document).ready(function() {
 
+
         $.ajax({
             url: '@Url.Action("ActiveBookingsCurrentUser", "Booking")',
             datatype: 'html',
@@ -66,7 +67,7 @@
             success: function(result) {
                 $('#_PendingBookings').html('').html(result);
     @*$('#_PendingBookings').load('<%= Url.Action("Booking", "PendingBookingsCurrentUser") %>');*@
-                                        },
+                                            },
 
             error: function(error) {
                 console.log(error);
