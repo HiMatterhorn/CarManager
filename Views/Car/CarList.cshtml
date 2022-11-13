@@ -10,23 +10,26 @@
     <title>List of the cars</title>
 </head>
 <body>
+    <div class="container-fluid">
 
-    <div id="_CarDetails"></div>
+        <div id="_CarDetails"></div>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
 
-        @foreach (var car in Model)
-        {
-            <partial name="_CarCard" model=car />
-        }
+            @foreach (var car in Model)
+            {
+                <partial name="_CarCard" model=car />
+            }
+
+        </div>
 
     </div>
-
 </body>
 </html>
 
 
 <script>
+
     $(".btn-details").on('click', function() {
 
         var VIN = $(this).data("vin");
@@ -40,6 +43,7 @@
             success: function(result) {
                 $('#_CarDetails').html('').html(result);
                 onShowCarDetailsModal();
+
             },
 
             error: function(error) {
@@ -52,6 +56,4 @@
     function onShowCarDetailsModal() {
         $("#carDetailsModal").modal("show");
     }
-
-    carDetailsModal
 </script>

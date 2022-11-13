@@ -10,27 +10,32 @@
     <title>Search for available car</title>
 </head>
 <body>
-
-
-
     <div id="_BookingDetailsModal"> </div>
-    <div class="row text-center">
-        <h2>Booking dates</h2>
-    </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-10">
-                <input type="text" class="form-control text-center" name="datetimerange" id="datetimeRange" placeholder="Booking dates" aria-label="Booking dates" aria-describedby="basic-addon2">
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-dark btn-search" id="btnSearch">Search</button>
-            </div>
+    <div class="container-fluid container-lg">
+        <div class="row text-center">
+            <h2>Booking dates</h2>
         </div>
+
+
+        @*    <div class="row text-end">
+        <div class="col-10">
+        <input type="text" class="form-control text-center" name="datetimerange" id="datetimeRange" placeholder="Booking dates" aria-label="Booking dates">
+        </div>
+        <div class="col-2">
+        <button type="button" class="btn btn-dark btn-search" id="btnSearch">Search</button>
+        </div>
+        </div>*@
+
+        <div class="justify-content-center  input-group mb-3">
+            <input type="text" class="form-control text-center" placeholder="Booking dates" name="datetimerange" id="datetimeRange" aria-label="Booking dates">
+            <button class="btn btn-outline-secondary btn-search" type="button" id="btnSearch">Search</button>
+        </div>
+
+
+        <div id="_SearchingResults"> </div>
     </div>
 
-
-    <div id="_SearchingResults"> </div>
 
     <footer>
         @*        <div class="text-right pt-2">

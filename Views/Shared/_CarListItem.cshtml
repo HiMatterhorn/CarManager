@@ -7,29 +7,78 @@
 
 <div class="card border-0 mx-0 px-0">
     <div class="row g-0">
-        <div class="col-4 mx-0 my-2 p-0">
+        <div class="d-none d-sm-none d-md-block col-md-4 col-lg-3 mx-0 my-0 p-0">
             <img src="@photoPath" class="img-fluid justify-content-center rounded-2 img-heigt-width" alt="Unable to load car photo">
         </div>
-        <div class="col-8">
-            <div class="card-body">
+        <div class="col-12 col-md-8 col-lg-9">
+            <div class="card-body m-0 m-md-2 p-0 p-md-2">
                 <h5 class="card-title text-center text-uppercase">@Model.Brand @Model.Model @Model.RegistrationNumber</h5>
-                    <div class="row mx-0 px-0">
-                            <div class="col-6 my-2 p-0">
-                                <p>Card PIN: @Model.CardPin</p>
-                                <p>Insurance: @Model.Insurance.Date.ToString("dd/MM/yyyy")</p>
-                                <p>Technical Review: @Model.TechnicalReview.Date.ToString("dd/MM/yyyy")</p>
-                                <p>Fuel: @Model.Fuel</p>
-                                <p>Tyres: @Model.TyreSize</p>
-                            </div>
-                            <div class="col-6 mx-0 my-2 p-0">
-                                <p>Trunk: @Model.Trunk</p>
-                                <p>Seats: @Model.SeatsNumber</p>
-                                <p>Doors: @Model.Doors</p>
-                                <p>Engine: @Model.Engine</p>
-                                <p>Horse Power [KM]: @Model.HorsePower</p>
-                            </div>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-1 row-cols-lg-2 mx-0 px-0">
+                    <div class="col">
+                        <div class="row mx-0 px-0">
+                            <label class="col-7 text-end">Card PIN:</label>
+                            <label class="col-5 text-start">@Model.CardPin </label>
+                        </div>
+                        <div class="row mx-0 px-0">
+                            <label class="col-7 text-end">Insurance:</label>
+                            <label class="col-5 text-start">@Model.Insurance.Date.ToString("dd/MM/yyyy") </label>
+                        </div>
+                        <div class="row mx-0 px-0">
+                            <label class="col-7 text-end">Technical Review:</label>
+                            <label class="col-5 text-start">@Model.TechnicalReview.Date.ToString("dd/MM/yyyy") </label>
+                        </div>
+                        <div class="row mx-0 px-0">
+                            <label class="col-7 text-end">Fuel:</label>
+                            <label class="col-5 text-start">@Model.Fuel</label>
+                        </div>
+                        <div class="row mx-0 px-0">
+                            <label class="col-7 text-end">Tyres size:</label>
+                            <label class="col-5 text-start">@Model.TyreSize</label>
+                        </div>
                     </div>
+
+                    <div class="col">
+                        <div class="row mx-0 px-0">
+                            <label class="col-7 text-end">Trunk type:</label>
+                            <label class="col-5 text-start">@Model.Trunk </label>
+                        </div>
+                        <div class="row mx-0 px-0">
+                            <label class="col-7 text-end">Seats:</label>
+                            <label class="col-5 text-start">@Model.SeatsNumber</label>
+                        </div>
+                        <div class="row mx-0 px-0">
+                            <label class="col-7 text-end">Doors:</label>
+                            <label class="col-5 text-start">@Model.Doors</label>
+                        </div>
+                        <div class="row mx-0 px-0">
+                            <label class="col-7 text-end">Engine:</label>
+                            <label class="col-5 text-start">@Model.Engine</label>
+                        </div>
+                        <div class="row mx-0 px-0">
+                            <label class="col-7 text-end">Horse Power:</label>
+                            <label class="col-5 text-start">@Model.HorsePower</label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                @*                            <div class="col my-2 p-0">
+                <p>Card PIN: @Model.CardPin</p>
+                <p>Insurance: @Model.Insurance.Date.ToString("dd/MM/yyyy")</p>
+                <p>Technical Review: @Model.TechnicalReview.Date.ToString("dd/MM/yyyy")</p>
+                <p>Fuel: @Model.Fuel</p>
+                <p>Tyres: @Model.TyreSize</p>
+                </div>
+                <div class="col mx-0 my-2 p-0">
+                <p>Trunk: @Model.Trunk</p>
+                <p>Seats: @Model.SeatsNumber</p>
+                <p>Doors: @Model.Doors</p>
+                <p>Engine: @Model.Engine</p>
+                <p>Horse Power [KM]: @Model.HorsePower</p>
+                </div>*@
             </div>
         </div>
     </div>
+</div>
 </div>

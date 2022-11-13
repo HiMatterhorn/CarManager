@@ -1,27 +1,29 @@
 ﻿@model List<AmiFlota.Models.ViewModels.TripVM>
 
-<table class="table table-hover allign-middle caption-top text-center">
-    <thead class="table-dark align-middle">
-        <tr>
-            <th scope="col">Start km</th>
-            <th scope="col">Start location</th>
-            <th scope="col">End km</th>
-            <th scope="col">End location</th>
-            <th scope="col">User</th>
-            <th scope="col">Project</th>
-        </tr>
-    </thead>
-    <tbody class="allign-middle">
-        @foreach (var historyTrip in @Model)
-        {
-            <tr class="@(historyTrip.Active ? "table-active table-success" : "")">
-                <th scope="col">@historyTrip.StartKm</th>
-                <th scope="col">@historyTrip.StartLocation</th>
-                <th scope="col">@historyTrip.EndKm</th>
-                <th scope="col">@historyTrip.EndLocation</th>
-                <th scope="col">@historyTrip.User</th>
-                <th scope="col">@historyTrip.Project</th>
+<div class="table-responsive-md">
+    <table class="table table-sm table-hover allign-middle caption-top text-center">
+        <thead class="table-dark align-middle">
+            <tr>
+                <th scope="col">Start km</th>
+                <th scope="col" class="d-none d-md-table-cell">Start location</th>
+                <th scope="col">End km</th>
+                <th scope="col" class="d-none d-md-table-cell">End location</th>
+                <th scope="col" class="d-none d-lg-table-cell">User</th>
+                <th scope="col">Project</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody class="allign-middle">
+            @foreach (var historyTrip in @Model)
+            {
+                <tr class="@(historyTrip.Active ? "table-active table-success" : "")">
+                    <th scope="col">@historyTrip.StartKm</th>
+                    <th scope="col" class="d-none d-md-table-cell">@historyTrip.StartLocation</th>
+                    <th scope="col">@historyTrip.EndKm</th>
+                    <th scope="col" class="d-none d-md-table-cell">@historyTrip.EndLocation</th>
+                    <th scope="col" class="d-none d-lg-table-cell">@historyTrip.User</th>
+                    <th scope="col">@historyTrip.Project</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

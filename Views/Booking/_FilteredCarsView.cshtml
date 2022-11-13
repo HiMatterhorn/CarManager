@@ -10,25 +10,25 @@
     <title>List of the available cars</title>
 </head>
 <body>
-    <div class="container">
-        @foreach (var car in Model.AvailableCars)
-        {
-            <div class="row border border-dark border-opacity-25 m-2">
-                <partial name="_CarListItem" model=car />
-            </div>
 
-            <div class="row clearfix text-end">
-                <div class="col-12 border-0 mr-0 pr-0">
-                    <button type="button" class="btn btn-success btn-continue" id="@car.VIN"
-                        data-startDate="@Model.StartDate"
-                        data-endDate="@Model.EndDate"
-                        data-vin="@car.VIN">
-                        Continue
-                    </button>
-                </div>
+    @foreach (var car in Model.AvailableCars)
+    {
+        <div class="row border rounded-2 mx-0 mt-3">
+            <partial name="_CarListItem" model=car />
+        </div>
+
+        <div class="row mx-0 mt-0 text-end">
+            <div class="col-12 m-0 p-0">
+                <button type="button" class="btn btn-success btn-continue" id="@car.VIN"
+                    data-startDate="@Model.StartDate"
+                    data-endDate="@Model.EndDate"
+                    data-vin="@car.VIN">
+                    Continue
+                </button>
             </div>
-        }
-    </div>
+        </div>
+    }
+
 </body>
 </html>
 
