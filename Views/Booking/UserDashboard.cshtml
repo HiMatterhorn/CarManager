@@ -2,85 +2,85 @@
 <div id="_TripEndModal"> </div>
 
 
-<div class="container-fluid no-gutters clearfix px-5">
-    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2">
+<div class="container-fluid container-xl no-gutters clearfix px-5">
+    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-1 row-cols-xl-1">
 
         <div class="col px-4">
-            <div id="_ActiveBookings"> </div>
-        </div>
-        <div class="col px-4">
-            <div id="_ApprovedBookings"> </div>
+                <div id="_ActiveBookings"> </div>
+            </div>
+            <div class="col px-4">
+                <div id="_ApprovedBookings"> </div>
 
-            <div id="_PendingBookings"> </div>
+                <div id="_PendingBookings"> </div>
+            </div>
         </div>
     </div>
-</div>
 
 
-<script>
+    <script>
 
 
-</script>
+    </script>
 
 
 
-<script>
-    $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
 
 
-        $.ajax({
-            url: '@Url.Action("ActiveBookingsCurrentUser", "Booking")',
-            datatype: 'html',
-            method: 'GET',
+            $.ajax({
+                url: '@Url.Action("ActiveBookingsCurrentUser", "Booking")',
+                datatype: 'html',
+                method: 'GET',
 
-            success: function(result) {
-                $('#_ActiveBookings').html('').html(result);
-            },
+                success: function(result) {
+                    $('#_ActiveBookings').html('').html(result);
+                },
 
-            error: function(error) {
-                console.log(error);
-                console.log("Unable to load partial view - Active Bookings");
-            }
+                error: function(error) {
+                    console.log(error);
+                    console.log("Unable to load partial view - Active Bookings");
+                }
+            });
+
+            $.ajax({
+                url: '@Url.Action("ApprovedBookingsCurrentUser", "Booking")',
+                datatype: 'html',
+                method: 'GET',
+
+                success: function(result) {
+                    $('#_ApprovedBookings').html('').html(result);
+                },
+
+                error: function(error) {
+                    console.log(error);
+                    console.log("Unable to load partial view - Approved Bookings");
+                }
+            });
+
+
+            $.ajax({
+                url: '@Url.Action("PendingBookingsCurrentUser", "Booking")',
+                datatype: 'html',
+                method: 'GET',
+
+                success: function(result) {
+                    $('#_PendingBookings').html('').html(result);
+        @*$('#_PendingBookings').load('<%= Url.Action("Booking", "PendingBookingsCurrentUser") %>');*@
+                                                            },
+
+                error: function(error) {
+                    console.log(error);
+                    console.log("Unable to load partial view - Pending Bookings");
+                }
+            });
+
         });
 
-        $.ajax({
-            url: '@Url.Action("ApprovedBookingsCurrentUser", "Booking")',
-            datatype: 'html',
-            method: 'GET',
-
-            success: function(result) {
-                $('#_ApprovedBookings').html('').html(result);
-            },
-
-            error: function(error) {
-                console.log(error);
-                console.log("Unable to load partial view - Approved Bookings");
-            }
-        });
-
-
-        $.ajax({
-            url: '@Url.Action("PendingBookingsCurrentUser", "Booking")',
-            datatype: 'html',
-            method: 'GET',
-
-            success: function(result) {
-                $('#_PendingBookings').html('').html(result);
-    @*$('#_PendingBookings').load('<%= Url.Action("Booking", "PendingBookingsCurrentUser") %>');*@
-                                            },
-
-            error: function(error) {
-                console.log(error);
-                console.log("Unable to load partial view - Pending Bookings");
-            }
-        });
-
-    });
 
 
 
 
-
-</script>
+    </script>
 
 

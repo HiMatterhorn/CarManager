@@ -1,4 +1,5 @@
-﻿@model AmiFlota.Models.ViewModels.ActiveBookingVM
+﻿@using static AmiFlota.Utilities.Enums
+@model AmiFlota.Models.ViewModels.ActiveBookingVM
 
 @{
     //TODO pass the car photo path
@@ -7,48 +8,78 @@
 
 <div class="card border-0 h-100 mx-0 px-0">
     <div class="row g-0">
-        <div class="col-2">
-            <img src="@photoPath" class="img-fluid img-heigt-width-small" alt="Unable to load car photo">
+        <div class="d-none col-sm-6 d-sm-block col-md-4 d-md-block">
+            <img src="@photoPath" class="img-fluid img-heigt-width" alt="Unable to load car photo">
         </div>
 
 
-        <div class="col-10">
+        <div class="col-12 col-sm-6 col-md-8">
             <div class="row card-title text-center">
-                <h5 class="card-title text-uppercase">@Model.BookingViewModel.RegistrationNumber @Model.BookingViewModel.Description</h5>
+                <h5 class="card-title text-uppercase">@Model.BookingViewModel.RegistrationNumber</h5>
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-6 text-center">
-                            <p class="card-text">
-                                User: @Model.BookingViewModel.UserName <br>
-                                Destination: @Model.BookingViewModel.Description <br>
-                                Project Cost: @Model.BookingViewModel.ProjectCost
-                            </p>
+
+                        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 mx-0 px-0">
+                            <div class="col">
+                                <div class="row mx-0 px-0">
+                                    <label class="col-5 text-end">Start Date:</label>
+                                    <label class="col-7 text-start">@Model.BookingViewModel.StartDate.ToString("dd/MM/yyyy HH:mm") </label>
+                                </div>
+                                <div class="row mx-0 px-0">
+                                    <label class="col-5 text-end">End Date:</label>
+                                    <label class="col-7 text-start">@Model.BookingViewModel.EndDate.ToString("dd/MM/yyyy HH:mm") </label>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="row mx-0 px-0">
+                                    <label class="col-5 text-end">Project:</label>
+                                    <label class="col-7 text-start">@Model.BookingViewModel.ProjectCost </label>
+                                </div>
+                                <div class="row mx-0 px-0">
+                                    <label class="col-5 text-end">Description:</label>
+                                    <label class="col-7 text-start">@Model.BookingViewModel.Description </label>
+                                </div>
+                                @if (User.IsInRole(UserRole.admin.ToString())
+                                || User.IsInRole(UserRole.manager.ToString()))
+                                {
+                                    <div class="row mx-0 px-0">
+                                        <label class="col-5 text-end">User:</label>
+                                        <label class="col-7 text-start">@Model.BookingViewModel.UserName </label>
+                                    </div>
+                                }
+                            </div>
                         </div>
-                        <div class="col-6 text-center">
-                            <p class="card-text">
-                                Start Date: @Model.BookingViewModel.StartDate <br>
-                                End Date: @Model.BookingViewModel.EndDate
-                            </p>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row mx-0 px-0 clearfix">
-            <div class="accordion px-0 mx-0" id="accordion_@Model.BookingViewModel.Id">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="accordionHeader_@Model.BookingViewModel.Id">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionBody_@Model.BookingViewModel.Id" aria-expanded="true" aria-controls="accordionBody_@Model.BookingViewModel.Id">
-                            Trips history
-                        </button>
-                    </h2>
-                    <div id="accordionBody_@Model.BookingViewModel.Id" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordion_@Model.BookingViewModel.Id">
-                        <div class="accordion-body">
-                            @*//TRIPS*@
-                            <div class="row">
-                                <partial name="_TripsHistory" model=@Model.TripsHistory class="mx-0 px-0" />
+
+            @*TARGET*@
+            <div class="row mx-0 px-0 clearfix">
+                <div class="accordion px-0 mx-0" id="accordion_@Model.BookingViewModel.Id">
+                    <div class="accordion-item">
+
+                        <h2 class="accordion-header" id="accordionHeader_@Model.BookingViewModel.Id">
+                            <button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#accordionBody_@Model.BookingViewModel.Id"
+                                    aria-expanded="false"
+                                    aria-controls="accordionBody_@Model.BookingViewModel.Id">
+                                Trips history
+                            </button>
+                        </h2>
+
+                        <div id="accordionBody_@Model.BookingViewModel.Id" class="accordion-collapse collapse">
+
+                            <div class="accordion-body">
+                                @*//TRIPS*@
+                                <div class="row">
+                                    <partial name="_TripsHistory" model=@Model.TripsHistory class="mx-0 px-0" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -56,5 +87,4 @@
             </div>
         </div>
     </div>
-</div>
 

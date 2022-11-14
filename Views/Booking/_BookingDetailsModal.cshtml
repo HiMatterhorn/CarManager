@@ -18,53 +18,80 @@
                     <input type="hidden" asp-for="BookingStatus" value="@AmiFlota.Utilities.Enums.BookingStatus.Pending" />
 
                     @*  <div asp-validation-summary="ModelOnly" class="text-danger">*@
-                    <div class="form-group row">
-                        <div class="col-4 text-right">
+                    <div class="form-group row mb-2">
+                        <div class="col-6 text-end col-form-label">
                             <label for="lblUserName">User Name: </label>
                         </div>
-
+                        @if (User.IsInRole(UserRole.admin.ToString())
+                        || User.IsInRole(UserRole.manager.ToString()))
+                        {
+                            <div class="col-6 text-center">
+                                <select asp-for="UserId" class="form-control" placeholder="Choose booking user" id="search"></select>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-6 text-center">
+                                <label asp-for="UserName">@Model.UserName</label>
+                                <input asp-for="UserName" type="hidden" />
+                                <input asp-for="UserId" type="hidden" value="@Model.UserId">
+                            </div>
+                        }
                     </div>
 
-                    @if (User.IsInRole(UserRole.admin.ToString())
-                    || User.IsInRole(UserRole.manager.ToString()))
-                    {
-                        <div class="row m-0 p-0 exampleSearch">
-                            <select asp-for="UserId" class="selectize-dropdown" placeholder="Choose booking user" id="search"></select>
+
+
+
+                    <div class="form-group row mb-2">
+                        <div class="col-6 text-end col-form-label">
+                            <label asp-for="RegistrationNumber">Registration Number:</label>
                         </div>
-                    }
-                    else
-                    {
-                        <div class="col-6 text-left">
-                            <label asp-for="UserName">@Model.UserName</label>
-                            <input asp-for="UserName" type="hidden" />
-                            <input asp-for="UserId" type="hidden" value="@Model.UserId">
+                        <div class="col-6 text-center">
+                            <label class="form-control">@Model.RegistrationNumber</label>
+                            <input asp-for="RegistrationNumber" type="hidden"></>
                         </div>
-                    }
-                    <div class="form-group">
-                        <label asp-for="RegistrationNumber">Registration Number: @Model.RegistrationNumber</label>
-                        <input asp-for="RegistrationNumber" type="hidden"></>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="StartDate">Start date: @Model.StartDate</label>
-                        <input asp-for="StartDate" type="hidden"></>
+                    <div class="form-group row mb-2">
+                        <div class="col-6 text-end col-form-label">
+                            <label asp-for="StartDate">Start date:</label>
+                        </div>
+                        <div class="col-6 text-center">
+                            <label class="form-control">@Model.StartDate</label>
+                            <input asp-for="StartDate" type="hidden"></>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="EndDate">End date: @Model.EndDate</label>
-                        <input asp-for="EndDate" type="hidden"></>
+                    <div class="form-group row mb-2">
+                        <div class="col-6 text-end col-form-label">
+                            <label asp-for="EndDate">End date:</label>
+                        </div>
+                        <div class="col-6 text-center">
+                            <label class="form-control">@Model.EndDate</label>
+                            <input asp-for="@Model.EndDate" type="hidden"></>
+                        </div>
                     </div>
 
 
-                    <div class="form-group">
-                        <label asp-for="Description">Destination</label>
-                        <input asp-for="Description" class="form-control" id="Booking.Destination"></>
-                        <span asp-validation-for="Description"></span>
+                    <div class="form-group row mb-2">
+                        <div class="col-6 text-end col-form-label">
+                            <label asp-for="Description">Destination:</> </label>
+                        </div>
+                        <div class="col-6 text-center">
+                            <input asp-for="Description" class="form-control" id="Booking.Destination"></>
+                            <span asp-validation-for="Description"></span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="ProjectCost">Project:</label>
-                        <input asp-for="ProjectCost" class="form-control" id="Booking.ProjectCost"></>
-                        <span asp-validation-for="ProjectCost"></span>
+
+
+                    <div class="form-group row mb-2">
+                        <div class="col-6 text-end col-form-label">
+                            <label asp-for="ProjectCost">Project:</label>
+                        </div>
+                        <div class="col-6 text-center">
+                            <input asp-for="ProjectCost" class="form-control" id="Booking.ProjectCost"></>
+                            <span asp-validation-for="ProjectCost"></span>
+                        </div>
                     </div>
 
 
@@ -97,7 +124,7 @@
             { id: 3, title: 'Electrical Tape', url: 'http://en.wikipedia.org/wiki/Electrical_tape' }
             ];*@
 
-                                        var dtoUsers = [];
+                                                            var dtoUsers = [];
 
         $.ajax({
             url: routeURL + '/api/Users/GetAllUsers',
@@ -120,7 +147,7 @@
                         options: dtoUsers
                     });
     @*$.notify(response.message, "success");*@
-                                                }
+                                                                    }
                 else {
                     $.notify(response.message, "error");
                 }
@@ -141,5 +168,5 @@
 
 
 
-                                });
+                                                    });
 </script>

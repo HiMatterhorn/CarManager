@@ -37,7 +37,7 @@
                     <div class="col">
                         <div class="form-row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
                             <img id="frame1" src="@defaultLoadPhotoPath" />
-@*                          <img id="frame2" src="" class="col img-fluid img-heigt-width-small" />
+                            @*                          <img id="frame2" src="" class="col img-fluid img-heigt-width-small" />
                             <img id="frame3" src="" class="col img-fluid img-heigt-width-small" />
                             <img id="frame4" src="" class="col img-fluid img-heigt-width-small" />
                             <img id="frame5" src="" class="col img-fluid img-heigt-width-small" />
@@ -151,10 +151,11 @@
             <div class="row text-end mx-0 px-0">
                 <div col-12>
                     <a asp-action="CarList">Back to List</a>
-                    @if(User.IsInRole(UserRole.admin.ToString())){
+                    @if (User.IsInRole(UserRole.admin.ToString()))
+                    {
                         <input type="submit" value="Create" class="btn btn-primary" />
                     }
-                    
+
                 </div>
 
             </div>
@@ -171,21 +172,21 @@
         <script>
             function preview() {
                 frame1.src = URL.createObjectURL(event.target.files[0]);
- @*             frame2.src = URL.createObjectURL(event.target.files[1]);
+            @*             frame2.src = URL.createObjectURL(event.target.files[1]);
                 frame3.src = URL.createObjectURL(event.target.files[2]);
                 frame4.src = URL.createObjectURL(event.target.files[3]);
                 frame5.src = URL.createObjectURL(event.target.files[4]);
                 frame6.src = URL.createObjectURL(event.target.files[5]);*@
-            }
+                        }
             function clearImage() {
                 document.getElementById('customFile').value = null;
                 frame1.src = "";
- @*               frame2.src = "";
+            @*               frame2.src = "";
                 frame3.src = "";
                 frame4.src = "";
                 frame5.src = "";
                 frame6.src = "";*@
-            }
+                        }
         </script>
 
         <script>
