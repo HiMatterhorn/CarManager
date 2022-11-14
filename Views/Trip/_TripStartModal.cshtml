@@ -41,8 +41,9 @@
                             <label asp-for="StartLocation">Start location:</label>
                         </div>
                         <div class="col-6">
-                            <input asp-for="StartLocation" class="form-control text-center"></>
-                            <span asp-validation-for="StartLocation"></span>
+                            @*                            <input asp-for="StartLocation" class="form-control text-center"></>
+                            <span asp-validation-for="StartLocation"></span>*@
+                            <select asp-for="StartLocation" class="form-control" placeholder="Choose start location" id="startLocation"></select>
                         </div>
                     </div>
 
@@ -75,3 +76,44 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    $(document).ready(function() {
+
+        var dtoStartLocations = [];
+
+        $.ajax({
+            url: routeURL + '/api/Trip/GetAllStartLocations',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(response) {
+                if (response.status === 1) {
+                    console.log(response.dataenum);
+
+                    $.each(response.dataenum, function(i, data) {
+                        dtoStartLocations.push({
+                            location: data
+                        });
+                    });
+                    console.log(dtoStartLocations);
+
+                    $('#startLocation').selectize({
+                        valueField: 'location',
+                        labelField: 'location',
+                        searchField: 'location',
+                        options: dtoStartLocations
+                    });
+    @*$.notify(response.message, "success");*@
+                     }
+                else {
+                    $.notify(response.message, "error");
+                }
+
+            },
+            error: function(xhr) {
+                $.notify("Error", "error");
+            }
+        });
+    });
+</script>

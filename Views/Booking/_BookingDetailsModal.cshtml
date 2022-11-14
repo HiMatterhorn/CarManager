@@ -113,19 +113,7 @@
 
     $(document).ready(function() {
 
-    @*  $('#search').onchange(function() {
-            var SelectedValue = ('#search').getValue();
-            }); *@
-
-
-
-    @*        var optionsTest = [
-            { id: 1, title: 'Spectrometer', url: 'http://en.wikipedia.org/wiki/Spectrometers' },
-            { id: 2, title: 'Star Chart', url: 'http://en.wikipedia.org/wiki/Star_chart' },
-            { id: 3, title: 'Electrical Tape', url: 'http://en.wikipedia.org/wiki/Electrical_tape' }
-            ];*@
-
-                                                                var dtoUsers = [];
+        var dtoUsers = [];
 
         $.ajax({
             url: routeURL + '/api/Users/GetAllUsers',
@@ -133,14 +121,14 @@
             dataType: 'JSON',
             success: function(response) {
                 if (response.status === 1) {
-                    console.log(response.dataenum);
+
                     $.each(response.dataenum, function(i, data) {
                         dtoUsers.push({
                             id: data.id,
                             name: data.name
                         });
                     });
-                    console.log(dtoUsers);
+
                     $('#search').selectize({
                         valueField: 'id',
                         labelField: 'name',
@@ -148,7 +136,7 @@
                         options: dtoUsers
                     });
     @*$.notify(response.message, "success");*@
-                                                                        }
+                 }
                 else {
                     $.notify(response.message, "error");
                 }
@@ -158,16 +146,5 @@
                 $.notify("Error", "error");
             }
         });
-
-
-    @*       $('#search').selectize({
-            valueField: 'id',
-            labelField: 'title',
-            searchField: 'title',
-            options: optionsTest
-            });*@
-
-
-
-                                                        });
+    });
 </script>

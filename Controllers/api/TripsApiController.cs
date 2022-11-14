@@ -24,16 +24,14 @@ namespace AmiFlota.Controllers.api
             _httpContextAccessor = httpContextAccessor;
         }
 
-/*        [HttpPost]
-        [Route("GetCalendarDataForCarList")]
-        public IActionResult GetCalendarDataForCarList([FromBody] dtoVIN dtoSelectedCars)
+        [HttpGet]
+        [Route("GetAllStartLocations")]
+        public IActionResult GetAllStartLocations()
         {
-
-
-            CommonResponse<List<CalendarVM>> commonResponse = new CommonResponse<List<CalendarVM>>();
+            CommonResponse<List<string>> commonResponse = new CommonResponse<List<string>>();
             try
             {
-                commonResponse.dataenum = _tripService.TripsByCarVinList(dtoSelectedCars.Selected);
+                commonResponse.dataenum = _tripService.GetAllStartLocations();
                 commonResponse.status = ApiResponses.success_code;
             }
             catch (Exception e)
@@ -44,7 +42,49 @@ namespace AmiFlota.Controllers.api
             }
 
             return Ok(commonResponse);
-        }*/
+        }
+
+        [HttpGet]
+        [Route("GetAllEndLocations")]
+        public IActionResult GetAllEndLocations()
+        {
+            CommonResponse<List<string>> commonResponse = new CommonResponse<List<string>>();
+            try
+            {
+                commonResponse.dataenum = _tripService.GetAllEndLocations();
+                commonResponse.status = ApiResponses.success_code;
+            }
+            catch (Exception e)
+            {
+
+                commonResponse.message = e.Message;
+                commonResponse.status = ApiResponses.failure_code;
+            }
+
+            return Ok(commonResponse);
+        }
+
+        /*        [HttpPost]
+                [Route("GetCalendarDataForCarList")]
+                public IActionResult GetCalendarDataForCarList([FromBody] dtoVIN dtoSelectedCars)
+                {
+
+
+                    CommonResponse<List<CalendarVM>> commonResponse = new CommonResponse<List<CalendarVM>>();
+                    try
+                    {
+                        commonResponse.dataenum = _tripService.TripsByCarVinList(dtoSelectedCars.Selected);
+                        commonResponse.status = ApiResponses.success_code;
+                    }
+                    catch (Exception e)
+                    {
+
+                        commonResponse.message = e.Message;
+                        commonResponse.status = ApiResponses.failure_code;
+                    }
+
+                    return Ok(commonResponse);
+                }*/
 
 
 
