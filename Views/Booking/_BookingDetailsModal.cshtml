@@ -11,6 +11,7 @@
             <form method="post" asp-controller="Booking" asp-action="_BookingDetailsModal" id="bookingDetailsModalForm">
                 <div class="modal-header">
                     <h5 class="modal-title" id="bookingDetailsModalTitle">Booking details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 @*//TODO Layout corrections*@
@@ -78,7 +79,7 @@
                             <label asp-for="Description">Destination:</> </label>
                         </div>
                         <div class="col-6 text-center">
-                            <input asp-for="Description" class="form-control" id="Booking.Destination"></>
+                            <input asp-for="Description" class="form-control"></>
                             <span asp-validation-for="Description"></span>
                         </div>
                     </div>
@@ -89,7 +90,7 @@
                             <label asp-for="ProjectCost">Project:</label>
                         </div>
                         <div class="col-6 text-center">
-                            <input asp-for="ProjectCost" class="form-control" id="Booking.ProjectCost"></>
+                            <input asp-for="ProjectCost" class="form-control"></>
                             <span asp-validation-for="ProjectCost"></span>
                         </div>
                     </div>
@@ -124,7 +125,7 @@
             { id: 3, title: 'Electrical Tape', url: 'http://en.wikipedia.org/wiki/Electrical_tape' }
             ];*@
 
-                                                            var dtoUsers = [];
+                                                                var dtoUsers = [];
 
         $.ajax({
             url: routeURL + '/api/Users/GetAllUsers',
@@ -147,7 +148,7 @@
                         options: dtoUsers
                     });
     @*$.notify(response.message, "success");*@
-                                                                    }
+                                                                        }
                 else {
                     $.notify(response.message, "error");
                 }
@@ -168,5 +169,5 @@
 
 
 
-                                                    });
+                                                        });
 </script>

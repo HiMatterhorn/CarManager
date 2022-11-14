@@ -1,48 +1,94 @@
-﻿@model AmiFlota.Models.ViewModels.TripVM
+﻿@using static AmiFlota.Utilities.Enums
+@model AmiFlota.Models.ViewModels.TripVM
 
 <div class="modal fade" id="tripEndModal" tabindex="-1" role="dialog" aria-labelledby="tripEndModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <h4>End Trip Modal</h4>
             <form method="post" asp-controller="Trip" asp-action="FinishTrip" id="tripEndModalForm">
                 <input asp-for="Id" type="hidden"></>
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="tripEndModalTitle">Trip end</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-
                 <div class="modal-body">
-                    <div class="form-group row">
-                        <div class="col-6 text-right">
-                            <label asp-for="BookingId">BookingId: </label>
+
+                    @if (User.IsInRole(UserRole.admin.ToString())
+                    || User.IsInRole(UserRole.manager.ToString()))
+                    {
+                        <div class="form-group row mb-2">
+                            <div class="col-6 text-end col-form-label">
+                                <label asp-for="BookingId">Booking ID:</label>
+                            </div>
+                            <div class="col-6 text-center">
+                                <label class="form-control">@Model.BookingId</label>
+                                <input asp-for="BookingId" type="hidden">
+                            </div>
                         </div>
+                    }
 
-                        <div class="col-6 text-left">
-                            <label asp-for="BookingId">@Model.BookingId</label>
-                            <input asp-for="BookingId" type="hidden"></>
+
+                    <div class="form-group row mb-2">
+                        <div class="col-6 text-end col-form-label">
+                            <label asp-for="StartKm">Start mileage:</label>
+                        </div>
+                        <div class="col-6 text-center">
+                            <label class="form-control">@Model.StartKm</label>
+                            <input asp-for="StartKm" type="hidden"></>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="StartKm">Start mileage: @Model.StartKm</label>
-                        <input asp-for="StartKm" type="hidden"></>
+                    <div class="form-group row mb-2">
+                        <div class="col-6 text-end col-form-label">
+                            <label asp-for="StartLocation">Start location:</label>
+                        </div>
+                        <div class="col-6 text-center">
+                            <label class="form-control">@Model.StartLocation</label>
+                            <input asp-for="StartLocation" type="hidden"></>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="EndKm">End milleage:</label>
-                        <input asp-for="EndKm" class="form-control" id="endKm"></>
+                    <div class="form-group row mb-2">
+                        <div class="col-6 text-end col-form-label">
+                            <label asp-for="EndKm">End mileage:</label>
+                        </div>
+                        <div class="col-6">
+                            <input asp-for="EndKm" class="form-control text-center"></>
+                            <span asp-validation-for="EndKm"></span>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="Cost">Cost: </label>
-                        <input asp-for="Cost" class="form-control" id="cost"></>
+                    <div class="form-group row mb-2">
+                        <div class="col-6 text-end col-form-label">
+                            <label asp-for="EndLocation">End location:</label>
+                        </div>
+                        <div class="col-6 ">
+                            <input asp-for="EndLocation" class="form-control text-center"></>
+                            <span asp-validation-for="EndLocation"></span>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="CostRemarks">Cost remarks</label>
-                        <input asp-for="CostRemarks" class="form-control" id="costRemarks"></>
+                    <div class="form-group row mb-2">
+                        <div class="col-6 text-end col-form-label">
+                            <label asp-for="Cost">Cost:</label>
+                        </div>
+                        <div class="col-6">
+                            <input asp-for="Cost" class="form-control text-center"></>
+                            <span asp-validation-for="Cost"></span>
+                        </div>
                     </div>
+
+                    <div class="form-group row mb-2">
+                        <div class="col-6 text-end col-form-label">
+                            <label asp-for="CostRemarks">Cost description:</label>
+                        </div>
+                        <div class="col-6">
+                            <input asp-for="CostRemarks" class="form-control text-center"></>
+                            <span asp-validation-for="CostRemarks"></span>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <input asp-for="BookingStatus" type="hidden" value="@AmiFlota.Utilities.Enums.BookingStatus.Finished"></>
                     </div>
