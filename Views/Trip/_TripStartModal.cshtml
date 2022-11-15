@@ -43,7 +43,7 @@
                         <div class="col-6">
                             @*                            <input asp-for="StartLocation" class="form-control text-center"></>
                             <span asp-validation-for="StartLocation"></span>*@
-                            <select asp-for="StartLocation" class="form-control" placeholder="Choose start location" id="startLocation"></select>
+                            <select asp-for="StartLocation" class="form-control text-center" placeholder="Choose start location" id="startLocation"></select>
                         </div>
                     </div>
 
@@ -89,20 +89,19 @@
             dataType: 'JSON',
             success: function(response) {
                 if (response.status === 1) {
-                    console.log(response.dataenum);
 
                     $.each(response.dataenum, function(i, data) {
                         dtoStartLocations.push({
                             location: data
                         });
                     });
-                    console.log(dtoStartLocations);
 
                     $('#startLocation').selectize({
                         valueField: 'location',
                         labelField: 'location',
                         searchField: 'location',
-                        options: dtoStartLocations
+                        options: dtoStartLocations,
+                        create: true
                     });
     @*$.notify(response.message, "success");*@
                      }

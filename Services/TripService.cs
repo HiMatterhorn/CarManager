@@ -39,7 +39,9 @@ namespace AmiFlota.Services
             {
                 Id = tripVM.Id,
                 StartKm = tripVM.StartKm,
+                StartLocation = tripVM.StartLocation,
                 EndKm = tripVM.EndKm,
+                EndLocation = tripVM.EndLocation,
                 Cost = tripVM.Cost,
                 CostRemarks = tripVM.CostRemarks,
                 BookingRefId = tripVM.BookingId,
@@ -69,6 +71,7 @@ namespace AmiFlota.Services
         {
             TripModel tripModel = _db.Trips.FirstOrDefault(x => x.Id == tripVM.Id);
             tripModel.EndKm = tripVM.EndKm;
+            tripModel.EndLocation = tripVM.EndLocation;
             tripModel.Cost = tripVM.Cost;
             tripModel.CostRemarks = tripVM.CostRemarks;
             tripModel.EndTimestampUTC = DateTime.UtcNow;

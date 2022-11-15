@@ -64,8 +64,9 @@
                             <label asp-for="EndLocation">End location:</label>
                         </div>
                         <div class="col-6 ">
-                            <input asp-for="EndLocation" class="form-control text-center"></>
-                            <span asp-validation-for="EndLocation"></span>
+                            <select asp-for="EndLocation" class="form-control text-center" placeholder="Choose end location" id="endLocation"></select>
+                            @*                            <input asp-for="EndLocation" class="form-control text-center"></>
+                            <span asp-validation-for="EndLocation"></span>*@
                         </div>
                     </div>
 
@@ -103,3 +104,42 @@
         </div>
     </div>
 </div>
+<script>
+
+    $(document).ready(function() {
+
+        var dtoEndLocations = [];
+
+        $.ajax({
+            url: routeURL + '/api/Trip/GetAllEndLocations',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(response) {
+                if (response.status === 1) {
+
+                    $.each(response.dataenum, function(i, data) {
+                        dtoEndLocations.push({
+                            location: data
+                        });
+                    });
+
+                    $('#endLocation').selectize({
+                        valueField: 'location',
+                        labelField: 'location',
+                        searchField: 'location',
+                        options: dtoEndLocations,
+                        create: true
+                    });
+    @*$.notify(response.message, "success");*@
+                         }
+                else {
+                    $.notify(response.message, "error");
+                }
+
+            },
+            error: function(xhr) {
+                $.notify("Error", "error");
+            }
+        });
+    });
+</script>
