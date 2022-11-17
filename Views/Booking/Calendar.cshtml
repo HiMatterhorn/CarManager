@@ -9,16 +9,25 @@
 <body>
     <div id="_CalendarEventModal"> </div>
 
-
-    <div class="row">
-
-        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-12 order-1">
-            <div id="_selectCars"> </div>
-        </div>
-        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-6 col-12 order-2">
-            <div id="calendar"> </div>
+    <div class="containter-fluid">
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-1 row-cols-xl-2">
+            <div class="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-3">
+                <div id="_selectCars"> </div>
+            </div>
+            <div class="col-12 col-sm-7 col-md-8 col-lg-9 col-xl-9">
+                <div id="calendar"> </div>
+            </div>
         </div>
     </div>
+
+    <div id="sizer">
+        <div class="d-block d-sm-none d-md-none d-lg-none d-xl-none" data-size="xs"></div>
+        <div class="d-none d-sm-block d-md-none d-lg-none d-xl-none" data-size="sm"></div>
+        <div class="d-none d-sm-none d-md-block d-lg-none d-xl-none" data-size="md"></div>
+        <div class="d-none d-sm-none d-md-none d-lg-block d-xl-none" data-size="lg"></div>
+        <div class="d-none d-sm-none d-md-none d-lg-none d-xl-block" data-size="xl"></div>
+    </div>
+
 
 
     <div id="loader" data-request-url="@Url.Action("GetCalendarDataById", "Booking")"></div>

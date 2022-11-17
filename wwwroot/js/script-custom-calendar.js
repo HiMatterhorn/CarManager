@@ -3,13 +3,77 @@ var urlBookings = routeURL + '/api/Booking/GetCalendarDataForCarList';
 var checkedvalues;
 var dtoVIN;
 var urlCalendarEvent;
+var calendar;
+var calendarHeight;
 
 
 $(document).ready(function () {
     urlCalendarEvent = $('#loader').data('request-url');
     getEventsSelectedCars();
+    $(window).on('resize', changeCalendarView);
 });
 
+function changeCalendarView() {
+    var size = $('#sizer').find('div:visible').data('size');
+
+    if (calendar != null) {
+        switch (size) {
+            case 'xs': {
+                calendar.changeView('listWeek');
+                calendar.setOption('height', "auto");
+                break;
+            }
+            case 'sm': {
+                calendar.changeView('listWeek');
+                calendar.setOption('height', "auto");
+                break;
+            }
+            case 'md': {
+                calendar.changeView('listWeek');
+                calendar.setOption('height', "auto");
+                break;
+            }
+            case 'lg': {
+                calendar.changeView('dayGridMonth');
+                calendar.setOption('height', 820);
+                break;
+            }
+            case 'xl': {
+                calendar.changeView('dayGridMonth');
+                calendar.setOption('height', 820);
+                break;
+            }
+        }
+    }
+}
+
+function initCalendarHeight() {
+    var size = $('#sizer').find('div:visible').data('size');
+
+    switch (size) {
+        case 'xs': {
+            return "auto";
+            break;
+        }
+        case 'sm': {
+            return "auto";
+            break;
+        }
+        case 'md': {
+            return "auto";
+            break;
+        }
+        case 'lg': {
+            return 820;
+            break;
+        }
+        case 'xl': {
+            return 820;
+            break;
+        }
+    }
+
+}
 
 function getEventsSelectedCars() {
     $('input[type="checkbox"]').change(function () {
@@ -68,17 +132,37 @@ function updateSelectedCarsList() {
 function InitializeCalendar() {
     try {
         var calendarEl = document.getElementById('calendar');
+        var initHeight = initCalendarHeight();
 
         if (calendarEl != null) {
             calendar = new FullCalendar.Calendar(calendarEl, {
 
-                initialView: 'dayGridMonth',
+                views: {
+                    dayGrid: {
+                        // options apply to dayGridMonth, dayGridWeek, and dayGridDay views
+                        titleFormat: { year: '2-digit', month: 'short' }
+                    },
+                    timeGrid: {
+                        // options apply to timeGridWeek and timeGridDay views
+                    },
+                    week: {
+                        // options apply to dayGridWeek and timeGridWeek views
+                        titleFormat: { week: 'long' }
+                    },
+                    day: {
+                        // options apply to dayGridDay and timeGridDay views
 
-                headerToolbar: {
-                    left: 'prev,next,today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    }
                 },
+                headerToolbar: {
+                    left: 'prev,next',
+                    center: 'title',
+                    right: 'dayGridMonth,listMonth'
+                },
+                themeSystem: 'bootstrap5',
+                initialView: 'dayGridMonth',
+                aspectRatio: 1.4,
+                height: initHeight,
                 selectable: true,
                 editable: false,
                 select: function (event) {
@@ -208,7 +292,7 @@ function getEventDetailsByEventId(info) {
     $.ajax({
         url: urlCalendarEvent,
         dataType: 'html',
-        data: { id: Number(info.id)},
+        data: { id: Number(info.id) },
         method: 'GET',
 
         success: function (result) {
