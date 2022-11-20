@@ -20,20 +20,20 @@
             </div>
 
 
-            <div class="row border-0 mr-0 pr-0 text-end">
-                <div class="col-12 border-0 mr-0 pr-0" role="group">
+            <div class="row border-0 text-end">
+                <div class="col-12 border-0 mx-0 px-0" role="group">
 
                     @if (User.IsInRole(UserRole.admin.ToString()) 
                     || User.IsInRole(UserRole.manager.ToString()))
                     {
                         <button type="button" id="btnPendingConfirm"
-                    class="btn btn-success btn-pending-confirm"
+                    class="btn btn-success mx-0 px-4 btn-pending-confirm"
                     data-id="@booking.Id">
                             Confirm
                         </button>
 
                         <button type="button" id="btnPendingDelete"
-                    class="btn btn-danger btn-pending-delete"
+                    class="btn btn-danger mx-0 px-4 btn-pending-delete"
                     data-id="@booking.Id">
                             Delete
                         </button>

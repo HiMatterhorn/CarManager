@@ -8,7 +8,7 @@
         <div class="modal-content">
 
 
-            <form method="post" asp-controller="Booking" asp-action="_BookingDetailsModal" id="bookingDetailsModalForm">
+            <form method="post" class="was-validated" asp-controller="Booking" asp-action="_BookingDetailsModal" id="bookingDetailsModalForm">
                 <div class="modal-header">
                     <h5 class="modal-title" id="bookingDetailsModalTitle">Booking details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -16,9 +16,10 @@
 
                 @*//TODO Layout corrections*@
                 <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                     <input type="hidden" asp-for="BookingStatus" value="@AmiFlota.Utilities.Enums.BookingStatus.Pending" />
 
-                    @*  <div asp-validation-summary="ModelOnly" class="text-danger">*@
                     <div class="form-group row mb-2">
                         <div class="col-6 text-end col-form-label">
                             <label for="lblUserName">User Name: </label>
@@ -27,7 +28,8 @@
                         || User.IsInRole(UserRole.manager.ToString()))
                         {
                             <div class="col-6 text-center">
-                                <select asp-for="UserId" class="form-control" placeholder="Choose booking user" id="search"></select>
+                                <select asp-for="UserId" class="form-control" placeholder="Choose booking user" id="search" required></select>
+                                <span asp-validation-for="UserId"></span>
                             </div>
                         }
                         else
@@ -35,7 +37,7 @@
                             <div class="col-6 text-center">
                                 <label asp-for="UserName">@Model.UserName</label>
                                 <input asp-for="UserName" type="hidden" />
-                                <input asp-for="UserId" type="hidden" value="@Model.UserId">
+                                <input asp-for="UserId" class="form-control" type="hidden" value="@Model.UserId">
                             </div>
                         }
                     </div>
@@ -76,11 +78,14 @@
 
                     <div class="form-group row mb-2">
                         <div class="col-6 text-end col-form-label">
-                            <label asp-for="Description">Destination:</> </label>
+                            <label asp-for="Description">Description:</> </label>
                         </div>
                         <div class="col-6 text-center">
-                            <input asp-for="Description" class="form-control"></>
+                            <input asp-for="Description" class="form-control" required></>
                             <span asp-validation-for="Description"></span>
+                            <div class="invalid-feedback">
+                                Please enter a message in the textarea.
+                            </div>
                         </div>
                     </div>
 
@@ -90,13 +95,13 @@
                             <label asp-for="ProjectCost">Project:</label>
                         </div>
                         <div class="col-6 text-center">
-                            <input asp-for="ProjectCost" class="form-control"></>
+                            <input id="projectCost" asp-for="ProjectCost" class="form-control" required></>
                             <span asp-validation-for="ProjectCost"></span>
                         </div>
                     </div>
 
 
-                    @*    </div>*@
+                    @*</div>*@
                 </div>
 
                 <div class="modal-footer">
@@ -109,42 +114,51 @@
     </div>
 </div>
 
-<script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
-    $(document).ready(function() {
 
-        var dtoUsers = [];
+    }
 
-        $.ajax({
-            url: routeURL + '/api/Users/GetAllUsers',
-            type: 'GET',
-            dataType: 'JSON',
-            success: function(response) {
-                if (response.status === 1) {
+    <script>
 
-                    $.each(response.dataenum, function(i, data) {
-                        dtoUsers.push({
-                            id: data.id,
-                            name: data.name
+        $(document).ready(function() {
+
+            var dtoUsers = [];
+
+            $.ajax({
+                url: routeURL + '/api/Users/GetAllUsers',
+                type: 'GET',
+                dataType: 'JSON',
+                success: function(response) {
+                    if (response.status === 1) {
+
+                        $.each(response.dataenum, function(i, data) {
+                            dtoUsers.push({
+                                id: data.id,
+                                name: data.name
+                            });
                         });
-                    });
 
-                    $('#search').selectize({
-                        valueField: 'id',
-                        labelField: 'name',
-                        searchField: 'name',
-                        options: dtoUsers
-                    });
-    @*$.notify(response.message, "success");*@
-                 }
-                else {
-                    $.notify(response.message, "error");
+                        $('#search').selectize({
+                            valueField: 'id',
+                            labelField: 'name',
+                            searchField: 'name',
+                            options: dtoUsers
+                        });
+        @*$.notify(response.message, "success");*@
+                                                         }
+                    else {
+                        $.notify(response.message, "error");
+                    }
+
+                },
+                error: function(xhr) {
+                    $.notify("Error", "error");
                 }
-
-            },
-            error: function(xhr) {
-                $.notify("Error", "error");
-            }
+            });
         });
-    });
-</script>
+    </script>
+

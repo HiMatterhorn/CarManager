@@ -8,6 +8,7 @@ namespace AmiFlota.Models.ViewModels
     {
 
         public int? Id { get; set; }
+        [Required]
         public string UserId { get; set; }
         public string UserName { get; set; }
 
@@ -19,6 +20,7 @@ namespace AmiFlota.Models.ViewModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Description { get; set; }
+        [Required]
         public string ProjectCost { get; set; }
         public BookingStatus BookingStatus { get; set; }
 

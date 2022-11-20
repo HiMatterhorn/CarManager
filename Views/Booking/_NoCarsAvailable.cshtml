@@ -1,4 +1,4 @@
-﻿@model AmiFlota.Models.ViewModels.AvailableCarsVM
+﻿@*@model AmiFlota.Models.ViewModels.AvailableCarsVM*@
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 
@@ -7,31 +7,34 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>List of the available cars</title>
+    <title>No cars available</title>
 </head>
 <body>
-        @foreach (var car in Model.AvailableCars)
-        {
-            <div class="row border rounded-2 mx-0 mt-3">
-                <partial name="_CarListItem" model=car />
-            </div>
 
-            <div class="row mx-0 mt-0 text-end">
-                <div class="col-12 m-0 p-0">
-                    <button type="button" class="btn btn-success btn-continue" id="@car.VIN"
+    <h2>No available cars found</h2>
+@*    @foreach (var car in Model.AvailableCars)
+    {
+        <div class="row border rounded-2 mx-0 mt-3">
+            <partial name="_CarListItem" model=car />
+        </div>
+
+        <div class="row mx-0 mt-0 text-end">
+            <div class="col-12 m-0 p-0">
+                <button type="button" class="btn btn-success btn-continue" id="@car.VIN"
                     data-startDate="@Model.StartDate"
                     data-endDate="@Model.EndDate"
                     data-vin="@car.VIN">
-                        Continue
-                    </button>
-                </div>
+                    Continue
+                </button>
             </div>
-        }
+        </div>
+    }*@
+
 </body>
 </html>
 
 
-<script>
+@*<script>
     $(document).ready(function() {
         var routeURL = location.protocol + "//" + location.host;
 
@@ -62,7 +65,7 @@
     function onShowBookingDetailsModal() {
         $("#bookingDetailsModal").modal("show");
     }
-</script>
+</script>*@
 
 
 

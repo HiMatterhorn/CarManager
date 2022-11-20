@@ -19,25 +19,20 @@
                 <partial name="_BookingListItem" model=booking />
             </div>
 
-            <div class="row border-0 mr-0 pr-0 text-end">
-                <div class="col-12 border-0 mr-0 pr-0" role="group">
+            <div class="row border-0 text-end">
+                <div class="col-12 border-0 mx-0 px-0" role="group">
                     @if (User.IsInRole(UserRole.admin.ToString())
                    || User.IsInRole(UserRole.manager.ToString())
                    || User.Identity.Name.Equals(booking.UserName))
                     {
                         @if (DateTime.Now >= booking.StartDate && DateTime.Now <= booking.EndDate)
                         {
-                            <button type="button" id="btnDashboardTakeCar" class="btn btn-warning btn-approved-take-car" data - id="@booking.Id">Take the car</button>
+                            <button type="button" id="btnDashboardTakeCar" class="btn btn-dark mx-0 px-4 btn-approved-take-car" data - id="@booking.Id">Take the car</button>
                         }
 
-                        <button type="button" id="btnDashboardReject" class="btn btn-warning btn-approved-reject" data-id="@booking.Id">Reject</button>
-                        <button type="button" id="btnDashboardDelete" class="btn btn-danger btn-approved-delete" data-id="@booking.Id">Delete</button>
+                        <button type="button" id="btnDashboardReject" class="btn btn-warning mx-0 px-4 btn-approved-reject" data-id="@booking.Id">Reject</button>
+                        <button type="button" id="btnDashboardDelete" class="btn btn-danger mx-0 px-4 btn-approved-delete" data-id="@booking.Id">Delete</button>
                     }
-
-                    @*                    @if (User.Identity.Name.Equals(booking.UserName))
-            {
-
-            }*@
                 </div>
             </div>
         }
@@ -47,31 +42,8 @@
 
 <script src="~/js/current-date-time.js"></script>
 
-@*<script>
-    $(document).ready(function() {
-        $(".btn-approved-take-car").hide();
-    });
-</script>*@
-
-@*<script>
-    $(document).ready(function() {
-        $(".btn-approved-take-car").click(function() {
-            $(this).hide();
-        });
-    });
-</script>*@
-
-@*<script>
-
-    $("#btnDashboardTakeCar").hide();
-
-</script>*@
-
 <script>
     $(document).ready(function() {
-
-
-
 
         $(".btn-approved-take-car").click(function() {
             var BookingId = $(this).data("id");

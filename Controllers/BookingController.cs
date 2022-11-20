@@ -41,7 +41,15 @@ namespace AmiFlota.Controllers
         public async Task<PartialViewResult> FilterCars(string startDate, string endDate)
         {
             AvailableCarsVM carList = await _bookingService.GetAvailableCars(startDate, endDate);
-            return PartialView("_FilteredCarsView", carList);
+
+            if(carList.AvailableCars.Count > 0)
+            {
+                return PartialView("_FilteredCarsView", carList);
+            }
+            else
+            {
+                return PartialView("_NoCarsAvailable");
+            }
         }
 
         public async Task<PartialViewResult> PendingBookingsCurrentUser()
@@ -157,6 +165,8 @@ namespace AmiFlota.Controllers
 
             return PartialView("_SelectCars", viewModel);
         }
+
+
 
     }
 }
