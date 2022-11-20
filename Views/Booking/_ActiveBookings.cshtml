@@ -23,8 +23,8 @@
                 <div class="col-12 border-0 mx-0 px-0" role="group">
 
                     @if (User.IsInRole(UserRole.admin.ToString())
-                    || User.IsInRole(UserRole.manager.ToString())
-                    || User.Identity.Name.Equals(booking.BookingViewModel.UserName))
+                   || User.IsInRole(UserRole.manager.ToString())
+                   || User.Identity.Name.Equals(booking.BookingViewModel.UserName))
                     {
                         @if (booking.BookingViewModel.BookingStatus.Equals(BookingStatus.Active))
                         {
@@ -96,6 +96,8 @@
             var BookingId = $(this).data("id");
             var UrlRequest = $(this).data('url');
 
+    @* TEST *@
+            $.validator.unobtrusive.parse("#tripStartModal");
 
             $.ajax({
                 url: UrlRequest,
@@ -106,6 +108,9 @@
                 success: function(result) {
                     $('#_TripStartModal').html('').html(result);
                     onShowTripStartModal();
+
+    @* TEST *@
+                        bindForm(this);
                 },
 
                 error: function(xhr, status, error) {
@@ -113,6 +118,31 @@
                 }
             });
         });
+
+    @* TEST *@
+            function bindForm(dialog) {
+                $("#tripStartModal", dialog).submit(function() {
+                    // this is the second addition
+                    if (this.valid()) {
+                        $.ajax({
+                            url: this.action,
+                            type: this.method,
+                            data: $(this).serialize(),
+                            success: function(result) {
+                                if (result.success) {
+                                    $('#tripStartModal').modal('hide');
+                                    location.reload();
+                                } else {
+                                    $('#tripStartModal').html(result);
+                                    bindForm();
+                                }
+                            }
+                        });
+                        return false;
+                    }
+                });
+            }
+
 
         function onShowTripStartModal() {
             $("#tripStartModal").modal("show");

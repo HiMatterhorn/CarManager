@@ -97,6 +97,9 @@
                         <div class="col-6 text-center">
                             <input id="projectCost" asp-for="ProjectCost" class="form-control" required></>
                             <span asp-validation-for="ProjectCost"></span>
+                            <div class="invalid-feedback">
+                                Please enter a general project cost.
+                            </div>
                         </div>
                     </div>
 
@@ -149,7 +152,7 @@
                             options: dtoUsers
                         });
         @*$.notify(response.message, "success");*@
-                                                         }
+                                                                 }
                     else {
                         $.notify(response.message, "error");
                     }

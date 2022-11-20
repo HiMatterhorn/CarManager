@@ -47,7 +47,7 @@ namespace AmiFlota.Services
                 BookingRefId = tripVM.BookingId,
                 StartTimestampUTC = DateTime.UtcNow,
                 Active = true
-        };
+            };
 
             //Validate data
 
@@ -109,10 +109,10 @@ namespace AmiFlota.Services
         public List<string> GetAllStartLocations()
         {
             var result = _db.Trips.Select(x => x.StartLocation).Distinct().ToList();
-/*            var dtoLocations = new dtoLocation()
-            {
-                Locations = result
-            };*/
+            /*            var dtoLocations = new dtoLocation()
+                        {
+                            Locations = result
+                        };*/
 
             return result;
         }
@@ -120,10 +120,10 @@ namespace AmiFlota.Services
         public List<string> GetAllEndLocations()
         {
             var result = _db.Trips.Select(x => x.EndLocation).Distinct().ToList();
-/*            var dtoLocations = new dtoLocation()
-            {
-                Locations = result
-            };*/
+            /*            var dtoLocations = new dtoLocation()
+                        {
+                            Locations = result
+                        };*/
 
             return result;
         }
@@ -186,7 +186,7 @@ namespace AmiFlota.Services
                                    Cost = t.Cost,
                                    CostRemarks = t.CostRemarks,
                                    User = u.UserName,
-                               }).OrderByDescending(y=>y.StartKm).ToList();
+                               }).OrderByDescending(y => y.StartKm).ToList();
                 return results;
             }
 
@@ -227,6 +227,16 @@ namespace AmiFlota.Services
             }
         }
 
+        public uint HighestMileageValue()
+        {
+            /*            var highestStartMileage = _db.Trips.Max(x => x.StartKm);
+                        var highestEndMileage = _db.Trips.Max(x => x.EndKm);*/
 
+            uint highestvalue = 500;
+
+            return highestvalue;
+
+
+        }
     }
 }

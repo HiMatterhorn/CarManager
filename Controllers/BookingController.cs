@@ -166,7 +166,5 @@ namespace AmiFlota.Controllers
             return PartialView("_SelectCars", viewModel);
         }
 
-
-
     }
 }

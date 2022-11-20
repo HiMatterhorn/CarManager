@@ -36,6 +36,7 @@ namespace AmiFlota.Controllers
             TripVM viewModel = new TripVM()
             {
                 BookingId = bookingId,
+                User = userName
             };
             return PartialView("_TripStartModal", viewModel);
         }
@@ -71,6 +72,22 @@ namespace AmiFlota.Controllers
                 return RedirectToAction("UserDashboard", "Booking");
             }
             return View(viewModel);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        public IActionResult isMileageValid(uint mileage)
+        {
+            var lastMileage = _tripService.HighestMileageValue();
+
+            if (mileage > lastMileage)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Mileage cannot be lower than last saved mileage: {lastMileage} km");
+            }
+
         }
 
 
