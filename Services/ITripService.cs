@@ -21,6 +21,6 @@ namespace AmiFlota.Services
         public List<TripVM> TripsHistoryByBookingId(int id);
         public List<string> GetAllStartLocations();
         public List<string> GetAllEndLocations();
-        public uint HighestMileageValue();
+        public uint HighestMileageValue(int bookingId);
     }
 }

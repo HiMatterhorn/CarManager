@@ -227,15 +227,27 @@ namespace AmiFlota.Services
             }
         }
 
-        public uint HighestMileageValue()
+        public uint HighestMileageValue(int bookingId)
         {
-            /*            var highestStartMileage = _db.Trips.Max(x => x.StartKm);
-                        var highestEndMileage = _db.Trips.Max(x => x.EndKm);*/
 
-            uint highestvalue = 500;
+            var booking = _db.Bookings.Where(b => b.Id == bookingId).FirstOrDefault();
 
-            return highestvalue;
+            var highestStartValue = _db.Bookings.Where(v => v.CarVIN.Equals(booking.CarVIN))
+                                        .Join(_db.Trips, i => i.Id, r => r.BookingRefId, (i, r) => r)
+                                        .OrderByDescending(x => x.StartKm).FirstOrDefault();
 
+            var highestEndValue = _db.Bookings.Where(v => v.CarVIN.Equals(booking.CarVIN))
+                                    .Join(_db.Trips, i => i.Id, r => r.BookingRefId, (i, r) => r)
+                                    .OrderByDescending(x => x.StartKm).FirstOrDefault();
+
+            if (highestStartValue.StartKm > highestEndValue.EndKm)
+            {
+                return highestStartValue.StartKm;
+            }
+            else
+            {
+                return highestEndValue.EndKm;
+            }
 
         }
     }

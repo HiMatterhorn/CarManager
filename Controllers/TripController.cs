@@ -75,9 +75,9 @@ namespace AmiFlota.Controllers
         }
 
         [AcceptVerbs("GET", "POST")]
-        public IActionResult isMileageValid(uint mileage)
+        public IActionResult isMileageValid(int bookingId, uint mileage)
         {
-            var lastMileage = _tripService.HighestMileageValue();
+            var lastMileage = _tripService.HighestMileageValue(bookingId);
 
             if (mileage > lastMileage)
             {

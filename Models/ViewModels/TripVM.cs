@@ -15,12 +15,12 @@ namespace AmiFlota.Models.ViewModels
         public bool Active { get; set; }
 
         [Required]
-        [Remote(action: "isMileageValid", controller: "Trip")]
+        [Remote(action: "isMileageValid", controller: "Trip", AdditionalFields = nameof(BookingId))]
         public uint StartKm { get; set; }
 
         [Required]
         [DisplayName("Start Location")]
-
+        
         public string StartLocation { get; set; }
 
         /*        public DateTime StartTimestamp { get; set; }*/

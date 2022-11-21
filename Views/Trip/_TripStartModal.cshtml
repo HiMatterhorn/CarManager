@@ -4,8 +4,7 @@
 <div class="modal fade" id="tripStartModal" tabindex="-1" role="dialog" aria-labelledby="tripStartModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form method="post" asp-controller="Trip" asp-action="StartTrip" id="tripStartModalForm">
-                @*class="was-validated"*@
+            <form method="post" class="was-validated" asp-controller="Trip" asp-action="StartTrip" id="tripStartModalForm">
                 <div class="modal-header">
                     <h5 class="modal-title" id="tripStartModalTitle">Trip start</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -33,10 +32,10 @@
                         </div>
                         <div class="col-6">
                             <input asp-for="StartKm" class="form-control text-center" required></>
-                            <span asp-validation-for="StartKm"></span>
+@*                            <span asp-validation-for="StartKm"></span>
                             <div class="invalid-feedback">
                                 Start mileage is incorrect.
-                            </div>
+                            </div>*@
                         </div>
                     </div>
 
@@ -60,7 +59,7 @@
                             <label asp-for="Project">Project:</label>
                         </div>
                         <div class="col-6 text-center">
-                            <input id="project" asp-for="Project" class="form-control"></> @*required*@
+                            <input id="project" asp-for="Project" class="form-control" required></> @**@
                             <span asp-validation-for="Project"></span>
                             @*                            <div class="invalid-feedback">
                             Please enter a project cost.
