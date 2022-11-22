@@ -14,8 +14,7 @@ namespace AmiFlota.Services
         public int FinishTrip(TripVM tripVM);
 
         public List<TripVM> TripsHistoryByCarVin(string vin);
-        /*        public List<BookingVM> TripsByCarVinList(List<string> selectedCars);*/
-        public TripVM GetActiveTripByBookingId(int bookingId);
+        public TripEndVM GetActiveTripByBookingId(int bookingId);
 
         public int ChangeBookingStatus(int bookingId, BookingStatus newBookingStatus);
         public List<TripVM> TripsHistoryByBookingId(int id);

@@ -33,7 +33,7 @@ namespace AmiFlota.Controllers
         [HttpGet]
         public PartialViewResult _TripStartModal(int bookingId) // Boking status not needed?
         {
-            TripVM viewModel = new TripVM()
+            TripStartVM viewModel = new TripStartVM()
             {
                 BookingId = bookingId,
                 User = userName
@@ -44,7 +44,7 @@ namespace AmiFlota.Controllers
         [HttpGet]
         public PartialViewResult _TripEndModal(int bookingId) // Boking status not needed?
         {
-            TripVM viewModel = _tripService.GetActiveTripByBookingId(bookingId);
+            TripEndVM viewModel = _tripService.GetActiveTripByBookingId(bookingId);
 
             return PartialView("_TripEndModal", viewModel);
         }
@@ -75,11 +75,32 @@ namespace AmiFlota.Controllers
         }
 
         [AcceptVerbs("GET", "POST")]
-        public IActionResult isMileageValid(int bookingId, uint mileage)
+        public IActionResult isStartOdoValid(int BookingId, uint StartKm)
         {
-            var lastMileage = _tripService.HighestMileageValue(bookingId);
+            var lastMileage = _tripService.HighestMileageValue(BookingId);
 
-            if (mileage > lastMileage)
+            if (StartKm == lastMileage)
+            {
+                return Json($"Value OK");
+            }
+            else if (StartKm > lastMileage)
+            {
+                var difference = StartKm - lastMileage;
+                return Json($"Distance of: {difference} km is not saved in database");
+            }
+            else
+            {
+                return Json($"Mileage cannot be lower than last saved mileage: {lastMileage} km");
+            }
+
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        public IActionResult isEndOdoValid(int BookingId, uint EndKm)
+        {
+            var lastMileage = _tripService.HighestMileageValue(BookingId);
+
+            if (EndKm >= lastMileage)
             {
                 return Json(true);
             }

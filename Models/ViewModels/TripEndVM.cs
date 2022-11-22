@@ -6,7 +6,7 @@ using static AmiFlota.Utilities.Enums;
 
 namespace AmiFlota.Models.ViewModels
 {
-    public class TripVM
+    public class TripEndVM
     {
         public int Id { get; set; }
         [Required]
@@ -14,18 +14,14 @@ namespace AmiFlota.Models.ViewModels
         [DisplayName("Active")]
         public bool Active { get; set; }
 
-        [Required]
-        public uint StartKm { get; set; }
-
-        [Required]
-        [DisplayName("Start Location")]
-        public string StartLocation { get; set; }
-
+        [Remote(action: "isEndOdoValid", controller: "Trip", AdditionalFields = "BookingId")]
         public uint EndKm { get; set; }
 
         [DisplayName("End Location")]
         public string EndLocation { get; set; }
 
+        /*        public DateTime EndTimestamp { get; set; }*/
+        [Required]
         public string Project { get; set; }
 
         public float Cost { get; set; }

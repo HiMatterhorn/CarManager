@@ -93,13 +93,12 @@ namespace AmiFlota.Services
             return 0;
         }
 
-        public TripVM GetActiveTripByBookingId(int bookingId)
+        public TripEndVM GetActiveTripByBookingId(int bookingId)
         {
-            return _db.Trips.Where(x => x.BookingRefId == bookingId && x.Active == true).ToList().Select(m => new TripVM()
+            return _db.Trips.Where(x => x.BookingRefId == bookingId && x.Active == true).ToList().Select(m => new TripEndVM()
             {
                 Id = m.Id,
                 BookingId = m.BookingRefId,
-                StartKm = m.StartKm,
                 EndKm = m.EndKm,
                 Cost = m.Cost,
                 CostRemarks = m.CostRemarks,
@@ -109,11 +108,6 @@ namespace AmiFlota.Services
         public List<string> GetAllStartLocations()
         {
             var result = _db.Trips.Select(x => x.StartLocation).Distinct().ToList();
-            /*            var dtoLocations = new dtoLocation()
-                        {
-                            Locations = result
-                        };*/
-
             return result;
         }
 

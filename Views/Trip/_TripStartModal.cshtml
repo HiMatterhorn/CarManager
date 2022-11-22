@@ -1,5 +1,5 @@
 ﻿@using static AmiFlota.Utilities.Enums
-@model AmiFlota.Models.ViewModels.TripVM
+@model AmiFlota.Models.ViewModels.TripStartVM
 
 <div class="modal fade" id="tripStartModal" tabindex="-1" role="dialog" aria-labelledby="tripStartModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -32,10 +32,10 @@
                         </div>
                         <div class="col-6">
                             <input asp-for="StartKm" class="form-control text-center" required></>
-@*                            <span asp-validation-for="StartKm"></span>
+                            <span asp-validation-for="StartKm"></span>
                             <div class="invalid-feedback">
                                 Start mileage is incorrect.
-                            </div>*@
+                            </div>
                         </div>
                     </div>
 
@@ -44,8 +44,6 @@
                             <label asp-for="StartLocation">Start location:</label>
                         </div>
                         <div class="col-6">
-                            @*                            <input asp-for="StartLocation" class="form-control text-center"></>
-                            <span asp-validation-for="StartLocation"></span>*@
                             <select asp-for="StartLocation" class="form-control text-center" placeholder="Choose start location" id="startLocation" required></select>
                             <span asp-validation-for="StartLocation"></span>
                             <div class="invalid-feedback">
@@ -54,34 +52,6 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mb-2">
-                        <div class="col-6 text-end col-form-label">
-                            <label asp-for="Project">Project:</label>
-                        </div>
-                        <div class="col-6 text-center">
-                            <input id="project" asp-for="Project" class="form-control" required></> @**@
-                            <span asp-validation-for="Project"></span>
-                            @*                            <div class="invalid-feedback">
-                            Please enter a project cost.
-                            </div>*@
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <input asp-for="EndKm" type="hidden"></>
-                    </div>
-
-                    <div class="form-group">
-                        <input asp-for="EndLocation" type="hidden"></>
-                    </div>
-
-                    <div class="form-group">
-                        <input asp-for="Cost" type="hidden"></>
-                    </div>
-
-                    <div class="form-group">
-                        <input asp-for="CostRemarks" type="hidden" class="form-control" id="costRemarks"></>
-                    </div>
                     <div class="form-group">
                         <input asp-for="BookingStatus" type="hidden" value="@AmiFlota.Utilities.Enums.BookingStatus.Active" class="form-control"></>
                     </div>
