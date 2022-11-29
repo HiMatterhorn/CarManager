@@ -42,13 +42,14 @@ namespace AmiFlota.Controllers
         {
             AvailableCarsVM carList = await _bookingService.GetAvailableCars(startDate, endDate);
 
-            if(carList.AvailableCars.Count > 0)
+            if (carList.AvailableCars.Count > 0)
             {
                 return PartialView("_FilteredCarsView", carList);
             }
             else
             {
-                return PartialView("_NoCarsAvailable");
+                IEnumerable<BookingVM> notConfirmedBookingsList = await _bookingService.GetNotConfirmedBookings(startDate, endDate);
+                return PartialView("_NoCarsAvailable", notConfirmedBookingsList);
             }
         }
 

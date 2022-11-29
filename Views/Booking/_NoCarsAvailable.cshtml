@@ -1,5 +1,6 @@
-﻿@*@model AmiFlota.Models.ViewModels.AvailableCarsVM*@
+﻿@model IEnumerable<AmiFlota.Models.ViewModels.BookingVM>
 @using Microsoft.AspNetCore.Http
+@using static AmiFlota.Utilities.Enums
 @inject IHttpContextAccessor HttpContextAccessor
 
 <!DOCTYPE html>
@@ -10,62 +11,37 @@
     <title>No cars available</title>
 </head>
 <body>
-
-    <h2>No available cars found</h2>
-@*    @foreach (var car in Model.AvailableCars)
+    @if (Model.Count() > 0)
     {
-        <div class="row border rounded-2 mx-0 mt-3">
-            <partial name="_CarListItem" model=car />
-        </div>
+        <h2>No available cars found, but you can still raise a conflict to administrator for pending bookings.</h2>
 
-        <div class="row mx-0 mt-0 text-end">
-            <div class="col-12 m-0 p-0">
-                <button type="button" class="btn btn-success btn-continue" id="@car.VIN"
-                    data-startDate="@Model.StartDate"
-                    data-endDate="@Model.EndDate"
-                    data-vin="@car.VIN">
-                    Continue
-                </button>
+        @foreach (var booking in Model)
+        {
+            <div class="row mt-4 border border-dark border-opacity-25">
+                <partial name="_BookingListItem" model=booking />
             </div>
-        </div>
-    }*@
 
+
+            <div class="row border-0 text-end">
+                <div class="col-12 border-0 mx-0 px-0" role="group">
+                    <button type="button" id="btnRaiseConflict"
+                    class="btn btn-dark mx-0 px-4 btn-raise-conflict"
+                    data-id="@booking.Id">
+                        Raise a conflict
+                    </button>
+                </div>
+            </div>
+
+        }
+    }
+    else
+    {
+        <h2>No available cars found.</h2>
+    }
 </body>
 </html>
 
 
-@*<script>
-    $(document).ready(function() {
-        var routeURL = location.protocol + "//" + location.host;
-
-
-        $(".btn-continue").click(function() {
-            var VIN = $(this).data("vin");
-            var StartDate = $(this).data("startdate");
-            var EndDate = $(this).data("enddate");
-
-            $.ajax({
-                url: '@Url.Action("_BookingDetailsModal", "Booking")',
-                datatype: 'html',
-                data: { vin: VIN, startDate: StartDate, endDate: EndDate },
-                method: 'GET',
-
-                success: function(result) {
-                    $('#_BookingDetailsModal').html('').html(result);
-                    onShowBookingDetailsModal();
-                },
-
-                error: function(error) {
-                    console.log(error);
-                }
-            });
-        });
-    });
-
-    function onShowBookingDetailsModal() {
-        $("#bookingDetailsModal").modal("show");
-    }
-</script>*@
 
 
 

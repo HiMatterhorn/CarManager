@@ -30,7 +30,7 @@ namespace AmiFlota.Services
         {
 
             //TODO Group by Trunk type
-            List<CarModel> cars = await _db.Cars.OrderBy(x => x.Brand).ThenBy(x => x.Model).ThenBy(x => x.RegistrationNumber).ToListAsync();
+            List<CarModel> cars = await _db.Cars.OrderBy(x => x.Trunk).ThenBy(x => x.Brand).ThenBy(x => x.Model).ThenBy(x => x.RegistrationNumber).ToListAsync();
             return cars;
         }
 
@@ -50,6 +50,17 @@ namespace AmiFlota.Services
             };
 
             return availableCarsVM;
+        }
+
+        public async Task<IEnumerable<BookingVM>> GetNotConfirmedBookings(string startDate, string endDate)
+        {
+
+            DateTime searchingStartDate = DateTime.Parse(startDate);
+            DateTime searchingEndDate = DateTime.Parse(endDate);
+
+            List<BookingVM> notConfirmedBookings = await GetNotConfirmedBookingsInDates(searchingStartDate, searchingEndDate);
+
+            return notConfirmedBookings;
         }
 
         public async Task<List<CarModel>> GetCarsInDates(DateTime startDate, DateTime endDate)
@@ -75,7 +86,31 @@ namespace AmiFlota.Services
             return availableCars;
         }
 
-        //TODO Rework it ot ViewBags?
+        public async Task<List<BookingVM>> GetNotConfirmedBookingsInDates(DateTime startDate, DateTime endDate)
+        {
+            var notConfirmedBookings = await (from b in _db.Bookings
+                                        .Where(s => (s.StartDate >= startDate && s.StartDate <= endDate) || (s.EndDate >= startDate && s.EndDate <= endDate) || (s.StartDate <= startDate && s.EndDate >= endDate))
+                                        .Where(b => b.BookingStatus.Equals(BookingStatus.Pending))
+                                        from c in _db.Cars
+                                        from u in _db.Users
+                                        where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id)
+                                        select new BookingVM
+                                        {
+                                            Id = b.Id,
+                                            UserId = u.Id,
+                                            UserName = u.UserName,
+                                            RegistrationNumber = c.RegistrationNumber,
+                                            PhotoPath = c.PhotoPath,
+                                            StartDate = b.StartDate,
+                                            EndDate = b.EndDate,
+                                            Description = b.Description,
+                                            ProjectCost = b.ProjectCost
+                                        }).ToListAsync();             
+
+            return notConfirmedBookings;
+        }
+
+        //TODO Rework it to ViewBags?
         public void BookCar(BookingVM bookingVM)
         {
             BookingModel bookingModel = new BookingModel()

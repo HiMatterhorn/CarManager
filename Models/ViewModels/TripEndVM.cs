@@ -20,7 +20,6 @@ namespace AmiFlota.Models.ViewModels
         [DisplayName("End Location")]
         public string EndLocation { get; set; }
 
-        /*        public DateTime EndTimestamp { get; set; }*/
         [Required]
         public string Project { get; set; }
 
