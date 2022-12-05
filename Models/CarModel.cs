@@ -36,7 +36,7 @@ namespace AmiFlota.Models
 
         public Fuel Fuel { get; set; }
         [DisplayName("Card PIN")]
-        public ushort CardPin { get; set; }
+        public string CardPin { get; set; }
 
         public DateTime Insurance { get; set; }
 

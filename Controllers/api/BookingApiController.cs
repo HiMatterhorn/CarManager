@@ -27,34 +27,10 @@ namespace AmiFlota.Controllers.api
             _httpContextAccessor = httpContextAccessor;
         }
 
-        //TODO Delete if won't be used
-/*        [HttpGet]
-        [Route("GetCalendarDataForCar")]
-        public IActionResult GetCalendarDataForCar(string carVIN)
-        {
-            CommonResponse<List<BookingVM>> commonResponse = new CommonResponse<List<BookingVM>>();
-            try
-            {
-                commonResponse.dataenum = _bookingService.BookingsByCarVIN(carVIN);
-                commonResponse.status = ApiResponses.success_code;
-            }
-            catch (Exception e)
-            {
-
-                commonResponse.message = e.Message;
-                commonResponse.status = ApiResponses.failure_code;
-            }
-
-            return Ok(commonResponse);
-        }*/
-
-        //TODO Test method overload for checkboxes in calendar view
         [HttpPost]
         [Route("GetCalendarDataForCarList")]
         public IActionResult GetCalendarDataForCarList([FromBody] dtoVIN dtoSelectedCars)
         {
-
-
             CommonResponse<List<CalendarVM>> commonResponse = new CommonResponse<List<CalendarVM>>();
             try
             {
@@ -67,30 +43,8 @@ namespace AmiFlota.Controllers.api
                 commonResponse.message = e.Message;
                 commonResponse.status = ApiResponses.failure_code;
             }
-
             return Ok(commonResponse);
         }
-
-
-/*        [HttpGet]
-        [Route("GetCalendarDataById")]
-        public IActionResult GetCalendarDataById(int id)
-        {
-            CommonResponse<BookingVM> commonResponse = new CommonResponse<BookingVM>();
-            try
-            {
-                commonResponse.dataenum = _bookingService.GetById(id);
-                commonResponse.status = ApiResponses.success_code;
-            }
-            catch (Exception e)
-            {
-                commonResponse.message = e.Message;
-                commonResponse.status = ApiResponses.failure_code;
-            }
-
-            return Ok(commonResponse);
-        }*/
-
 
         [HttpGet]
         [Route("ConfirmEvent")]
@@ -147,7 +101,6 @@ namespace AmiFlota.Controllers.api
 
             return Ok(commonResponse);
         }
-
 
         [HttpGet]
         [Route("DeleteEvent")]

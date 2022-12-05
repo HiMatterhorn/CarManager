@@ -2,8 +2,7 @@
 @model AmiFlota.Models.ViewModels.ActiveBookingVM
 
 @{
-    //TODO pass the car photo path
-    var photoPath = "/images/cars/" + (Model.BookingViewModel.PhotoPath ?? "default.jpg"); //+ ".jpg";
+    var photoPath = "/images/cars/" + (Model.BookingViewModel.PhotoPath ?? "default.jpg");
 }
 
 <div class="card border-0 h-100 mx-0 px-0">
@@ -57,8 +56,6 @@
             </div>
         </div>
 
-
-            @*TARGET*@
             <div class="row mx-0 px-0 clearfix">
                 <div class="accordion px-0 mx-0" id="accordion_@Model.BookingViewModel.Id">
                     <div class="accordion-item">
@@ -76,7 +73,6 @@
                         <div id="accordionBody_@Model.BookingViewModel.Id" class="accordion-collapse collapse">
 
                             <div class="accordion-body">
-                                @*//TRIPS*@
                                 <div class="row">
                                     <partial name="_TripsHistory" model=@Model.TripsHistory class="mx-0 px-0" />
                                 </div>

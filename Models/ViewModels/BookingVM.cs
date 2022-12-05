@@ -12,11 +12,9 @@ namespace AmiFlota.Models.ViewModels
         public string UserId { get; set; }
         public string UserName { get; set; }
 
-        //FROM CarModel
         public string RegistrationNumber { get; set; }
         public string PhotoPath { get; set; }
 
-        //FROM BookingModel
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Description { get; set; }

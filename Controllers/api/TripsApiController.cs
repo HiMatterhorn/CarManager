@@ -36,7 +36,6 @@ namespace AmiFlota.Controllers.api
             }
             catch (Exception e)
             {
-
                 commonResponse.message = e.Message;
                 commonResponse.status = ApiResponses.failure_code;
             }
@@ -56,58 +55,11 @@ namespace AmiFlota.Controllers.api
             }
             catch (Exception e)
             {
-
                 commonResponse.message = e.Message;
                 commonResponse.status = ApiResponses.failure_code;
             }
 
             return Ok(commonResponse);
         }
-
-        /*        [HttpPost]
-                [Route("GetCalendarDataForCarList")]
-                public IActionResult GetCalendarDataForCarList([FromBody] dtoVIN dtoSelectedCars)
-                {
-
-
-                    CommonResponse<List<CalendarVM>> commonResponse = new CommonResponse<List<CalendarVM>>();
-                    try
-                    {
-                        commonResponse.dataenum = _tripService.TripsByCarVinList(dtoSelectedCars.Selected);
-                        commonResponse.status = ApiResponses.success_code;
-                    }
-                    catch (Exception e)
-                    {
-
-                        commonResponse.message = e.Message;
-                        commonResponse.status = ApiResponses.failure_code;
-                    }
-
-                    return Ok(commonResponse);
-                }*/
-
-
-
-        //TODO Create inspection
-        /*        [HttpPost]
-                [Route("CreateInspection")]
-                public async Task<IActionResult> CreateInspection(TripVM tripVM)
-                {
-                    CommonResponse<int> commonResponse = new CommonResponse<int>();
-
-                    try
-                    {
-                        commonResponse.dataenum = await _tripService.CreateInspection(tripVM);
-                        commonResponse.status = ApiResponses.success_code;
-                    }
-                    catch (Exception e)
-                    {
-
-                        commonResponse.message = e.Message;
-                        commonResponse.status = ApiResponses.failure_code;
-                    }
-
-                    return Ok(commonResponse);
-                }*/
     }
 }

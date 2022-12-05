@@ -20,11 +20,5 @@ namespace AmiFlota.Models
         public string WashersRemarks { get; set; }
         public ushort Damages { get; set; }
         public string DamagesRemarks { get; set; }
-
-/*        [Required]
-        [Column("Trip ID")]
-        [ForeignKey("TripModels")]
-        public int TripRefId { get; set; }*/
-/*        public virtual TripModel TripModels { get; set; }*/
     }
 }

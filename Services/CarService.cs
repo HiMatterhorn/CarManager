@@ -53,11 +53,20 @@ namespace AmiFlota.Services
         public async Task<int> UpdateCar(CarModel newData)
         {
             CarModel car = await _db.Cars.FirstOrDefaultAsync(c => c.VIN.Equals(newData.VIN));
+            car.VIN = newData.VIN;
             car.RegistrationNumber = newData.RegistrationNumber;
-            car.SeatsNumber = newData.SeatsNumber;
-            car.Trunk = newData.Trunk;
             car.Brand = newData.Brand;
             car.Model = newData.Model;
+            car.SeatsNumber = newData.SeatsNumber;
+            car.Doors = newData.Doors;
+            car.Trunk = newData.Trunk;
+            car.HorsePower = newData.HorsePower;
+            car.Engine = newData.Engine;
+            car.TyreSize = newData.TyreSize;
+            car.Fuel = newData.Fuel;
+            car.CardPin = newData.CardPin;
+            car.Insurance = newData.Insurance;
+            car.TechnicalReview = newData.TechnicalReview;
             car.PhotoPath = newData.PhotoPath;
 
             return await _db.SaveChangesAsync();

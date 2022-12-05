@@ -558,7 +558,6 @@ namespace AmiFlota.Services
             }
         }
 
-        //TODO Used in creating BookingViewModal
         public string GetRegistrationNumberByCarVin(string carVIN)
         {
             try
@@ -571,7 +570,6 @@ namespace AmiFlota.Services
                 throw;
             }
         }
-        //TODO Used to create booking
         public string GetVinByRegistrationNumber(string registrationNumber)
         {
             try
@@ -584,7 +582,6 @@ namespace AmiFlota.Services
                 throw;
             }
         }
-        //TODO Used to create booking
         public string GetUserIdByName(string userName)
         {
             try

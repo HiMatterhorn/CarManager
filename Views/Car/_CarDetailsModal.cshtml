@@ -1,7 +1,7 @@
 ﻿@model AmiFlota.Models.ViewModels.CarDetailsVM
 
 @{
-    var photoPath = "/images/cars/" + (Model.Car.PhotoPath ?? "default.jpg"); //+ ".jpg";
+    var photoPath = "/images/cars/" + (Model.Car.PhotoPath ?? "default.jpg");
 }
 
 <div class="modal fade" id="carDetailsModal" tabindex="-1" role="dialog" aria-labelledby="carDetailsModal" aria-hidden="true">
@@ -10,10 +10,8 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                @*                <h5 class="modal-title w-100 text-center">@Model.Car.Brand @Model.Car.Model @Model.Car.RegistrationNumber</h5>*@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            @*//CAR*@
 
             <div class="modal-body">
 
@@ -21,7 +19,6 @@
                     <partial name="_CarListItem" model=@Model.Car class="mx-0 px-0" />
                 </div>
 
-                @*//TRIPS*@
                 <div class="row">
                     <partial name="_TripsHistory" model=@Model.TripsHistory class="mx-0 px-0" />
                 </div>

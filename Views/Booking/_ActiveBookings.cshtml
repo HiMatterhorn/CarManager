@@ -96,7 +96,6 @@
             var BookingId = $(this).data("id");
             var UrlRequest = $(this).data('url');
 
-    @* TEST *@
             $.validator.unobtrusive.parse("#tripStartModal");
 
             $.ajax({
@@ -109,7 +108,7 @@
                     $('#_TripStartModal').html('').html(result);
                     onShowTripStartModal();
 
-    @* TEST *@
+
                         bindForm(this);
                 },
 
@@ -119,10 +118,9 @@
             });
         });
 
-    @* TEST *@
             function bindForm(dialog) {
                 $("#tripStartModal", dialog).submit(function() {
-                    // this is the second addition
+                    
                     if (this.valid()) {
                         $.ajax({
                             url: this.action,

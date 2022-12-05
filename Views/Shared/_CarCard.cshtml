@@ -1,4 +1,5 @@
-﻿@model AmiFlota.Models.CarModel
+﻿@using static AmiFlota.Utilities.Enums
+@model AmiFlota.Models.CarModel
 @{
     var photoPath = "/images/cars/" + (Model.PhotoPath ?? "default.jpg");//+ ".jpg"
 }
@@ -17,16 +18,16 @@
                     id="@Model.VIN"
                     data-vin="@Model.VIN">
                 Details
-            </button> @*onclick="onClickDetails(this)"*@
+            </button> 
 
-            @*WITHOUT Ajax*@
-            @*<a class="btn btn-primary" asp-action="Details" asp-route-id="@Model.VIN">Show details</a>*@
+            @if (User.IsInRole(UserRole.admin.ToString())){
+                <a type="button" name="btnEdit" asp-action="Edit" asp-controller="Car" asp-route-vin="@Model.VIN" class="btn btn-light btn-edit">Edit</a>
+                }
 
+            </div>
 
         </div>
-
     </div>
-</div>
 
 
 

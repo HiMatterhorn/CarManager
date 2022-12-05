@@ -34,16 +34,9 @@ namespace AmiFlota.Models
             return View(cars);
         }
 
-        /*        public async Task<IActionResult> Details(string vin)
-                {
-                    var car = await _carService.GetCarByVIN(vin);
-                    return View(car);
-                }*/
-
         public async Task<IActionResult> _CarDetailsModal(string vin)
         {
             var car = await _carService.GetCarByVIN(vin);
-            /*from t in _db.Trips.OrderByDescending(y => y.StartTimestampUTC).ToList()*/
             var trips = _tripService.TripsHistoryByCarVin(vin);
             CarDetailsVM viewModel = new CarDetailsVM
             {
@@ -82,6 +75,13 @@ namespace AmiFlota.Models
                     Model = viewModel.Model,
                     SeatsNumber = viewModel.SeatsNumber,
                     Trunk = viewModel.Trunk,
+                    HorsePower = viewModel.HorsePower,
+                    Engine = viewModel.Engine,
+                    TyreSize = viewModel.TyreSize,
+                    Fuel = viewModel.Fuel,
+                    CardPin = viewModel.CardPin,
+                    Insurance = viewModel.Insurance,
+                    TechnicalReview = viewModel.TechnicalReview,
                     PhotoPath = photoName
                 };
                 await _carService.AddCar(carModel);

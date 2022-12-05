@@ -1,7 +1,15 @@
-﻿@model AmiFlota.Models.CarModel
+﻿@using AmiFlota.Utilities
+@using static AmiFlota.Utilities.Enums
+@model AmiFlota.Models.CarModel
 
+@{
+    ViewBag.Title = "Edit";
+}
 
 <!DOCTYPE html>
+@{
+    @*var defaultLoadPhotoPath = "/images/cars/dc90534d-bd29-4a14-ac49-0360178c3144_LoadPhoto.jpg";*@
+}
 
 <html>
 <head>
@@ -9,52 +17,260 @@
     <title>Edit</title>
 </head>
 <body>
+    @if (User.IsInRole(UserRole.admin.ToString()))
+    {
+        <div class="container">
 
-<h4>CarModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="VIN" />
-            <div class="form-group">
-                <label asp-for="RegistrationNumber" class="control-label"></label>
-                <input asp-for="RegistrationNumber" class="form-control" />
-                <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Brand" class="control-label"></label>
-                <input asp-for="Brand" class="form-control" />
-                <span asp-validation-for="Brand" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Model" class="control-label"></label>
-                <input asp-for="Model" class="form-control" />
-                <span asp-validation-for="Model" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SeatsNumber" class="control-label"></label>
-                <input asp-for="SeatsNumber" class="form-control" />
-                <span asp-validation-for="SeatsNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Trunk" class="control-label"></label>
-                <select asp-for="Trunk" class="form-control"></select>
-                <span asp-validation-for="Trunk" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+            <h4>Edit car</h4>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+            <form asp-action="Edit" asp-controller="Car" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-row row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2">
+                    @* //TODO Photos editing
+                <div class="col">
+                <div class="form-group">
+                <label>Edit car photos</label>
+                <div class="custom-file">
+                <input asp-for="PhotoPath" class="custom-file-input form-control" type="file" id="customFile" onchange="preview()" /> @*multiple
+                </div>
+                </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
-</body>
-</html>
+
+                <div class="col">
+                <div class="form-row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
+                </div>
+                </div>
+                </div>
+                *@
+                <input asp-for="PhotoPath" type="hidden"> 
+
+                    <div class="col">
+                        <div class="form-row row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2">
+
+                            <div class="col form-group">
+                                <label asp-for="VIN" class="control-label" value="@Model.VIN"></label>
+                                <input asp-for="VIN" class="form-control" />
+                                <span asp-validation-for="VIN" class="text-danger"></span>
+                            </div>
+                            <div class="col form-group">
+                                <label asp-for="RegistrationNumber" class="control-label" value="@Model.RegistrationNumber"></label>
+                                <input asp-for="RegistrationNumber" class="form-control" />
+                                <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+                            </div>
+
+                            <div class="col form-group">
+                                <label asp-for="Brand" class="control-label" value="@Model.Brand"></label>
+                                <input asp-for="Brand" class="form-control" />
+                                <span asp-validation-for="Brand" class="text-danger"></span>
+                            </div>
+                            <div class="col form-group">
+                                <label asp-for="Model" class="control-label" value="@Model.Model"></label>
+                                <input asp-for="Model" class="form-control" />
+                                <span asp-validation-for="Model" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-row row row-cols-1 row-cols-sm-1 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
+                            <div class="col form-group">
+                                <label asp-for="SeatsNumber" class="control-label" value="@Model.SeatsNumber"></label>
+                                <input asp-for="SeatsNumber" class="form-control" />
+                                <span asp-validation-for="SeatsNumber" class="text-danger"></span>
+                            </div>
+                            <div class="col form-group">
+                                <label asp-for="Doors" class="control-label" value="@Model.Doors"></label>
+                                <input asp-for="Doors" class="form-control" />
+                                <span asp-validation-for="Doors" class="text-danger"></span>
+                            </div>
+                            <div class="col form-group">
+                                <div class="row m-0 p-0">
+                                    <label asp-for="Fuel" class="control-label mx-0" value="@Model.Fuel"></label>
+                                </div>
+                                <div class="row m-0 p-0">
+                                    <select asp-for="Fuel" class="btn btn-outline-dark dropdown-toggle" asp-items="Html.GetEnumSelectList<Enums.Fuel>()"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row row row-cols-1 row-cols-sm-1 row-cols-md-3 row-cols-lg-3 row-cols-xl-3">
+                            <div class="col form-group">
+                                <label asp-for="CardPin" class="control-label" value="@Model.CardPin"></label>
+                                <input asp-for="CardPin" class="form-control" />
+                                <span asp-validation-for="CardPin" class="text-danger"></span>
+                            </div>
+
+                            <div class="col form-group">
+                                <label asp-for="TyreSize" class="control-label" value="@Model.TyreSize"></label>
+                                <input asp-for="TyreSize" class="form-control" />
+                                <span asp-validation-for="TyreSize" class="text-danger"></span>
+                            </div>
+
+                            <div class="col form-group">
+                                <div class="row m-0 p-0">
+                                    <label asp-for="Trunk" class="control-label mx-0" value="@Model.Trunk"></label>
+                                </div>
+                                <div class="row m-0 p-0">
+                                    <select asp-for="Trunk" class="btn btn-outline-dark dropdown-toggle" asp-items="Html.GetEnumSelectList<Enums.TrunkType>()"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2">
+                            <div class="col form-group">
+                                <label asp-for="Engine" class="control-label" value="@Model.Engine"></label>
+                                <input asp-for="Engine" class="form-control" />
+                                <span asp-validation-for="Engine" class="text-danger"></span>
+                            </div>
+
+                            <div class="col form-group">
+                                <label asp-for="HorsePower" class="control-label" value="@Model.HorsePower"></label>
+                                <input asp-for="HorsePower" class="form-control" />
+                                <span asp-validation-for="HorsePower" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-row row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2">
+                            <div class="col form-group">
+                                <label asp-for="Insurance" class="control-label" value="@Model.Insurance"></label>
+                                <input asp-for="Insurance" class="form-control" type="text" name="insurance" />
+                                <span asp-validation-for="Insurance" class="text-danger"></span>
+                            </div>
+
+                            <div class="col form-group">
+                                <label asp-for="TechnicalReview" class="control-label" value="@Model.TechnicalReview"></label>
+                                <input asp-for="TechnicalReview" class="form-control" type="text" name="technicalReview" />
+                                <span asp-validation-for="TechnicalReview" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row text-end mx-0 px-0">
+                    <div col-12>
+                        <a asp-action="CarList">Back to List</a>
+
+                        <input type="submit" value="Edit" class="btn btn-primary" />
+
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    }
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        <script src="~/js/current-date-time.js"></script>
+
+        @*//Upload photo with preview*@
+@*        <script>
+            function preview() {
+                frame1.src = URL.createObjectURL(event.target.files[0]);
+                                                            }
+            function clearImage() {
+                document.getElementById('customFile').value = null;
+                frame1.src = "";
+                                                            }
+        </script>*@
+
+        <script>
+            let NextYear = getNextYear();
+            let Limits = getLimitDates();
+
+            $('input[name="insurance"]').daterangepicker({
+                "singleDatePicker": true,
+                "showDropdowns": true,
+                "minYear": Limits.YearMin,
+                "maxYear": Limits.YearMax,
+                "autoApply": true,
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "CW",
+                    "daysOfWeek": [
+                        "Su",
+                        "Mo",
+                        "Tu",
+                        "We",
+                        "Th",
+                        "Fr",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"
+                    ],
+                    "firstDay": 1
+                },
+                "startDate": NextYear,
+                "minDate": Limits.DateMin,
+                "maxDate": Limits.DateMax,
+                "opens": "center"
+            });
+
+        </script>
+
+        <script>
+
+            $('input[name="technicalReview"]').daterangepicker({
+                "singleDatePicker": true,
+                "showDropdowns": true,
+                "minYear": Limits.YearMin,
+                "maxYear": Limits.YearMax,
+                "autoApply": true,
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "CW",
+                    "daysOfWeek": [
+                        "Su",
+                        "Mo",
+                        "Tu",
+                        "We",
+                        "Th",
+                        "Fr",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"
+                    ],
+                    "firstDay": 1
+                },
+                "startDate": NextYear,
+                "minDate": Limits.DateMin,
+                "maxDate": Limits.DateMax,
+                "opens": "center"
+            });
+
+        </script>
+
+
+    }
+    </body>
+    </html>

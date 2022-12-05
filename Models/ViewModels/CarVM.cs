@@ -28,11 +28,11 @@ namespace AmiFlota.Models.ViewModels
         [DisplayName("Fuel")]
         public Fuel Fuel { get; set; }
         [DisplayName("Card PIN")]
-        public ushort CardPin { get; set; }
+        public string CardPin { get; set; }
 
-        public DateOnly Insurance { get; set; }
+        public DateTime Insurance { get; set; }
 
-        public DateOnly TechnicalReview { get; set; }
+        public DateTime TechnicalReview { get; set; }
         public IFormFile PhotoPath { get; set; }
     }
 }

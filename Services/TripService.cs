@@ -114,50 +114,8 @@ namespace AmiFlota.Services
         public List<string> GetAllEndLocations()
         {
             var result = _db.Trips.Select(x => x.EndLocation).Distinct().ToList();
-            /*            var dtoLocations = new dtoLocation()
-                        {
-                            Locations = result
-                        };*/
-
             return result;
         }
-
-        //TODO DELETE
-        /*        public List<BookingVM> TripsByCarVinList(List<string> selectedCars)
-                {
-                    try
-                    {
-                        // NOTE var result = lista.Where(a => listb.Any(b => string.Compare(a,b,true) == 0));
-
-                        //TODO Show start and final destination
-                        var results = (from b in _db.Bookings
-                                        .ToList()
-                                        .Where(a => selectedCars.Any(y => string.Compare(a.CarVIN, y, true) == 0))
-                                        .Where(x => x.BookingStatus.Equals(BookingStatus.Finished))
-                                       from c in _db.Cars
-                                       from u in _db.Users
-                                       from t in _db.Trips
-                                       where b.CarVIN.Equals(c.VIN) && b.UserId.Equals(u.Id) && (t.BookingRefId == b.Id)
-                                       select new BookingVM()
-                                       {
-                                           Id = b.Id,
-                                           UserName = u.UserName,
-                                           RegistrationNumber = c.RegistrationNumber,
-                                           StartDate = t.StartTimestampUTC,
-                                           EndDate = t.EndTimestampUTC,
-                                           Description = b.Description,
-                                           ProjectCost = b.ProjectCost,
-                                           BookingStatus = b.BookingStatus,
-                                       }).ToList();
-
-                        return results;
-                    }
-
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                }*/
 
         public List<TripVM> TripsHistoryByCarVin(string vin)
         {
