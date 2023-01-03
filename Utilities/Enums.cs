@@ -4,7 +4,7 @@
     {
         public enum TrunkType
         {
-            hatchback = 1, sedan = 2, combi = 3, van = 4, suv = 5
+            Hatchback = 1, Sedan = 2, combi = 3, van = 4, suv = 5
         }
 
         public enum UserRole

@@ -1,4 +1,6 @@
-﻿using AmiFlota.Data;
+﻿using AmiFlota.Contracts;
+using AmiFlota.Data;
+using AmiFlota.Entities;
 using AmiFlota.Models;
 using AmiFlota.Models.ViewModels;
 using AmiFlota.Services;
@@ -18,20 +20,17 @@ namespace AmiFlota.Controllers
 
         private readonly IBookingService _bookingService;
         private readonly ITripService _tripService;
-
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly string userId;
-        private readonly string userName;
-        private readonly string userRole;
-        public BookingController(IBookingService bookingService, ITripService tripService, IHttpContextAccessor httpContextAccessor)
+        private readonly IUserData userData;
+
+        public BookingController(IBookingService bookingService, ITripService tripService, IUserData _userData,IHttpContextAccessor httpContextAccessor)
         {
             _bookingService = bookingService;
             _tripService = tripService;
-            _httpContextAccessor = httpContextAccessor;
-            userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            userName = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
-            userRole = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
+            /*          _httpContextAccessor = httpContextAccessor;*/
+            userData = _userData;
         }
+
 
         public IActionResult Search()
         {
@@ -55,14 +54,14 @@ namespace AmiFlota.Controllers
 
         public async Task<PartialViewResult> PendingBookingsCurrentUser()
         {
-            if (userRole.Equals(UserRole.admin.ToString()) || userRole.Equals(UserRole.manager.ToString()))
+            if (userData.IsPriviledgedUser())
             {
                 var pendingAllBookingsList = await _bookingService.GetAllPendingBookings();
                 return PartialView("_PendingBookings", pendingAllBookingsList);
             }
             else
             {
-                var pendingBookingsList = await _bookingService.GetPendingBookingsByUserId(userId);
+                var pendingBookingsList = await _bookingService.GetPendingBookingsByUserId(userData.Id);
                 return PartialView("_PendingBookings", pendingBookingsList);
             }
 
@@ -70,28 +69,28 @@ namespace AmiFlota.Controllers
 
         public async Task<PartialViewResult> ApprovedBookingsCurrentUser()
         {
-            if (userRole.Equals(UserRole.admin.ToString()) || userRole.Equals(UserRole.manager.ToString()))
+            if (userData.IsPriviledgedUser())
             {
                 var approvedAllBookingsList = await _bookingService.GetAllApprovedBookings();
                 return PartialView("_ApprovedBookings", approvedAllBookingsList);
             }
             else
             {
-                var approvedBookingsList = await _bookingService.GetApprovedBookingsByUserId(userId);
+                var approvedBookingsList = await _bookingService.GetApprovedBookingsByUserId(userData.Id);
                 return PartialView("_ApprovedBookings", approvedBookingsList);
             }
         }
 
         public async Task<PartialViewResult> ActiveBookingsCurrentUser()
         {
-            if (userRole.Equals(UserRole.admin.ToString()) || userRole.Equals(UserRole.manager.ToString()))
+            if (userData.IsPriviledgedUser())
             {
                 var activeAllBookingsList = await _bookingService.GetAllActiveBookings();
                 return PartialView("_ActiveBookings", activeAllBookingsList);
             }
             else
             {
-                var activeBookingsList = await _bookingService.GetActiveBookingsByUserId(userId);
+                var activeBookingsList = await _bookingService.GetActiveBookingsByUserId(userData.Id);
                 return PartialView("_ActiveBookings", activeBookingsList);
             }
         }
@@ -101,8 +100,8 @@ namespace AmiFlota.Controllers
         {
             BookingVM viewModel = new BookingVM()
             {
-                UserName = userName,
-                UserId = userId,
+                UserName = userData.Name,
+                UserId = userData.Id,
                 RegistrationNumber = _bookingService.GetRegistrationNumberByCarVin(VIN),
                 StartDate = DateTime.Parse(startDate),
                 EndDate = DateTime.Parse(endDate),
@@ -126,7 +125,8 @@ namespace AmiFlota.Controllers
 
         public async Task<IActionResult> UserDashboard()
         {
-            await _bookingService.AutoConfirmBooking(3);
+            int hoursToAutoConfirm = 3;
+            await _bookingService.AutoConfirmBooking(hoursToAutoConfirm);
             await _bookingService.AutoCancelBooking();
             return View();
         }

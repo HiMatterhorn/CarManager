@@ -31,13 +31,13 @@ namespace AmiFlota.Controllers.api
             CommonResponse<List<string>> commonResponse = new CommonResponse<List<string>>();
             try
             {
-                commonResponse.dataenum = _tripService.GetAllStartLocations();
-                commonResponse.status = ApiResponses.success_code;
+                commonResponse.Data = _tripService.GetAllStartLocations();
+                commonResponse.Status = ResponseMessage.success_code;
             }
             catch (Exception e)
             {
-                commonResponse.message = e.Message;
-                commonResponse.status = ApiResponses.failure_code;
+                commonResponse.Message = e.Message;
+                commonResponse.Status = ResponseMessage.failure_code;
             }
 
             return Ok(commonResponse);
@@ -50,13 +50,13 @@ namespace AmiFlota.Controllers.api
             CommonResponse<List<string>> commonResponse = new CommonResponse<List<string>>();
             try
             {
-                commonResponse.dataenum = _tripService.GetAllEndLocations();
-                commonResponse.status = ApiResponses.success_code;
+                commonResponse.Data = _tripService.GetAllEndLocations();
+                commonResponse.Status = ResponseMessage.success_code;
             }
             catch (Exception e)
             {
-                commonResponse.message = e.Message;
-                commonResponse.status = ApiResponses.failure_code;
+                commonResponse.Message = e.Message;
+                commonResponse.Status = ResponseMessage.failure_code;
             }
 
             return Ok(commonResponse);

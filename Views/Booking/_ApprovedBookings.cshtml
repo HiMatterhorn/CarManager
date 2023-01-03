@@ -27,7 +27,7 @@
                     {
                         @if (DateTime.Now >= booking.StartDate && DateTime.Now <= booking.EndDate)
                         {
-                            <button type="button" id="btnDashboardTakeCar" class="btn btn-dark mx-0 px-4 btn-approved-take-car" data - id="@booking.Id">Take the car</button>
+                            <button type="button" id="btnDashboardTakeCar" class="btn btn-dark mx-0 px-4 btn-approved-take-car" data-id="@booking.Id">Take the car</button>
                         }
 
                         <button type="button" id="btnDashboardReject" class="btn btn-warning mx-0 px-4 btn-approved-reject" data-id="@booking.Id">Reject</button>
@@ -51,7 +51,7 @@
 
         $(".btn-approved-take-car").click(function() {
             var BookingId = $(this).data("id");
-
+            
             $.ajax({
                 url: routeURL + '/api/Booking/TakeCar',
                 type: 'GET',

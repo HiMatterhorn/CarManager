@@ -1,4 +1,5 @@
 ﻿using AmiFlota.Dto;
+using AmiFlota.Enums;
 using AmiFlota.Models;
 using AmiFlota.Models.ViewModels;
 using AmiFlota.Services;
@@ -31,19 +32,20 @@ namespace AmiFlota.Controllers.api
         [Route("GetCalendarDataForCarList")]
         public IActionResult GetCalendarDataForCarList([FromBody] dtoVIN dtoSelectedCars)
         {
-            CommonResponse<List<CalendarVM>> commonResponse = new CommonResponse<List<CalendarVM>>();
+            CommonResponse<List<CalendarVM>> commonResponse; /*= new CommonResponse<List<CalendarVM>>();*/
             try
             {
-                commonResponse.dataenum = _bookingService.AllBookingsByCarVinList(dtoSelectedCars.Selected);
-                commonResponse.status = ApiResponses.success_code;
+                var result = _bookingService.AllBookingsByCarVinList(dtoSelectedCars.Selected);
+                commonResponse = new CommonResponse<List<CalendarVM>>(result);
             }
             catch (Exception e)
             {
-
-                commonResponse.message = e.Message;
-                commonResponse.status = ApiResponses.failure_code;
+                commonResponse = new CommonResponse<List<CalendarVM>>();
             }
             return Ok(commonResponse);
+
+
+            var test = new CommonResponse<string>("test");
         }
 
         [HttpGet]
@@ -56,19 +58,19 @@ namespace AmiFlota.Controllers.api
                 var result = await _bookingService.ConfirmEvent(id);
                 if (result > 0)
                 {
-                    commonResponse.status = ApiResponses.success_code;
-                    commonResponse.message = ApiResponses.bookingConfirmed;
+                    commonResponse.Status = ResponseMessage.success_code;
+                    commonResponse.Message = ResponseMessage.bookingConfirmed;
                 }
                 else
                 {
-                    commonResponse.status = ApiResponses.failure_code;
-                    commonResponse.message = ApiResponses.bookingConfirmationError;
+                    commonResponse.Status = ResponseMessage.failure_code;
+                    commonResponse.Message = ResponseMessage.bookingConfirmationError;
                 }
             }
             catch (Exception e)
             {
-                commonResponse.message = e.Message;
-                commonResponse.status = ApiResponses.failure_code;
+                commonResponse.Message = e.Message;
+                commonResponse.Status = ResponseMessage.failure_code;
             }
 
             return Ok(commonResponse);
@@ -79,24 +81,24 @@ namespace AmiFlota.Controllers.api
         public async Task<IActionResult> RejectEvent(int id)
         {
             CommonResponse<int> commonResponse = new CommonResponse<int>();
-            try
+            try 
             {
                 var result = await _bookingService.RejectEvent(id);
                 if (result > 0)
                 {
-                    commonResponse.status = ApiResponses.success_code;
-                    commonResponse.message = ApiResponses.bookingRejected;
+                    commonResponse.Status = ResponseMessage.success_code;
+                    commonResponse.Message = ResponseMessage.bookingRejected;
                 }
                 else
                 {
-                    commonResponse.status = ApiResponses.failure_code;
-                    commonResponse.message = ApiResponses.bookingRejectionError;
+                    commonResponse.Status = ResponseMessage.failure_code;
+                    commonResponse.Message = ResponseMessage.bookingRejectionError;
                 }
             }
             catch (Exception e)
             {
-                commonResponse.message = e.Message;
-                commonResponse.status = ApiResponses.failure_code;
+                commonResponse.Message = e.Message;
+                commonResponse.Status = ResponseMessage.failure_code;
             }
 
             return Ok(commonResponse);
@@ -109,13 +111,13 @@ namespace AmiFlota.Controllers.api
             CommonResponse<int> commonResponse = new CommonResponse<int>();
             try
             {
-                commonResponse.status = await _bookingService.DeleteEvent(id);
-                commonResponse.message = commonResponse.status == 1 ? ApiResponses.bookingDeleted : ApiResponses.bookingDeleteError;
+                commonResponse.Status = await _bookingService.DeleteEvent(id);
+                commonResponse.Message = commonResponse.Status == 1 ? ResponseMessage.bookingDeleted : ResponseMessage.bookingDeleteError;
             }
             catch (Exception e)
             {
-                commonResponse.message = e.Message;
-                commonResponse.status = ApiResponses.failure_code;
+                commonResponse.Message = e.Message;
+                commonResponse.Status = ResponseMessage.failure_code;
             }
 
             return Ok(commonResponse);
@@ -128,13 +130,13 @@ namespace AmiFlota.Controllers.api
             CommonResponse<int> commonResponse = new CommonResponse<int>();
             try
             {
-                commonResponse.status = await _bookingService.TakeCar(bookingId);
-                commonResponse.message = commonResponse.status == 1 ? ApiResponses.carTaken : ApiResponses.carTakingError;
+                commonResponse.Status = await _bookingService.TakeCar(bookingId);
+                commonResponse.Message = commonResponse.Status == 1 ? ResponseMessage.carTaken : ResponseMessage.carTakingError;
             }
             catch (Exception e)
             {
-                commonResponse.message = e.Message;
-                commonResponse.status = ApiResponses.failure_code;
+                commonResponse.Message = e.Message;
+                commonResponse.Status = ResponseMessage.failure_code;
             }
 
             return Ok(commonResponse);
@@ -147,13 +149,13 @@ namespace AmiFlota.Controllers.api
             CommonResponse<int> commonResponse = new CommonResponse<int>();
             try
             {
-                commonResponse.status = await _bookingService.ReturnCar(bookingId);
-                commonResponse.message = commonResponse.status == 1 ? ApiResponses.carReturn : ApiResponses.carReturningError;
+                commonResponse.Status = await _bookingService.ReturnCar(bookingId);
+                commonResponse.Message = commonResponse.Status == 1 ? ResponseMessage.carReturn : ResponseMessage.carReturningError;
             }
             catch (Exception e)
             {
-                commonResponse.message = e.Message;
-                commonResponse.status = ApiResponses.failure_code;
+                commonResponse.Message = e.Message;
+                commonResponse.Status = ResponseMessage.failure_code;
             }
 
             return Ok(commonResponse);

@@ -1,11 +1,7 @@
 ﻿namespace AmiFlota.Utilities
 {
-    public class ApiResponses
+    public class ResponseMessage
     {
-
-        public static readonly int success_code = 1;
-        public static readonly int failure_code = 0;
-
 
         public static readonly string bookingConfirmed = "Booking Confirmed";
         public static readonly string bookingConfirmationError = "Error occured while confirming the booking";

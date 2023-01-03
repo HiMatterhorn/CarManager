@@ -1,8 +1,11 @@
+using AmiFlota.Contracts;
 using AmiFlota.Data;
+using AmiFlota.Entities;
 using AmiFlota.Models;
 using AmiFlota.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,7 +36,7 @@ namespace AmiFlota
             services.AddTransient<ITripService, TripService>();
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<IUserService, UserService>();
-
+            services.AddTransient<IUserData, UserData>();
             services.AddIdentity<ApplicationUserModel, IdentityRole>()
                 .AddEntityFrameworkStores<AmiFlotaContext>()
                 .AddDefaultTokenProviders();

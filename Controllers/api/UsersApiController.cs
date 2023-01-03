@@ -32,14 +32,14 @@ namespace AmiFlota.Controllers.api
             CommonResponse<List<dtoUser>> commonResponse = new CommonResponse<List<dtoUser>>();
             try
             {
-                commonResponse.dataenum = _userService.GetAllUsers();
-                commonResponse.status = ApiResponses.success_code;
+                commonResponse.Data = _userService.GetAllUsers();
+                commonResponse.Status = ResponseMessage.success_code;
             }
             catch (Exception e)
             {
 
-                commonResponse.message = e.Message;
-                commonResponse.status = ApiResponses.failure_code;
+                commonResponse.Message = e.Message;
+                commonResponse.Status = ResponseMessage.failure_code;
             }
 
             return Ok(commonResponse);

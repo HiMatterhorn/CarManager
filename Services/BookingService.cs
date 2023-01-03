@@ -74,7 +74,7 @@ namespace AmiFlota.Services
                     .Where(x => x.CarVIN.Equals(car.VIN))
                     .Where(s => s.StartDate <= endDate)
                     .Where(e => e.EndDate >= startDate)
-                    .Where(b => !b.BookingStatus.Equals(BookingStatus.Finished)) //To test
+                    .Where(b => !b.BookingStatus.Equals(BookingStatus.Finished)) 
                     .ToList();
 
 
@@ -105,7 +105,17 @@ namespace AmiFlota.Services
                                             EndDate = b.EndDate,
                                             Description = b.Description,
                                             ProjectCost = b.ProjectCost
-                                        }).ToListAsync();             
+                                        }).ToListAsync();
+
+
+            var test = _db.Bookings.
+                Include(x => x.CarModels).
+                Include(y => y.ApplicationUserModels).
+                Where(s => (s.StartDate >= startDate && s.StartDate <= endDate)).First();
+            var test2 = test.CarModels.Fuel;
+            var test3 = test.ApplicationUserModels.BookingModels;
+            _db.SaveChanges();
+            
 
             return notConfirmedBookings;
         }
@@ -157,7 +167,7 @@ namespace AmiFlota.Services
             return false; //TODO Notify about error
         }
 
-        public async Task<IEnumerable<BookingVM>> GetPendingBookingsByUserId(string userId)
+        public async Task<IEnumerable<BookingVM>> GetPendingBookingsByUserId(string userId = null)
         {
             try
             {
@@ -179,6 +189,13 @@ namespace AmiFlota.Services
                          ProjectCost = b.ProjectCost,
                          BookingStatus = b.BookingStatus,
                      }).ToListAsync();
+
+                //var test = _db.Bookings.Where(x => x.Id =1 );
+
+                //if (userId != null)
+                //    test = test.Where(x => x.UserId == userId);
+
+                //return results.ToList();
 
                 return results;
             }
