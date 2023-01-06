@@ -24,7 +24,7 @@ namespace AmiFlota.Services
             _userManager = userManager;
         }
 
-        public List<dtoUser> GetAllUsers()
+        public Task<List<dtoUser>> GetAllUsers()
         {
             var result = (from u in _db.Users.ToList()
                          select new dtoUser()
@@ -33,7 +33,7 @@ namespace AmiFlota.Services
                              Name = u.UserName
                          }).ToList();
 
-            return result;
+            return Task.FromResult(result);
         }
 
     }

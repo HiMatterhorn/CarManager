@@ -20,14 +20,12 @@ namespace AmiFlota.Controllers
 
         private readonly IBookingService _bookingService;
         private readonly ITripService _tripService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserData userData;
 
-        public BookingController(IBookingService bookingService, ITripService tripService, IUserData _userData,IHttpContextAccessor httpContextAccessor)
+        public BookingController(IBookingService bookingService, ITripService tripService, IUserData _userData)
         {
             _bookingService = bookingService;
             _tripService = tripService;
-            /*          _httpContextAccessor = httpContextAccessor;*/
             userData = _userData;
         }
 

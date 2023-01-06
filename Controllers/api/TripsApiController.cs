@@ -15,29 +15,25 @@ namespace AmiFlota.Controllers.api
     public class TripsApiController : Controller
     {
         private readonly ITripService _tripService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-
-        public TripsApiController(ITripService tripService, IHttpContextAccessor httpContextAccessor)
+        public TripsApiController(ITripService tripService)
         {
             _tripService = tripService;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
         [Route("GetAllStartLocations")]
-        public IActionResult GetAllStartLocations()
+        public async Task<IActionResult> GetAllStartLocations()
         {
-            CommonResponse<List<string>> commonResponse = new CommonResponse<List<string>>();
+            CommonResponse<List<string>> commonResponse;
             try
             {
-                commonResponse.Data = _tripService.GetAllStartLocations();
-                commonResponse.Status = ResponseMessage.success_code;
+                var result = await _tripService.GetAllStartLocations();
+                commonResponse = new CommonResponse<List<string>>(result);
             }
             catch (Exception e)
             {
-                commonResponse.Message = e.Message;
-                commonResponse.Status = ResponseMessage.failure_code;
+                commonResponse = new CommonResponse<List<string>>(message: e.Message);
             }
 
             return Ok(commonResponse);
@@ -45,18 +41,17 @@ namespace AmiFlota.Controllers.api
 
         [HttpGet]
         [Route("GetAllEndLocations")]
-        public IActionResult GetAllEndLocations()
+        public async Task<IActionResult> GetAllEndLocations()
         {
-            CommonResponse<List<string>> commonResponse = new CommonResponse<List<string>>();
+            CommonResponse<List<string>> commonResponse;
             try
             {
-                commonResponse.Data = _tripService.GetAllEndLocations();
-                commonResponse.Status = ResponseMessage.success_code;
+                var result = await _tripService.GetAllEndLocations();
+                commonResponse = new CommonResponse<List<string>>(result);
             }
             catch (Exception e)
             {
-                commonResponse.Message = e.Message;
-                commonResponse.Status = ResponseMessage.failure_code;
+                commonResponse = new CommonResponse<List<string>>(message: e.Message);
             }
 
             return Ok(commonResponse);

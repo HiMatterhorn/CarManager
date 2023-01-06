@@ -18,8 +18,8 @@ namespace AmiFlota.Services
 
         public int ChangeBookingStatus(int bookingId, BookingStatus newBookingStatus);
         public List<TripVM> TripsHistoryByBookingId(int id);
-        public List<string> GetAllStartLocations();
-        public List<string> GetAllEndLocations();
+        public Task<List<string>> GetAllStartLocations();
+        public Task<List<string>> GetAllEndLocations();
         public uint HighestMileageValue(int bookingId);
     }
 }

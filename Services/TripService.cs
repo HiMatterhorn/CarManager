@@ -105,15 +105,15 @@ namespace AmiFlota.Services
             }).SingleOrDefault();
         }
 
-        public List<string> GetAllStartLocations()
+        public async Task<List<string>> GetAllStartLocations()
         {
-            var result = _db.Trips.Select(x => x.StartLocation).Distinct().ToList();
+            var result = await _db.Trips.Select(x => x.StartLocation).Distinct().ToListAsync();
             return result;
         }
 
-        public List<string> GetAllEndLocations()
+        public async Task<List<string>> GetAllEndLocations()
         {
-            var result = _db.Trips.Select(x => x.EndLocation).Distinct().ToList();
+            var result = await _db.Trips.Select(x => x.EndLocation).Distinct().ToListAsync();
             return result;
         }
 

@@ -9,6 +9,6 @@ namespace AmiFlota.Services
 {
     public interface IUserService
     {
-        public List<dtoUser> GetAllUsers();
+        public Task<List<dtoUser>> GetAllUsers();
     }
 }
