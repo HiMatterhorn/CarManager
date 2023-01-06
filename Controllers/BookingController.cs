@@ -20,13 +20,16 @@ namespace AmiFlota.Controllers
 
         private readonly IBookingService _bookingService;
         private readonly ITripService _tripService;
-        private readonly IUserData userData;
+        private readonly IUserData _userData;
+        private int hoursToAutoConfirm = 3;
+        private bool autoConfirm = false;
+        private bool autoCancellation = false;
 
-        public BookingController(IBookingService bookingService, ITripService tripService, IUserData _userData)
+        public BookingController(IBookingService bookingService, ITripService tripService, IUserData userData)
         {
             _bookingService = bookingService;
             _tripService = tripService;
-            userData = _userData;
+            _userData = userData;
         }
 
 
@@ -52,14 +55,14 @@ namespace AmiFlota.Controllers
 
         public async Task<PartialViewResult> PendingBookingsCurrentUser()
         {
-            if (userData.IsPriviledgedUser())
+            if (_userData.IsPriviledgedUser())
             {
                 var pendingAllBookingsList = await _bookingService.GetAllPendingBookings();
                 return PartialView("_PendingBookings", pendingAllBookingsList);
             }
             else
             {
-                var pendingBookingsList = await _bookingService.GetPendingBookingsByUserId(userData.Id);
+                var pendingBookingsList = await _bookingService.GetPendingBookingsByUserId(_userData.Id);
                 return PartialView("_PendingBookings", pendingBookingsList);
             }
 
@@ -67,28 +70,28 @@ namespace AmiFlota.Controllers
 
         public async Task<PartialViewResult> ApprovedBookingsCurrentUser()
         {
-            if (userData.IsPriviledgedUser())
+            if (_userData.IsPriviledgedUser())
             {
                 var approvedAllBookingsList = await _bookingService.GetAllApprovedBookings();
                 return PartialView("_ApprovedBookings", approvedAllBookingsList);
             }
             else
             {
-                var approvedBookingsList = await _bookingService.GetApprovedBookingsByUserId(userData.Id);
+                var approvedBookingsList = await _bookingService.GetApprovedBookingsByUserId(_userData.Id);
                 return PartialView("_ApprovedBookings", approvedBookingsList);
             }
         }
 
         public async Task<PartialViewResult> ActiveBookingsCurrentUser()
         {
-            if (userData.IsPriviledgedUser())
+            if (_userData.IsPriviledgedUser())
             {
                 var activeAllBookingsList = await _bookingService.GetAllActiveBookings();
                 return PartialView("_ActiveBookings", activeAllBookingsList);
             }
             else
             {
-                var activeBookingsList = await _bookingService.GetActiveBookingsByUserId(userData.Id);
+                var activeBookingsList = await _bookingService.GetActiveBookingsByUserId(_userData.Id);
                 return PartialView("_ActiveBookings", activeBookingsList);
             }
         }
@@ -98,8 +101,8 @@ namespace AmiFlota.Controllers
         {
             BookingVM viewModel = new BookingVM()
             {
-                UserName = userData.Name,
-                UserId = userData.Id,
+                UserName = _userData.Name,
+                UserId = _userData.Id,
                 RegistrationNumber = _bookingService.GetRegistrationNumberByCarVin(VIN),
                 StartDate = DateTime.Parse(startDate),
                 EndDate = DateTime.Parse(endDate),
@@ -123,17 +126,16 @@ namespace AmiFlota.Controllers
 
         public async Task<IActionResult> UserDashboard()
         {
-            int hoursToAutoConfirm = 3;
-            await _bookingService.AutoConfirmBooking(hoursToAutoConfirm);
-            await _bookingService.AutoCancelBooking();
+            if(autoConfirm) await _bookingService.AutoConfirmBooking(hoursToAutoConfirm);
+            if(autoCancellation) await _bookingService.AutoCancelBooking();
             return View();
         }
 
 
         public async Task<IActionResult> Calendar()
         {
-            await _bookingService.AutoConfirmBooking(3);
-            await _bookingService.AutoCancelBooking();
+            if (autoConfirm) await _bookingService.AutoConfirmBooking(hoursToAutoConfirm);
+            if (autoCancellation) await _bookingService.AutoCancelBooking();
             return View();
         }
 

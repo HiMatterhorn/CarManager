@@ -19,12 +19,27 @@ namespace AmiFlota.Entities
             Role = httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
         }
 
-        public bool IsPriviledgedUser()
+        /*        public bool IsPriviledgedUser()
+                {
+                    return Role != null ? (Role.Equals(UserRole.Admin.ToString()) || Role.Equals(UserRole.Manager.ToString())) : false;
+                }*/
+
+        public bool IsPriviledgedUser(string user = null)
         {
-            return Role.Equals(UserRole.Admin.ToString()) 
-                || Role.Equals(UserRole.Manager.ToString());
+
+            return Role != null ? (Role.Equals(UserRole.Admin.ToString()) || Role.Equals(UserRole.Manager.ToString()))
+                : user != null ? (Name.Equals(user) ? true : false) : false;
+        }
+
+        public bool IsAdminUser()
+        {
+            var result = Role != null ? Role.Equals(UserRole.Admin.ToString()) : false;
+            return result;
+        }
+
+        public bool IsManagerUser()
+        {
+            return Role != null ? Role.Equals(UserRole.Manager.ToString()) : false;
         }
     }
-
-
 }

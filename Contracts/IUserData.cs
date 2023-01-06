@@ -6,6 +6,8 @@
         string Name { get; set; }
         string Role { get; set; }
 
-        bool IsPriviledgedUser();
+        bool IsPriviledgedUser(string user = null);
+        bool IsAdminUser();
+        bool IsManagerUser();
     }
 }

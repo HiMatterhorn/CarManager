@@ -1,4 +1,6 @@
 ﻿@using AmiFlota.Enums
+@using AmiFlota.Contracts
+@inject IUserData UserData
 @model AmiFlota.Models.ViewModels.CarVM
 
 @{
@@ -150,7 +152,7 @@
             <div class="row text-end mx-0 px-0">
                 <div col-12>
                     <a asp-action="CarList">Back to List</a>
-                    @if (User.IsInRole(UserRole.Admin.ToString()))
+                    @if (@UserData.IsAdminUser())
                     {
                         <input type="submit" value="Create" class="btn btn-primary" />
                     }

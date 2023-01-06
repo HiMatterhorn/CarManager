@@ -1,4 +1,6 @@
 ﻿@using AmiFlota.Enums
+@using AmiFlota.Contracts
+@inject IUserData UserData
 @model AmiFlota.Models.CarModel
 @{
     var photoPath = "/images/cars/" + (Model.PhotoPath ?? "default.jpg");//+ ".jpg"
@@ -20,7 +22,7 @@
                 Details
             </button> 
 
-            @if (User.IsInRole(UserRole.Admin.ToString())){
+            @if (@UserData.IsAdminUser()){
                 <a type="button" name="btnEdit" asp-action="Edit" asp-controller="Car" asp-route-vin="@Model.VIN" class="btn btn-light btn-edit">Edit</a>
                 }
 

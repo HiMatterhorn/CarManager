@@ -1,5 +1,6 @@
 ﻿@using AmiFlota.Enums
-
+@using AmiFlota.Contracts
+@inject IUserData UserData
 @model AmiFlota.Models.ViewModels.TripStartVM
 
 <div class="modal fade" id="tripStartModal" tabindex="-1" role="dialog" aria-labelledby="tripStartModal" aria-hidden="true">
@@ -13,8 +14,7 @@
 
                 <div class="modal-body">
                     <div asp-validation-summary="All" class="text-danger"></div>
-                    @if (User.IsInRole(UserRole.Admin.ToString())
-                    || User.IsInRole(UserRole.Manager.ToString()))
+                    @if (@UserData.IsPriviledgedUser())
                     {
                         <div class="form-group row mb-2">
                             <div class="col-6 text-end col-form-label">

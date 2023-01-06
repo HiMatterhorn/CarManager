@@ -1,4 +1,6 @@
 ﻿@using AmiFlota.Enums
+@using AmiFlota.Contracts
+@inject IUserData UserData
 @model AmiFlota.Models.CarModel
 
 @{
@@ -16,7 +18,7 @@
     <title>Edit</title>
 </head>
 <body>
-    @if (User.IsInRole(UserRole.Admin.ToString()))
+    @if (@UserData.IsAdminUser())
     {
         <div class="container">
 

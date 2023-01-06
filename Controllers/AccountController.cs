@@ -1,4 +1,6 @@
-﻿using AmiFlota.Data;
+﻿using AmiFlota.Contracts;
+using AmiFlota.Data;
+using AmiFlota.Entities;
 using AmiFlota.Enums;
 using AmiFlota.Models;
 using AmiFlota.Models.ViewModels;
@@ -15,16 +17,19 @@ namespace AmiFlota.Controllers
     public class AccountController : Controller
     {
         private readonly AmiFlotaContext _db;
+        private readonly IUserData _userData;
         UserManager<ApplicationUserModel> _userManager;
         SignInManager<ApplicationUserModel> _signInManager;
         RoleManager<IdentityRole> _roleManager;
+        
 
-        public AccountController(AmiFlotaContext db, UserManager<ApplicationUserModel> userManager, SignInManager<ApplicationUserModel> signInManager, RoleManager<IdentityRole> roleManager)
+        public AccountController(AmiFlotaContext db, UserManager<ApplicationUserModel> userManager, SignInManager<ApplicationUserModel> signInManager, RoleManager<IdentityRole> roleManager, IUserData userData)
         {
             _db = db;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _userData = userData;
         }
 
         public async Task<IActionResult> Register()
@@ -58,7 +63,7 @@ namespace AmiFlota.Controllers
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, model.Role);
-                    if (!User.IsInRole(UserRole.Admin.ToString()))
+                    if(!_userData.IsAdminUser())
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                     }

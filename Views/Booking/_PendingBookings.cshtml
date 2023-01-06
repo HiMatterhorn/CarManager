@@ -1,4 +1,6 @@
 ﻿@using AmiFlota.Enums
+@using AmiFlota.Contracts
+@inject IUserData UserData
 @model IEnumerable<AmiFlota.Models.ViewModels.BookingVM>
 
 <!DOCTYPE html>
@@ -23,8 +25,7 @@
             <div class="row border-0 text-end">
                 <div class="col-12 border-0 mx-0 px-0" role="group">
 
-                    @if (User.IsInRole(UserRole.Admin.ToString())
-                   || User.IsInRole(UserRole.Manager.ToString()))
+                    @if (@UserData.IsPriviledgedUser())
                     {
                         <button type="button" id="btnPendingConfirm"
                     class="btn btn-success mx-0 px-4 btn-pending-confirm"

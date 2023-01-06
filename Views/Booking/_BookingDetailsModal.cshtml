@@ -1,4 +1,6 @@
 ﻿@using AmiFlota.Enums
+@using AmiFlota.Contracts
+@inject IUserData UserData
 
 @model AmiFlota.Models.ViewModels.BookingVM
 
@@ -22,8 +24,7 @@
                         <div class="col-6 text-end col-form-label">
                             <label for="lblUserName">User Name: </label>
                         </div>
-                        @if (User.IsInRole(UserRole.Admin.ToString())
-                        || User.IsInRole(UserRole.Manager.ToString()))
+                        @if (@UserData.IsPriviledgedUser())
                         {
                             <div class="col-6 text-center">
                                 <select asp-for="UserId" class="form-control" placeholder="Choose booking user" id="search" required></select>
@@ -149,7 +150,7 @@
                             options: dtoUsers
                         });
         @*$.notify(response.message, "success");*@
-                                                                 }
+                                                                         }
                     else {
                         $.notify(response.message, "error");
                     }

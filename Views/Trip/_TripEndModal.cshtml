@@ -1,5 +1,6 @@
 ﻿@using AmiFlota.Enums
-
+@using AmiFlota.Contracts
+@inject IUserData UserData
 @model AmiFlota.Models.ViewModels.TripEndVM
 
 <div class="modal fade" id="tripEndModal" tabindex="-1" role="dialog" aria-labelledby="tripEndModal" aria-hidden="true">
@@ -15,8 +16,7 @@
 
                 <div class="modal-body">
 
-                    @if (User.IsInRole(UserRole.Admin.ToString())
-                    || User.IsInRole(UserRole.Manager.ToString()))
+                    @if (@UserData.IsPriviledgedUser())
                     {
                         <div class="form-group row mb-2">
                             <div class="col-6 text-end col-form-label">
