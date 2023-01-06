@@ -1,6 +1,6 @@
 ﻿@inject Microsoft.AspNetCore.Identity.SignInManager<AmiFlota.Models.ApplicationUserModel> signInManager
 @inject Microsoft.AspNetCore.Identity.UserManager<AmiFlota.Models.ApplicationUserModel> userManager
-@using static AmiFlota.Utilities.Enums
+@using AmiFlota.Enums
 
 
 @if (signInManager.IsSignedIn(User))
@@ -11,7 +11,7 @@
 
     <ul class="navbar-nav">
 
-        @if (User.IsInRole(UserRole.admin.ToString()))
+        @if (User.IsInRole(UserRole.Admin.ToString()))
         {
             <li class="nav-item">
                 <a class="nav-link text-light" asp-controller="Car" asp-action="Create">Add new car</a>

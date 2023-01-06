@@ -1,4 +1,4 @@
-﻿@using static AmiFlota.Utilities.Enums
+﻿@using AmiFlota.Enums
 @model AmiFlota.Models.ViewModels.RegisterVM
 
 <h2>Sign up</h2>
@@ -8,7 +8,7 @@
     @{
             //TODO Create new formular
     }
-    @if (User.IsInRole(UserRole.admin.ToString()))
+    @if (User.IsInRole(UserRole.Admin.ToString()))
     {
         <h4> Register an admin account</h4>
     }
@@ -61,7 +61,7 @@
         <label class="col-md-2" asp-for="Role"></label>
         <div class="col-md-10">
             <select asp-for="Role"
-                    asp-items="@AmiFlota.Utilities.RegistrationFormulars.GetRolesForDropDown(User.IsInRole(UserRole.admin.ToString()))" class="form-control"> </select>
+                    asp-items="@AmiFlota.Utilities.RegistrationFormulars.GetRolesForDropDown(User.IsInRole(UserRole.Admin.ToString()))" class="form-control"> </select>
             <span asp-validation-for="Role" class="text-danger"></span>
         </div>
     </div>

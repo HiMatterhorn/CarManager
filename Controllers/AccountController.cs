@@ -1,4 +1,5 @@
 ﻿using AmiFlota.Data;
+using AmiFlota.Enums;
 using AmiFlota.Models;
 using AmiFlota.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
-using static AmiFlota.Utilities.Enums;
+
 
 namespace AmiFlota.Controllers
 {
@@ -28,13 +29,13 @@ namespace AmiFlota.Controllers
 
         public async Task<IActionResult> Register()
         {
-            var adminList = _userManager.GetUsersInRoleAsync(UserRole.admin.ToString()).GetAwaiter().GetResult().ToList();
+            var adminList = _userManager.GetUsersInRoleAsync(UserRole.Admin.ToString()).GetAwaiter().GetResult().ToList();
 
-            if (!_roleManager.RoleExistsAsync(UserRole.admin.ToString()).GetAwaiter().GetResult())
+            if (!_roleManager.RoleExistsAsync(UserRole.Admin.ToString()).GetAwaiter().GetResult())
             {
-                await _roleManager.CreateAsync(new IdentityRole(UserRole.admin.ToString()));
-                await _roleManager.CreateAsync(new IdentityRole(UserRole.manager.ToString()));
-                await _roleManager.CreateAsync(new IdentityRole(UserRole.user.ToString()));
+                await _roleManager.CreateAsync(new IdentityRole(UserRole.Admin.ToString()));
+                await _roleManager.CreateAsync(new IdentityRole(UserRole.Manager.ToString()));
+                await _roleManager.CreateAsync(new IdentityRole(UserRole.User.ToString()));
             }
 
             return View();
@@ -57,7 +58,7 @@ namespace AmiFlota.Controllers
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, model.Role);
-                    if (!User.IsInRole(UserRole.admin.ToString()))
+                    if (!User.IsInRole(UserRole.Admin.ToString()))
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                     }

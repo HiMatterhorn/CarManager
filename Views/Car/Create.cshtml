@@ -1,5 +1,4 @@
-﻿@using AmiFlota.Utilities
-@using static AmiFlota.Utilities.Enums
+﻿@using AmiFlota.Enums
 @model AmiFlota.Models.ViewModels.CarVM
 
 @{
@@ -89,7 +88,7 @@
                                 <label asp-for="Fuel" class="control-label mx-0"></label>
                             </div>
                             <div class="row m-0 p-0">
-                                <select asp-for="Fuel" class="btn btn-outline-dark dropdown-toggle" asp-items="Html.GetEnumSelectList<Enums.Fuel>()"></select>
+                                <select asp-for="Fuel" class="btn btn-outline-dark dropdown-toggle" asp-items="Html.GetEnumSelectList<Fuel>()"></select>
                             </div>
                         </div>
                     </div>
@@ -112,7 +111,7 @@
                                 <label asp-for="Trunk" class="control-label mx-0"></label>
                             </div>
                             <div class="row m-0 p-0">
-                                <select asp-for="Trunk" class="btn btn-outline-dark dropdown-toggle" asp-items="Html.GetEnumSelectList<Enums.TrunkType>()"></select>
+                                <select asp-for="Trunk" class="btn btn-outline-dark dropdown-toggle" asp-items="Html.GetEnumSelectList<TrunkType>()"></select>
                             </div>
                         </div>
                     </div>
@@ -151,7 +150,7 @@
             <div class="row text-end mx-0 px-0">
                 <div col-12>
                     <a asp-action="CarList">Back to List</a>
-                    @if (User.IsInRole(UserRole.admin.ToString()))
+                    @if (User.IsInRole(UserRole.Admin.ToString()))
                     {
                         <input type="submit" value="Create" class="btn btn-primary" />
                     }

@@ -1,4 +1,5 @@
-﻿@using static AmiFlota.Utilities.Enums
+﻿@using AmiFlota.Enums
+
 @model AmiFlota.Models.ViewModels.TripEndVM
 
 <div class="modal fade" id="tripEndModal" tabindex="-1" role="dialog" aria-labelledby="tripEndModal" aria-hidden="true">
@@ -14,8 +15,8 @@
 
                 <div class="modal-body">
 
-                    @if (User.IsInRole(UserRole.admin.ToString())
-                    || User.IsInRole(UserRole.manager.ToString()))
+                    @if (User.IsInRole(UserRole.Admin.ToString())
+                    || User.IsInRole(UserRole.Manager.ToString()))
                     {
                         <div class="form-group row mb-2">
                             <div class="col-6 text-end col-form-label">
@@ -68,7 +69,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input asp-for="BookingStatus" type="hidden" value="@AmiFlota.Utilities.Enums.BookingStatus.Finished"></>
+                        <input asp-for="BookingStatus" type="hidden" value="@BookingStatus.Finished"></>
                     </div>
                 </div>
 

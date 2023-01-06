@@ -1,4 +1,5 @@
-﻿@using static AmiFlota.Utilities.Enums
+﻿@using AmiFlota.Enums
+
 @model AmiFlota.Models.ViewModels.BookingVM
 
 <div class="modal fade" id="bookingDetailsModal" role="dialog" aria-labelledby="bookingDetailsModal" aria-hidden="true">
@@ -15,14 +16,14 @@
                 <div class="modal-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <input type="hidden" asp-for="BookingStatus" value="@AmiFlota.Utilities.Enums.BookingStatus.Pending" />
+                    <input type="hidden" asp-for="BookingStatus" value="@BookingStatus.Pending" />
 
                     <div class="form-group row mb-2">
                         <div class="col-6 text-end col-form-label">
                             <label for="lblUserName">User Name: </label>
                         </div>
-                        @if (User.IsInRole(UserRole.admin.ToString())
-                        || User.IsInRole(UserRole.manager.ToString()))
+                        @if (User.IsInRole(UserRole.Admin.ToString())
+                        || User.IsInRole(UserRole.Manager.ToString()))
                         {
                             <div class="col-6 text-center">
                                 <select asp-for="UserId" class="form-control" placeholder="Choose booking user" id="search" required></select>

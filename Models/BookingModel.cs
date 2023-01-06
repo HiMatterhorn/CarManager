@@ -1,8 +1,8 @@
-﻿using System;
+﻿using AmiFlota.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static AmiFlota.Utilities.Enums;
 
 namespace AmiFlota.Models
 {

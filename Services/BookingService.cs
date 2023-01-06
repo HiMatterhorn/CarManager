@@ -1,5 +1,6 @@
 ﻿using AmiFlota.Data;
 using AmiFlota.Dto;
+using AmiFlota.Enums;
 using AmiFlota.Models;
 using AmiFlota.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static AmiFlota.Utilities.Enums;
 
 namespace AmiFlota.Services
 {

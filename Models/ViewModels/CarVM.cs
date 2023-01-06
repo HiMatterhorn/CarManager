@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AmiFlota.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using static AmiFlota.Utilities.Enums;
+
 
 namespace AmiFlota.Models.ViewModels
 {

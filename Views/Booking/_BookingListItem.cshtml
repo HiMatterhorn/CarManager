@@ -1,4 +1,4 @@
-﻿@using static AmiFlota.Utilities.Enums
+﻿@using AmiFlota.Enums
 @model AmiFlota.Models.ViewModels.BookingVM
 
 @{
@@ -40,8 +40,8 @@
                                     <label class="col-5 text-end">Description:</label>
                                     <label class="col-7 text-start">@Model.Description </label>
                                 </div>
-                                @if (User.IsInRole(UserRole.admin.ToString())
-                                || User.IsInRole(UserRole.manager.ToString()))
+                                @if (User.IsInRole(UserRole.Admin.ToString())
+                                || User.IsInRole(UserRole.Manager.ToString()))
                                 {
                                     <div class="row mx-0 px-0">
                                         <label class="col-5 text-end">User:</label>

@@ -1,6 +1,7 @@
-﻿using System;
+﻿using AmiFlota.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
-using static AmiFlota.Utilities.Enums;
+
 
 namespace AmiFlota.Models.ViewModels
 {

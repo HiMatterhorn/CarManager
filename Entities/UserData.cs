@@ -1,7 +1,8 @@
 ﻿using AmiFlota.Contracts;
+using AmiFlota.Enums;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using static AmiFlota.Utilities.Enums;
+
 
 namespace AmiFlota.Entities
 {
@@ -20,8 +21,8 @@ namespace AmiFlota.Entities
 
         public bool IsPriviledgedUser()
         {
-            return Role.Equals(UserRole.admin.ToString()) 
-                || Role.Equals(UserRole.manager.ToString());
+            return Role.Equals(UserRole.Admin.ToString()) 
+                || Role.Equals(UserRole.Manager.ToString());
         }
     }
 
