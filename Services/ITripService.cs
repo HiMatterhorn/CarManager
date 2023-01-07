@@ -8,10 +8,10 @@ namespace AmiFlota.Services
 {
     public interface ITripService
     {
-        public int StartTrip(TripVM bookingVM);
-        public int CreateTrip(TripVM tripVM);
-        public int UpdateTrip(TripVM tripVM);
-        public int FinishTrip(TripVM tripVM);
+        public int StartTrip(TripStartVM bookingVM);
+        public int CreateTrip(TripStartVM tripStartVM);
+        public int UpdateTrip(TripEndVM tripEndVM);
+        public int FinishTrip(TripEndVM tripEndVM);
 
         public List<TripVM> TripsHistoryByCarVin(string vin);
         public TripEndVM GetActiveTripByBookingId(int bookingId);

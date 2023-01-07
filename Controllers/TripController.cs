@@ -36,7 +36,7 @@ namespace AmiFlota.Controllers
             TripStartVM viewModel = new TripStartVM()
             {
                 BookingId = bookingId,
-                User = userName
+                /*User = userName*/
             };
             return PartialView("_TripStartModal", viewModel);
         }
@@ -52,7 +52,7 @@ namespace AmiFlota.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult StartTrip(TripVM viewModel)
+        public IActionResult StartTrip(TripStartVM viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace AmiFlota.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult FinishTrip(TripVM viewModel)
+        public IActionResult FinishTrip(TripEndVM viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -74,7 +74,7 @@ namespace AmiFlota.Controllers
             return View(viewModel);
         }
 
-        [AcceptVerbs("GET", "POST")]
+        /*[AcceptVerbs("GET", "POST")]
         public IActionResult isStartOdoValid(int BookingId, uint StartKm)
         {
             var lastMileage = _tripService.HighestMileageValue(BookingId);
@@ -109,7 +109,7 @@ namespace AmiFlota.Controllers
                 return Json($"Mileage cannot be lower than last saved mileage: {lastMileage} km");
             }
 
-        }
+        }*/
 
 
     }

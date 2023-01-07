@@ -373,10 +373,12 @@ namespace AmiFlota.Services
                                                  BookingStatus = b.BookingStatus,
                                              }).FirstOrDefault(),
                          TripsHistory = (from t in _db.Trips
-                                         where t.BookingRefId == b.Id
+                                         from u in _db.Users
+                                         where t.BookingRefId == b.Id && b.UserId.Equals(u.Id)
                                          select new TripVM()
                                          {
                                              Id = t.Id,
+                                             User = u.UserName,
                                              Active = t.Active,
                                              StartKm = t.StartKm,
                                              StartLocation = t.StartLocation,

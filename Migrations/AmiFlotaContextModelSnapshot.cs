@@ -135,7 +135,7 @@ namespace AmiFlota.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("Bookings", (string)null);
                 });
 
             modelBuilder.Entity("AmiFlota.Models.CarModel", b =>
@@ -191,7 +191,7 @@ namespace AmiFlota.Migrations
 
                     b.HasKey("VIN");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
                 });
 
             modelBuilder.Entity("AmiFlota.Models.TripModel", b =>
@@ -248,7 +248,7 @@ namespace AmiFlota.Migrations
 
                     b.HasIndex("BookingRefId");
 
-                    b.ToTable("Trips");
+                    b.ToTable("Trips", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

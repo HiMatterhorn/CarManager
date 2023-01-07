@@ -89,7 +89,7 @@ function getEventsSelectedCars() {
 
             success: function (response) {
                 if (response.status === 1) {
-                    $.each(response.dataenum, function (i, data) {
+                    $.each(response.data, function (i, data) {
 
                         let inStartDateTime = new Date(data.booking.startDate);
                         let StartTime = inStartDateTime.toLocaleString("en-us", { hour: '2-digit', minute: '2-digit', hour12: false }); //year: 'numeric', month: 'numeric', day: 'numeric',
@@ -196,7 +196,7 @@ function InitializeCalendar() {
 
                         success: function (response) {
                             if (response.status === 1) {
-                                $.each(response.dataenum, function (i, data) {
+                                $.each(response.data, function (i, data) {
 
                                     let inStartDateTime = new Date(data.booking.startDate);
                                     let StartTime = inStartDateTime.toLocaleString("en-us", { hour: '2-digit', minute: '2-digit', hour12: false }); //year: 'numeric', month: 'numeric', day: 'numeric',

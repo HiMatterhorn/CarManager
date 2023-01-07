@@ -24,31 +24,26 @@ namespace AmiFlota.Services
             _userManager = userManager;
         }
 
-        public int StartTrip(TripVM tripVM) //ASYNC return?
+        public int StartTrip(TripStartVM tripStartVM) //ASYNC return?
         {
-            CreateTrip(tripVM);
-            ChangeBookingStatus(tripVM.BookingId, BookingStatus.OnTheWay);
+            CreateTrip(tripStartVM);
+            ChangeBookingStatus(tripStartVM.BookingId, BookingStatus.OnTheWay);
 
             //TODO ???
             return 1;
         }
 
-        public int CreateTrip(TripVM tripVM)
+        public int CreateTrip(TripStartVM tripStartVM)
         {
             TripModel tripModel = new TripModel()
             {
-                Id = tripVM.Id,
-                StartKm = tripVM.StartKm,
-                StartLocation = tripVM.StartLocation,
-                EndKm = tripVM.EndKm,
-                EndLocation = tripVM.EndLocation,
-                Cost = tripVM.Cost,
-                CostRemarks = tripVM.CostRemarks,
-                BookingRefId = tripVM.BookingId,
+                Id = tripStartVM.Id,
+                StartKm = tripStartVM.StartKm,
+                StartLocation = tripStartVM.StartLocation,
+                BookingRefId = tripStartVM.BookingId,
                 StartTimestampUTC = DateTime.UtcNow,
                 Active = true
             };
-
             //Validate data
 
             //Save to database
@@ -58,22 +53,23 @@ namespace AmiFlota.Services
 
 
 
-        public int FinishTrip(TripVM tripVM) //ASYNC return?
+        public int FinishTrip(TripEndVM tripEndVM) //ASYNC return?
         {
-            UpdateTrip(tripVM);
-            ChangeBookingStatus(tripVM.BookingId, BookingStatus.Active);
+            UpdateTrip(tripEndVM);
+            ChangeBookingStatus(tripEndVM.BookingId, BookingStatus.Active);
 
             //TODO ???
             return 1;
         }
 
-        public int UpdateTrip(TripVM tripVM)
+        public int UpdateTrip(TripEndVM tripEndVM)
         {
-            TripModel tripModel = _db.Trips.FirstOrDefault(x => x.Id == tripVM.Id);
-            tripModel.EndKm = tripVM.EndKm;
-            tripModel.EndLocation = tripVM.EndLocation;
-            tripModel.Cost = tripVM.Cost;
-            tripModel.CostRemarks = tripVM.CostRemarks;
+            TripModel tripModel = _db.Trips.FirstOrDefault(x => x.Id == tripEndVM.Id);
+            tripModel.EndKm = tripEndVM.EndKm;
+            tripModel.EndLocation = tripEndVM.EndLocation;
+            tripModel.Project = tripEndVM.Project;
+            tripModel.Cost = tripEndVM.Cost;
+            tripModel.CostRemarks = tripEndVM.CostRemarks;
             tripModel.EndTimestampUTC = DateTime.UtcNow;
             tripModel.Active = false;
 

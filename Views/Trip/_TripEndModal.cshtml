@@ -50,6 +50,15 @@
 
                     <div class="form-group row mb-2">
                         <div class="col-6 text-end col-form-label">
+                            <label asp-for="Project">Project:</label>
+                        </div>
+                        <div class="col-6 ">
+                            <input asp-for="Project" class="form-control text-center" placeholder="Choose project" id="project"></>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-2">
+                        <div class="col-6 text-end col-form-label">
                             <label asp-for="Cost">Cost:</label>
                         </div>
                         <div class="col-6">
@@ -95,7 +104,7 @@
             success: function(response) {
                 if (response.status === 1) {
 
-                    $.each(response.dataenum, function(i, data) {
+                    $.each(response.data, function(i, data) {
                         dtoEndLocations.push({
                             location: data
                         });
@@ -109,7 +118,7 @@
                         create: true
                     });
     @*$.notify(response.message, "success");*@
-                         }
+                             }
                 else {
                     $.notify(response.message, "error");
                 }

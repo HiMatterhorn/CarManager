@@ -134,9 +134,9 @@
                 type: 'GET',
                 dataType: 'JSON',
                 success: function(response) {
-                    if (response.status === 1) {
 
-                        $.each(response.dataenum, function(i, data) {
+                    if (response.status === 1) {
+                        $.each(response.data, function(i, data) {
                             dtoUsers.push({
                                 id: data.id,
                                 name: data.name
@@ -149,8 +149,7 @@
                             searchField: 'name',
                             options: dtoUsers
                         });
-        @*$.notify(response.message, "success");*@
-                                                                         }
+                    }
                     else {
                         $.notify(response.message, "error");
                     }

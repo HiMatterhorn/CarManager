@@ -24,12 +24,12 @@ namespace AmiFlota.Controllers.api
 
         [HttpGet]
         [Route("GetAllUsers")]
-        public async Task<IActionResult> GetAllUsers()
+        public IActionResult GetAllUsers()
         {
             CommonResponse<List<dtoUser>> commonResponse;
             try
             {
-                var result = await _userService.GetAllUsers();
+                var result = _userService.GetAllUsers();
                 commonResponse = new CommonResponse<List<dtoUser>>(result);
             }
             catch (Exception e)
