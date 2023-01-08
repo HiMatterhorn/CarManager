@@ -74,14 +74,14 @@ namespace AmiFlota.Controllers
             return View(viewModel);
         }
 
-        /*[AcceptVerbs("GET", "POST")]
+        [AcceptVerbs("GET", "POST")]
         public IActionResult isStartOdoValid(int BookingId, uint StartKm)
         {
             var lastMileage = _tripService.HighestMileageValue(BookingId);
 
             if (StartKm == lastMileage)
             {
-                return Json($"Value OK");
+                return Json(true);
             }
             else if (StartKm > lastMileage)
             {
@@ -109,7 +109,7 @@ namespace AmiFlota.Controllers
                 return Json($"Mileage cannot be lower than last saved mileage: {lastMileage} km");
             }
 
-        }*/
+        }
 
 
     }

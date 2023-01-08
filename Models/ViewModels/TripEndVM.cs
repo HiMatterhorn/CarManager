@@ -15,7 +15,7 @@ namespace AmiFlota.Models.ViewModels
         [DisplayName("Active")]
         public bool Active { get; set; }
 
-/*        [Remote(action: "isEndOdoValid", controller: "Trip", AdditionalFields = "BookingId")]*/
+        [Remote(action: "isEndOdoValid", controller: "Trip", AdditionalFields = "BookingId")]
         public uint EndKm { get; set; }
 
         [DisplayName("End Location")]

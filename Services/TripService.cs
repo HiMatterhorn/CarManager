@@ -188,14 +188,24 @@ namespace AmiFlota.Services
                                     .Join(_db.Trips, i => i.Id, r => r.BookingRefId, (i, r) => r)
                                     .OrderByDescending(x => x.StartKm).FirstOrDefault();
 
-            if (highestStartValue.StartKm > highestEndValue.EndKm)
+            if(highestStartValue == null || highestEndValue == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return highestStartValue.StartKm > highestEndValue.EndKm ? highestStartValue.StartKm : highestEndValue.EndKm;
+            }
+            
+
+/*            if (highestStartValue.StartKm > highestEndValue.EndKm)
             {
                 return highestStartValue.StartKm;
             }
             else
             {
                 return highestEndValue.EndKm;
-            }
+            }*/
 
         }
     }
