@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AmiFlota.Services
+namespace AmiFlota.Contracts
 {
     public interface ICarService
     {

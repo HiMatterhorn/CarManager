@@ -1,4 +1,5 @@
-﻿using AmiFlota.Data;
+﻿using AmiFlota.Contracts;
+using AmiFlota.Data;
 using AmiFlota.Dto;
 using AmiFlota.Enums;
 using AmiFlota.Models;

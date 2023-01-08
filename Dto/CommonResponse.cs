@@ -1,6 +1,6 @@
 ﻿using AmiFlota.Enums;
 
-namespace AmiFlota.Models.ViewModels
+namespace AmiFlota.Dto
 {
     public class CommonResponse<T>
     {

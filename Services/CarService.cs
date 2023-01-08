@@ -1,4 +1,5 @@
-﻿using AmiFlota.Data;
+﻿using AmiFlota.Contracts;
+using AmiFlota.Data;
 using AmiFlota.Models;
 using AmiFlota.Models.ViewModels;
 using Microsoft.AspNetCore.Hosting;

@@ -10,7 +10,7 @@ using AmiFlota.Utilities;
 using AmiFlota.Models.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
-using AmiFlota.Services;
+using AmiFlota.Contracts;
 
 namespace AmiFlota.Models
 {

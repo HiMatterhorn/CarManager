@@ -1,6 +1,5 @@
-﻿using AmiFlota.Dto;
-using AmiFlota.Models.ViewModels;
-using AmiFlota.Services;
+﻿using AmiFlota.Contracts;
+using AmiFlota.Dto;
 using AmiFlota.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
