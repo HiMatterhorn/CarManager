@@ -109,15 +109,6 @@ namespace AmiFlota.Services
                                         }).ToListAsync();
 
 
-            var test = _db.Bookings.
-                Include(x => x.CarModels).
-                Include(y => y.ApplicationUserModels).
-                Where(s => (s.StartDate >= startDate && s.StartDate <= endDate)).First();
-            var test2 = test.CarModels.Fuel;
-            var test3 = test.ApplicationUserModels.BookingModels;
-            _db.SaveChanges();
-            
-
             return notConfirmedBookings;
         }
 
